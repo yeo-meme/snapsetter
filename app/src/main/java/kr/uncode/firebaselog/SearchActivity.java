@@ -1,13 +1,16 @@
 package kr.uncode.firebaselog;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,6 +32,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private ProgressBar progress_bar;
     private ImageView font;
     private TextView tx;
+    private InputMethodManager manager;
+    private LinearLayout back;
 
 
     @Override
@@ -42,12 +47,16 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         progress_bar = findViewById(R.id.progress_bar);
         font = findViewById(R.id.font);
         tx = findViewById(R.id.tx);
+        back = findViewById(R.id.back);
+        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
 
 
         searchListAdapter = new SearchListAdapter();
 
         rvImageList.setAdapter(searchListAdapter);
 
+        back.setOnClickListener(this);
 
         searchBtn.setOnClickListener(this);
 
@@ -103,10 +112,20 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View view) {
 
+
         if (view == searchBtn) {
             btnSearch(view);
         }
 
+        if (view == back) {
+            hideKeyboard();
+        }
+
+    }
+
+    private void hideKeyboard() {
+
+        manager.hideSoftInputFromWindow(search_edit_frame.getWindowToken(),0);
     }
 }
 
