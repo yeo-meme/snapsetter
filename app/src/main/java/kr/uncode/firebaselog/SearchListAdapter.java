@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolier> {
+public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
 
     private final List<RetrofitResponse.Documents> data = new ArrayList<>();
     private OnAdapterItemClickListener onAdapterItemClickListener;
@@ -36,13 +36,13 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
     @NonNull
     @Override
-    public SearchListViewHolier onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SearchListAdapter.SearchListViewHolier holder, int position) {
+    public void onBindViewHolder(@NonNull SearchListAdapter.SearchListViewHolder holder, int position) {
 
     }
 
@@ -51,11 +51,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         return 0;
     }
 
-    public class SearchListViewHolier extends RecyclerView.ViewHolder {
+    public class SearchListViewHolder extends RecyclerView.ViewHolder {
 
 
 
-        public SearchListViewHolier(@NonNull View itemView) {
+        public SearchListViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }
