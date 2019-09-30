@@ -7,7 +7,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -25,6 +27,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Button searchBtn;
     private RecyclerView rvImageList;
     private ProgressBar progress_bar;
+    private ImageView font;
+    private TextView tx;
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -34,6 +40,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchBtn = findViewById(R.id.searchBtn);
         rvImageList = findViewById(R.id.rv_image_list);
         progress_bar = findViewById(R.id.progress_bar);
+        font = findViewById(R.id.font);
+        tx = findViewById(R.id.tx);
+
+
         searchListAdapter = new SearchListAdapter();
 
         rvImageList.setAdapter(searchListAdapter);
@@ -46,6 +56,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     private void btnSearch(View view) {
         String query = search_edit_frame.getText().toString();
+        tx.setVisibility(View.GONE);
+        font.setVisibility(View.GONE);
         if (TextUtils.isEmpty(query)) {
             showToast("검색어를 입력하세요.");
             return;
