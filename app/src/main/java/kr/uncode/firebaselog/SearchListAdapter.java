@@ -61,12 +61,12 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         return data.size();
     }
 
-    public class SearchListViewHolder extends RecyclerView.ViewHolder {
+    static class SearchListViewHolder extends RecyclerView.ViewHolder {
 
         ListItemImageBinding binding;
 
 
-        public SearchListViewHolder(@NonNull ListItemImageBinding itemView) {
+         SearchListViewHolder(ListItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
         }

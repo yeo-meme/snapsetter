@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 
-<layout>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,31 +9,44 @@
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_gravity="center_horizontal">
 
         <EditText
             android:id="@+id/search_edit_frame"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="9"
             android:layout_height="wrap_content"
-            android:text="검색할 이미지명을 입력하세요"
+            android:hint="검색할 이미지명을 입력하세요"
             android:layout_gravity="center"/>
 
         <Button
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:text="검색"
-            android:layout_gravity="center"
+            android:layout_weight="1"
             android:id="@+id/searchBtn" />
     </LinearLayout>
 
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/search_toolbar"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_image_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/searchBtn"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:indeterminate="false"
+        android:visibility="gone"
+        />
 </LinearLayout>
 
 
