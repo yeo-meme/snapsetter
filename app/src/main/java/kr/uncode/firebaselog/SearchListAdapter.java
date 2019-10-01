@@ -26,6 +26,10 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     private Context context;
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
     public String url = "";
+//    public RetrofitResponse.Documents documents;
+
+    public SearchListAdapter() {
+    }
 
 
     public void setOnAdapterItemClickListener(OnAdapterItemClickListener itemClickListener) {
@@ -48,12 +52,14 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
     @NonNull
     @Override
-    public SearchListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SearchListViewHolder onCreateViewHolder(@NonNull ViewGroup xx, int viewType) {
 
-        ListItemImageBinding binding = ListItemImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+        ListItemImageBinding binding = ListItemImageBinding.inflate(LayoutInflater.from(xx.getContext()), xx, false);
         binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
 
-        context = parent.getContext();
+        context = xx.getContext();
+
+
         return new SearchListViewHolder(binding);
     }
 
@@ -65,20 +71,25 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
 
 
-        setOnAdapterItemClickListener(new OnAdapterItemClickListener() {
-            @Override
-            public void onAdapterViewClick(View view) {
-                Log.d("hi","hi");
-                url = documents.image_url;
-
-                Log.d("image",url);
-                Intent intent = new Intent(context.getApplicationContext(),DetailActivity.class);
-                intent.putExtra(EXTRA_KEY_IMAGE_URL,url);
-                Log.d(EXTRA_KEY_IMAGE_URL,url);
-                context.startActivity(intent);
-
-            }
-        });
+//        setOnAdapterItemClickListener(new OnAdapterItemClickListener() {
+//            @Override
+//            public void onAdapterViewClick(View view) {
+//
+//                Log.d("hi","hi");
+//                //온어탭터뷰클릭 순간에 Url을 담는다
+//                url = documents.image_url;
+//
+//                Log.d("image",url);
+//                //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
+//                if (url != null) {
+//                    Intent intent = new Intent(context.getApplicationContext(),DetailActivity.class);
+//                    intent.putExtra(EXTRA_KEY_IMAGE_URL,url);
+//                    Log.d(EXTRA_KEY_IMAGE_URL,url);
+//                    context.startActivity(intent);
+//                }
+//
+//            }
+//        });
 
     }
 
@@ -87,14 +98,36 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         return data.size();
     }
 
-    static class SearchListViewHolder extends RecyclerView.ViewHolder {
+    class SearchListViewHolder extends RecyclerView.ViewHolder {
 
         ListItemImageBinding binding;
 
 
-         SearchListViewHolder(ListItemImageBinding itemView) {
+        SearchListViewHolder(ListItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+
+
+            itemView.getRoot().setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("hi", "hi");
+                    //온어탭터뷰클릭 순간에 Url을 담는
+                    int position = getAdapterPosition();
+                    RetrofitResponse.Documents documents = data.get(position);
+
+                    url = documents.image_url;
+
+                    Log.d("image", url);
+                    //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
+                    if (url != null) {
+                        Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
+                        intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
+                        Log.d(EXTRA_KEY_IMAGE_URL, url);
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
