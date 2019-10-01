@@ -1,8 +1,10 @@
 package kr.uncode.firebaselog;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,12 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     @Override
     public void onBindViewHolder(@NonNull SearchListAdapter.SearchListViewHolder holder, int position) {
 
+        setOnAdapterItemClickListener(new OnAdapterItemClickListener() {
+            @Override
+            public void onAdapterViewClick(View view) {
+                Log.d("hi","hi");
+            }
+        });
         RetrofitResponse.Documents documents = data.get(position);
         Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
     }
