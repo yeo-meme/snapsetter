@@ -1,5 +1,7 @@
 package kr.uncode.firebaselog;
 
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +23,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
     private final List<RetrofitResponse.Documents> data = new ArrayList<>();
     private OnAdapterItemClickListener onAdapterItemClickListener;
+    private Context context;
+    public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
+    public String url = "";
 
 
     public void setOnAdapterItemClickListener(OnAdapterItemClickListener itemClickListener) {
@@ -48,20 +53,33 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         ListItemImageBinding binding = ListItemImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
 
+        context = parent.getContext();
         return new SearchListViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchListAdapter.SearchListViewHolder holder, int position) {
 
+
+        RetrofitResponse.Documents documents = data.get(position);
+        Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
+
+
         setOnAdapterItemClickListener(new OnAdapterItemClickListener() {
             @Override
             public void onAdapterViewClick(View view) {
                 Log.d("hi","hi");
+                url = documents.image_url;
+
+                Log.d("image",url);
+                Intent intent = new Intent(context.getApplicationContext(),DetailActivity.class);
+                intent.putExtra(EXTRA_KEY_IMAGE_URL,url);
+                Log.d(EXTRA_KEY_IMAGE_URL,url);
+                context.startActivity(intent);
+
             }
         });
-        RetrofitResponse.Documents documents = data.get(position);
-        Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
+
     }
 
     @Override
