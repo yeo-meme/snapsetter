@@ -1,6 +1,7 @@
 package kr.uncode.firebaselog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.text.TextUtils;
@@ -19,6 +20,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -35,6 +38,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private InputMethodManager manager;
     private LinearLayout back;
 
+    private Button logout;
+    private FirebaseAuth mAuth;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -50,7 +56,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         back = findViewById(R.id.back);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-
+        logout = findViewById(R.id.logout);
 
         searchListAdapter = new SearchListAdapter();
 
@@ -59,6 +65,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         back.setOnClickListener(this);
 
         searchBtn.setOnClickListener(this);
+
+        logout.setOnClickListener(this);
 
     }
 
@@ -121,6 +129,17 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             hideKeyboard();
         }
 
+        if (view == logout) {
+            logout();
+        }
+
+    }
+
+    private void logout() {
+        mAuth.getInstance().signOut();
+        Toast.makeText(SearchActivity.this,"logout!! bye~",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        startActivity(intent);
     }
 
     private void hideKeyboard() {
