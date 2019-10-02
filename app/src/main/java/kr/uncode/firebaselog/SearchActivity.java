@@ -41,6 +41,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Button logout;
     private FirebaseAuth mAuth;
 
+    private ImageView emptyheart;
+
+    private static final int RC_SIGN_IN = 900;
+
+    private static final String EMPTY_H = "EMPTY";
+    private static final String FULL_H = "FULL";
+    private String heart_state = EMPTY_H;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState){
@@ -56,6 +64,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         back = findViewById(R.id.back);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
+        emptyheart = findViewById(R.id.emptyheart);
+
+
+
         logout = findViewById(R.id.logout);
 
         searchListAdapter = new SearchListAdapter();
@@ -68,6 +80,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         logout.setOnClickListener(this);
 
+        emptyheart.setOnClickListener(this);
     }
 
 
@@ -131,6 +144,24 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         if (view == logout) {
             logout();
+        }
+
+        if (view == emptyheart) {
+
+            heart_state = FULL_H;
+            heartChange_Emp();
+
+        }
+
+    }
+
+    private void heartChange() {
+        if (heart_state == EMPTY_H) {
+            emptyheart.setImageResource(R.drawable.empth);
+            heart_state = EMPTY_H;
+        } else if (heart_state == FULL_H) {
+            emptyheart.setImageResource(R.drawable.heart);
+            heart_state = FULL_H;
         }
 
     }

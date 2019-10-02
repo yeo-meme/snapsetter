@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,20 +10,32 @@
     android:paddingRight="15dp">
 
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="2dp"
+        android:layout_marginLeft="@dimen/mtrl_card_spacing"
+        android:layout_marginTop="@dimen/mtrl_card_spacing"
+        android:layout_marginRight="@dimen/mtrl_card_spacing"
+        android:minHeight="300dp"
         app:cardUseCompatPadding="true"
-        app:elevation="2dp"
+        app:cardElevation="30dp"
+        style="@style/Widget.MaterialComponents.CardView"
         >
-
         <ImageView
             android:id="@+id/iv_image"
-            android:layout_height="300dp"
+            android:layout_height="250dp"
             android:layout_width="match_parent"
             android:scaleType="centerCrop"/>
-    </androidx.cardview.widget.CardView>
+
+        <ImageView
+            android:id="@+id/emptyheart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_image"
+            android:src="@drawable/empth" />
+
+    </com.google.android.material.card.MaterialCardView>
 
 </LinearLayout>
 </layout>
