@@ -14,15 +14,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
     private Button loginBtn;
     private Button createIdBtn;
 
@@ -34,13 +43,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String passwd = "";
 
 
+    //구글로그인 result 상수
+    private static final int RC_SIGN_IN = 900;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
 
-        
+
+
+
+
+
+
         loginBtn = findViewById(R.id.loginBtn);
         createIdBtn = findViewById(R.id.createIdBtn);
         passwdedit = findViewById(R.id.passwdedit);
@@ -102,9 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
-
-
     private void loginUser() {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
             Toast.makeText(MainActivity.this,"이메일 OR 비밀번호를 입력해주세요",Toast.LENGTH_LONG).show();
@@ -117,16 +132,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(MainActivity.this,"로그인 성공!",Toast.LENGTH_LONG).show();
-                                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
-                                startActivity(intent);
-                                finish();
 
-                                ///인텐드가 들어갈 자리 데스용
-                            } else {
-                                Toast.makeText(MainActivity.this,"아이디와 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
+                            if (!task.isSuccessful()) {
+                                try {
+                                    throw task.getException();
+                                } catch (FirebaseAuthInvalidUserException e) {
+                                    Toast.makeText(MainActivity.this,"존재하지 않는 id 입니다." ,Toast.LENGTH_SHORT).show();
+                                } catch (FirebaseAuthInvalidCredentialsException e) {
+                                    Toast.makeText(MainActivity.this,"이메일 형식이 맞지 않습니다." ,Toast.LENGTH_SHORT).show();
+                                } catch (FirebaseNetworkException e) {
+                                    Toast.makeText(MainActivity.this,"Firebase NetworkException" ,Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    Toast.makeText(MainActivity.this,"Exception" ,Toast.LENGTH_SHORT).show();
+                                }
+
+                            }else{
+
+
+                                currentUser = mAuth.getCurrentUser();
+
+                                Toast.makeText(MainActivity.this, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid() ,Toast.LENGTH_SHORT).show();
+
+                                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                                finish();
                             }
+
+
+
+
+//                            if (task.isSuccessful()) {
+//                                Toast.makeText(MainActivity.this,"로그인 성공!",Toast.LENGTH_LONG).show();
+//                                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
+//                                startActivity(intent);
+//                                finish();
+//
+//                                ///인텐드가 들어갈 자리 데스용
+//                            } else {
+//                                Toast.makeText(MainActivity.this,"아이디와 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
+//                            }
                         }
                     });
         }
