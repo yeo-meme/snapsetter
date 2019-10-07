@@ -1,6 +1,7 @@
 package kr.uncode.firebaselog;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String passwd = "";
 
 
+
     //구글로그인 result 상수
     private static final int RC_SIGN_IN = 900;
 
@@ -48,7 +50,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+//
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("SNAP SETTER");
 
 
 

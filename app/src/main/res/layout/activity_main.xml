@@ -103,7 +103,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
-            android:background="@color/purple"
+            android:background="@color/colorPrimary"
             android:orientation="horizontal">
 
 
@@ -114,7 +114,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/purple"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="Log_in" />
 
             <Button
@@ -124,7 +124,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/purple"
+                android:backgroundTint="@color/colorPrimary"
                 android:text="create_Id" />
 
 
@@ -144,11 +144,11 @@
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/activity_main_drawer" />
 
-        <include
-            layout="@layout/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp" />
+<!--        <include-->
+<!--            layout="@layout/toolbar"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="20dp" />-->
 <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
 </androidx.drawerlayout.widget.DrawerLayout>
