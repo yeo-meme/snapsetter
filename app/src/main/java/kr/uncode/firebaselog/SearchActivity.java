@@ -3,9 +3,7 @@ package kr.uncode.firebaselog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -41,7 +39,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Button logout;
     private FirebaseAuth mAuth;
 
-    private ImageView emptyheart = null;
+    private ImageView eHeart;
+    private ImageView heart;
+
+    private ListItemImage listItemImage;
+
 
     private static final int RC_SIGN_IN = 900;
 
@@ -64,8 +66,9 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         back = findViewById(R.id.back);
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        emptyheart = findViewById(R.id.emptyheart);
 
+
+        listItemImage = new ListItemImage();
 
 
         logout = findViewById(R.id.logout);
@@ -146,23 +149,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             logout();
         }
 
-        if (view == emptyheart) {
-
-
-        }
 
     }
 
-    private void heartChange() {
-        if (heart_state == EMPTY_H) {
-            emptyheart.setImageResource(R.drawable.empth);
-            heart_state = EMPTY_H;
-        } else if (heart_state == FULL_H) {
-            emptyheart.setImageResource(R.drawable.heart);
-            heart_state = FULL_H;
-        }
-
-    }
+//    private void heartChange() {
+//        if (heart_state == EMPTY_H) {
+//            emptyheart.setImageResource(R.drawable.eheart);
+//            heart_state = EMPTY_H;
+//        } else if (heart_state == FULL_H) {
+//            emptyheart.setImageResource(R.drawable.heart);
+//            heart_state = FULL_H;
+//        }
+//
+//    }
 
     private void logout() {
         mAuth.getInstance().signOut();

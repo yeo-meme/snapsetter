@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -107,27 +109,48 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             super(itemView.getRoot());
             binding = itemView;
 
-
-            itemView.getRoot().setOnClickListener(new View.OnClickListener() {
+            itemView.heartArea.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("hi", "hi");
-                    //온어탭터뷰클릭 순간에 Url을 담는
-                    int position = getAdapterPosition();
-                    RetrofitResponse.Documents documents = data.get(position);
-
-                    url = documents.image_url;
-
-                    Log.d("image", url);
-                    //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
-                    if (url != null) {
-                        Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
-                        intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
-                        Log.d(EXTRA_KEY_IMAGE_URL, url);
-                        context.startActivity(intent);
+                    if (itemView.getRoot() != null) {
+                    Toast.makeText(context.getApplicationContext(),"click",Toast.LENGTH_LONG).show();
                     }
                 }
             });
+            itemView.area.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    return;
+                }
+            });
+
+            binding.ivImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if (binding.ivImage != null) {
+
+                        Log.d("hi", "hi");
+                        //온어탭터뷰클릭 순간에 Url을 담는
+                        int position = getAdapterPosition();
+                        RetrofitResponse.Documents documents = data.get(position);
+
+                        url = documents.image_url;
+
+                        Log.d("image", url);
+                        //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
+                        if (url != null) {
+                            Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
+                            intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
+                            Log.d(EXTRA_KEY_IMAGE_URL, url);
+                            context.startActivity(intent);
+                        }
+
+                    }
+                }
+            });
+
+
         }
     }
 
