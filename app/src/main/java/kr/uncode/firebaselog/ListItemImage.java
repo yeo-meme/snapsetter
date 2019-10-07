@@ -2,19 +2,21 @@ package kr.uncode.firebaselog;
 
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class ListItemImage extends AppCompatActivity implements View.OnClickListener {
+public class ListItemImage extends AppCompatActivity  {
 
     private ImageView eHeart;
-    private ImageView heart;
     private RelativeLayout heartArea;
     private LinearLayout area;
 
@@ -27,8 +29,6 @@ public class ListItemImage extends AppCompatActivity implements View.OnClickList
 
 
         heartArea.bringToFront() ;
-        eHeart.setImageResource(R.drawable.eheart);
-        heart.setImageResource(R.drawable.heart);
         area = findViewById(R.id.area);
 
         heartArea = findViewById(R.id.heartArea);
@@ -48,12 +48,5 @@ public class ListItemImage extends AppCompatActivity implements View.OnClickList
 
     }
 
-    @Override
-    public void onClick(View view) {
 
-        if (view == heartArea) {
-            Toast.makeText(ListItemImage.this,"hiiiiiiii",Toast.LENGTH_LONG).show();
-
-        }
-    }
 }

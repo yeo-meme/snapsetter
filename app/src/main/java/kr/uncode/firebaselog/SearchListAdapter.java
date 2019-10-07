@@ -22,6 +22,8 @@ import kr.uncode.firebaselog.databinding.ListItemImageBinding;
 
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
+    int so = 0;
+
 
     private final List<RetrofitResponse.Documents> data = new ArrayList<>();
     private OnAdapterItemClickListener onAdapterItemClickListener;
@@ -109,14 +111,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             super(itemView.getRoot());
             binding = itemView;
 
-            itemView.heartArea.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (itemView.getRoot() != null) {
-                    Toast.makeText(context.getApplicationContext(),"click",Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
             itemView.area.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
