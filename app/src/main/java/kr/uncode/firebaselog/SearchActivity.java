@@ -41,7 +41,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private Button logout;
     private FirebaseAuth mAuth;
 
-    private ImageView emptyheart;
+    private ImageView emptyheart = null;
 
     private static final int RC_SIGN_IN = 900;
 
@@ -80,7 +80,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         logout.setOnClickListener(this);
 
-        emptyheart.setOnClickListener(this);
+//        emptyheart.setOnClickListener(this);
     }
 
 
@@ -148,8 +148,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         if (view == emptyheart) {
 
-            heart_state = FULL_H;
-            heartChange_Emp();
 
         }
 

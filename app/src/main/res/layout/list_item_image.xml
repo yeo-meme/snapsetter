@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:paddingLeft="15dp"
-    android:paddingTop="15dp"
-    android:paddingRight="15dp">
 
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/mtrl_card_spacing"
-        android:layout_marginTop="@dimen/mtrl_card_spacing"
-        android:layout_marginRight="@dimen/mtrl_card_spacing"
-        android:minHeight="300dp"
-        app:cardUseCompatPadding="true"
-        app:cardElevation="30dp"
-        style="@style/Widget.MaterialComponents.CardView"
-        >
-        <ImageView
-            android:id="@+id/iv_image"
-            android:layout_height="250dp"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingTop="15dp"
+        android:paddingRight="15dp">
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            style="@style/Widget.MaterialComponents.CardView"
             android:layout_width="match_parent"
-            android:scaleType="centerCrop"/>
-
-        <ImageView
-            android:id="@+id/emptyheart"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_image"
-            android:src="@drawable/empth" />
+            android:layout_marginLeft="@dimen/mtrl_card_spacing"
+            android:layout_marginTop="@dimen/mtrl_card_spacing"
+            android:layout_marginRight="@dimen/mtrl_card_spacing"
+            android:minHeight="400dp"
+            app:cardElevation="30dp"
+            app:cardUseCompatPadding="true">
 
-    </com.google.android.material.card.MaterialCardView>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-</LinearLayout>
+
+                <ImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:backgroundTint="@color/colorPrimary"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/emptyheart"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_gravity="bottom|end"
+                    android:src="@drawable/empth" />
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 </layout>
