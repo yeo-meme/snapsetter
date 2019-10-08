@@ -2,9 +2,14 @@ package kr.uncode.firebaselog;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -12,9 +17,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +35,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+import static kr.uncode.firebaselog.R.string.navigation_drawer_open;
+
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
@@ -41,7 +51,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String email = "";
     private String passwd = "";
 
+    private NavigationView navigationView;
+    private DrawerLayout drawer;
+    private AppBarConfiguration mAppBarConfiguration;
 
+    private ActionBarDrawerToggle toggle;
+
+    private LinearLayout main_layout;
+
+    private static int drawer_open = 123;
+    private static int drawer_close = -123;
 
     //구글로그인 result 상수
     private static final int RC_SIGN_IN = 900;
@@ -50,6 +69,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        drawer = findViewById(R.id.drawer);
+
+
+//        navigationView = findViewById(R.id.nav_view);
+        main_layout = findViewById(R.id.main_layout);
+
+
+        toggle = new ActionBarDrawerToggle(this,drawer, navigation_drawer_open,R.string.navigation_drawer_close);
+
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+//        navigationView.setNavigationItemSelectedListener(this);
+//       navigationView mAppBarConfiguration = new AppBarConfiguration.Builder(
+//
+//        ).setDrawerLayout(drawer)
+//                .build();
+//        NavController navController = Navigation.findNavController(this,R.id.main_layout);
+//        NavigationUI.setupActionBarWithNavController(this,navController,mAppBarConfiguration);
+//        NavigationUI.setupWithNavController(navigationView,navController);
+
+//        getActionBar().setDisplayHomeAsUpEnabled(true);
 //
 //        ActionBar actionBar = getSupportActionBar();
 //        actionBar.setTitle("SNAP SETTER");
@@ -200,5 +244,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(MainActivity.this,SearchActivity.class));
             finish();
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return false;
     }
 }

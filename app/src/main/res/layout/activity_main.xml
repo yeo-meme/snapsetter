@@ -3,152 +3,161 @@
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/drawer_layout"
+    android:id="@+id/drawer"
+    android:layout_gravity="top"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-    <LinearLayout
+    <include
+        layout="@layout/app_bar_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context=".MainActivity">
+        android:layout_height="match_parent"/>
 
-        <LinearLayout
-            android:id="@+id/logarea"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+<!--    &lt;!&ndash;앱바추가&ndash;&gt;-->
+<!--    <com.google.android.material.appbar.MaterialToolbar-->
+<!--        android:layout_height="?attr/actionBarSize"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:backgroundTint="@color/purple"-->
+<!--        android:id="@+id/toolbar">-->
+<!--    </com.google.android.material.appbar.MaterialToolbar>-->
 
+    <!--메인 콘텐츠-->
+<!--    <LinearLayout-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:orientation="vertical"-->
+<!--        tools:context=".MainActivity"-->
+<!--        android:id="@+id/main_layout">-->
 
-            <ImageView
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_gravity="center"
-                android:layout_marginBottom="30dp"
-                android:src="@drawable/font" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/notolight"
-                android:text="안녕하세요.스냅세터입니다 "
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/notolight"
-                android:text="회원 서비스 이용을 위해 로그인 해주세요"
-                android:textSize="15sp" />
-
-        </LinearLayout>
-
-        <!--    <com.google.android.gms.common.SignInButton-->
-        <!--        android:id="@+id/btn_googleSignIn"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content">-->
-        <!--    </com.google.android.gms.common.SignInButton>-->
-
-        <!--Edit Text Area-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/logarea"-->
+<!--            android:layout_width="fill_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:layout_weight="1"-->
+<!--            android:gravity="center_vertical"-->
+<!--            android:orientation="vertical">-->
 
 
-            <!--이메일 에딧텍스트 ID-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailedit"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:hint="Email">
+<!--            <ImageView-->
+<!--                android:layout_width="150dp"-->
+<!--                android:layout_height="150dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginBottom="30dp"-->
+<!--                android:src="@drawable/font" />-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-            <!--패스워드 에딧텍스트 PAssword-->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwdedit"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:hint="Email">
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:fontFamily="@font/notolight"-->
+<!--                android:text="안녕하세요.스냅세터입니다 "-->
+<!--                android:textSize="20sp" />-->
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-        </LinearLayout>
+<!--            <TextView-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="center_horizontal"-->
+<!--                android:fontFamily="@font/notolight"-->
+<!--                android:text="회원 서비스 이용을 위해 로그인 해주세요"-->
+<!--                android:textSize="15sp" />-->
 
-        <!--로그인버튼 , 신규가입생성 Area-->
-        <LinearLayout
-            android:id="@+id/logBtnarea"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_gravity="bottom"
-            android:background="@color/colorPrimary"
-            android:orientation="horizontal">
+<!--        </LinearLayout>-->
 
+<!--        &lt;!&ndash;    <com.google.android.gms.common.SignInButton&ndash;&gt;-->
+<!--        &lt;!&ndash;        android:id="@+id/btn_googleSignIn"&ndash;&gt;-->
+<!--        &lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--        &lt;!&ndash;        android:layout_height="wrap_content">&ndash;&gt;-->
+<!--        &lt;!&ndash;    </com.google.android.gms.common.SignInButton>&ndash;&gt;-->
 
-            <Button
-                android:id="@+id/loginBtn"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="Log_in" />
-
-            <Button
-                android:id="@+id/createIdBtn"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/colorPrimary"
-                android:text="create_Id" />
-
-
-        </LinearLayout>
-    </LinearLayout>
-
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content">-->
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/nav_view"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:fitsSystemWindows="true"
-            app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" />
-
-<!--        <include-->
-<!--            layout="@layout/toolbar"-->
+<!--        &lt;!&ndash;Edit Text Area&ndash;&gt;-->
+<!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="20dp" />-->
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+<!--            android:layout_marginBottom="20dp"-->
+<!--            android:orientation="horizontal">-->
+
+
+<!--            &lt;!&ndash;이메일 에딧텍스트 ID&ndash;&gt;-->
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/emailedit"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:hint="Email">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+<!--            &lt;!&ndash;패스워드 에딧텍스트 PAssword&ndash;&gt;-->
+<!--            <com.google.android.material.textfield.TextInputLayout-->
+<!--                android:id="@+id/passwdedit"-->
+<!--                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_gravity="bottom"-->
+<!--                android:layout_weight="1"-->
+<!--                android:gravity="center"-->
+<!--                android:hint="Email">-->
+
+<!--                <com.google.android.material.textfield.TextInputEditText-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content" />-->
+<!--            </com.google.android.material.textfield.TextInputLayout>-->
+<!--        </LinearLayout>-->
+
+<!--        &lt;!&ndash;로그인버튼 , 신규가입생성 Area&ndash;&gt;-->
+<!--        <LinearLayout-->
+<!--            android:id="@+id/logBtnarea"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentBottom="true"-->
+<!--            android:layout_gravity="bottom"-->
+<!--            android:background="@color/colorPrimary"-->
+<!--            android:orientation="horizontal">-->
+
+
+<!--            <Button-->
+<!--                android:id="@+id/loginBtn"-->
+<!--                style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:backgroundTint="@color/colorPrimary"-->
+<!--                android:text="Log_in" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/createIdBtn"-->
+<!--                style="@style/Widget.AppCompat.Button.Borderless.Colored"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:layout_weight="1"-->
+<!--                android:backgroundTint="@color/colorPrimary"-->
+<!--                android:text="create_Id" />-->
+
+
+<!--        </LinearLayout>-->
+<!--    </LinearLayout>-->
+
+
+
+    <!--네비게이션뷰-->
+<!--        <com.google.android.material.navigation.NavigationView-->
+<!--            android:id="@+id/nav_view"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:layout_gravity="start|left"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            app:headerLayout="@layout/nav_header_main"-->
+<!--            app:menu="@menu/activity_main_drawer" />-->
+
 
 </androidx.drawerlayout.widget.DrawerLayout>
