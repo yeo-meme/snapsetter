@@ -168,6 +168,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
+            mAuth.getInstance().signOut();
+            Toast.makeText(MainActivity.this,"logout!! bye~",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
             Log.d("nav","nav1");
         } else if (id == R.id.nav_drawer) {
             Log.d("nav","nav2");

@@ -2,8 +2,11 @@ package kr.uncode.firebaselog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -14,8 +17,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +30,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static kr.uncode.firebaselog.R.string.navigation_drawer_open;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -67,6 +76,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         listItemImage = new ListItemImage();
 
@@ -85,6 +98,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
 //        emptyheart.setOnClickListener(this);
     }
+
+
+
+
 
 
     private void btnSearch(View view) {
