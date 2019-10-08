@@ -72,19 +72,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         drawer = findViewById(R.id.drawer);
 
 
-//        navigationView = findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         main_layout = findViewById(R.id.main_layout);
 
 
-        toggle = new ActionBarDrawerToggle(this,drawer, navigation_drawer_open,R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(this,drawer, navigation_drawer_open,R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                // code here will execute once the drawer is opened
+                getSupportActionBar().setTitle("hhhhhhhhhh");
+                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+                // Code here will execute once drawer is closed
+                getSupportActionBar().setTitle("dddddddddddd");
+                invalidateOptionsMenu();
+            }
+
+            ;
+        };
 
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-//        navigationView.setNavigationItemSelectedListener(this);
+//
+        navigationView.setNavigationItemSelectedListener(this);
 //       navigationView mAppBarConfiguration = new AppBarConfiguration.Builder(
 //
 //        ).setDrawerLayout(drawer)
