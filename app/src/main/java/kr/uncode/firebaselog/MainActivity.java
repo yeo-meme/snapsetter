@@ -164,18 +164,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.account:
-                Toast.makeText(this, "item1 clicked..", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.star:
-                Toast.makeText(this, "item2 clicked..", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.cart:
-                Toast.makeText(this, "item3 clicked..", Toast.LENGTH_SHORT).show();
-                break;
-        }
 
+        int id = item.getItemId();
+
+        if (id == R.id.nav_logout) {
+            Log.d("nav","nav1");
+        } else if (id == R.id.nav_drawer) {
+            Log.d("nav","nav2");
+        }
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }
@@ -197,6 +193,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
+
+
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }

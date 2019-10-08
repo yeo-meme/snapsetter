@@ -149,7 +149,6 @@
 
 
 
-    네비게이션뷰
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
             android:layout_width="wrap_content"
