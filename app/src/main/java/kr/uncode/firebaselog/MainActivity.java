@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -14,6 +15,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -80,27 +82,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         main_layout = findViewById(R.id.main_layout);
 
 
-        toggle = new ActionBarDrawerToggle(this,drawer, navigation_drawer_open,R.string.navigation_drawer_close) {
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                // code here will execute once the drawer is opened
-                getSupportActionBar().setTitle("hhhhhhhhhh");
-                invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
-            }
+        toggle = new ActionBarDrawerToggle(this,drawer, navigation_drawer_open,R.string.navigation_drawer_close);
 
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                // Code here will execute once drawer is closed
-                getSupportActionBar().setTitle("dddddddddddd");
-                invalidateOptionsMenu();
-            }
-
-            ;
-        };
 
         drawer.addDrawerListener(toggle);
+        navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
 //
         navigationView.setNavigationItemSelectedListener(this);
@@ -174,6 +160,49 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             createUser(email,passwd);
         }
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()) {
+            case R.id.account:
+                Toast.makeText(this, "item1 clicked..", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.star:
+                Toast.makeText(this, "item2 clicked..", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.cart:
+                Toast.makeText(this, "item3 clicked..", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        drawer.closeDrawer(GravityCompat.START);
+        return false;
+    }
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        toggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        toggle.onConfigurationChanged(newConfig);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Pass the event to ActionBarDrawerToggle, if it returns
+        // true, then it has handled the app icon touch event
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        // Handle your other action bar items...
+
+        return super.onOptionsItemSelected(item);
     }
 
 
@@ -265,8 +294,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
+    
 }
