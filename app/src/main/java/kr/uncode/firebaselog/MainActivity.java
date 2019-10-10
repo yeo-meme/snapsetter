@@ -8,6 +8,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
@@ -69,6 +71,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //구글로그인 result 상수
     private static final int RC_SIGN_IN = 900;
 
+
+
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +83,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainFragment = new MainFragment();
 
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
+
         loginBtn = findViewById(R.id.loginBtn);
         createIdBtn = findViewById(R.id.createIdBtn);
         passwdedit = findViewById(R.id.passwdedit);
@@ -136,6 +143,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 
 
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -143,6 +153,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        loginBtn.setOnClickListener(this);
 
     }
+
+
+
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment).commit();      // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
+    }
+
 
 
 
@@ -296,15 +315,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            startActivity(new Intent(context,SearchActivity.class));
-            finish();
-        }
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        currentUser = mAuth.getCurrentUser();
+//        if (currentUser != null) {
+//            startActivity(new Intent(context,SearchActivity.class));
+//            finish();
+//        }
+//    }
 
 
 }

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/back"
+        android:orientation="vertical">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+
+            <EditText
+                android:id="@+id/search_edit_frame"
+                android:layout_width="0dp"
+                android:layout_weight="9"
+                android:layout_height="wrap_content"
+                android:hint="here"
+                android:layout_gravity="center"/>
+
+            <Button
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:text="검색"
+                android:layout_weight="1"
+                android:id="@+id/searchBtn" />
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            >
+
+            <ImageView
+                android:id="@+id/font"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/font"
+                android:layout_centerInParent="true"
+                android:gravity="center_vertical"/>
+            <TextView
+                android:id="@+id/tx"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_below="@id/font"
+                android:text="hi,찾으실 이미지의 검색어를 입력해주세요"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="logout"
+                android:id="@+id/logout"/>
+
+
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_image_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
+
+
+        </RelativeLayout>
+
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:indeterminate="false"
+            android:visibility="gone"
+            />
+    </LinearLayout>
+
+
+</layout>

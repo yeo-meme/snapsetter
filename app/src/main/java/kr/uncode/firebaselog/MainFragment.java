@@ -15,6 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +29,9 @@ import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
 public class MainFragment extends Fragment {
+
+
+    private FragmentManager fragmentManager;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
@@ -43,6 +48,10 @@ public class MainFragment extends Fragment {
 
     private String email = "";
     private String passwd = "";
+
+    public static MainFragment newInstance() {
+        return new MainFragment();
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -67,6 +76,8 @@ public class MainFragment extends Fragment {
 
         context = container.getContext();
         View rootView = inflater.inflate(R.layout.main_fragment, container,false);
+
+
 
         loginBtn = rootView.findViewById(R.id.loginBtn);
         createIdBtn = rootView.findViewById(R.id.createIdBtn);
@@ -144,8 +155,12 @@ public class MainFragment extends Fragment {
 
                                 Toast.makeText(context, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid() ,Toast.LENGTH_SHORT).show();
 
-                                startActivity(new Intent(context, SearchActivity.class));
+//                                startActivity(new Intent(context, SearchActivity.class));
 
+
+                                ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
+//                                ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
+//                                fragmentManager.beginTransaction().replace(R.id.frameLayout,new SearchFragment()).commit();
                             }
 
 
