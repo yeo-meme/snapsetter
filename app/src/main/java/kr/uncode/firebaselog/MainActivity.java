@@ -1,34 +1,33 @@
 package kr.uncode.firebaselog;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
+import androidx.fragment.app.Fragment;
 import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
+
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button createIdBtn;
 
 
+    private Context context;
     private TextInputLayout passwdedit;
     private TextInputLayout  emailedit;
 
@@ -64,17 +64,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static int drawer_open = 123;
     private static int drawer_close = -123;
 
+
+    private MainFragment mainFragment;
     //구글로그인 result 상수
     private static final int RC_SIGN_IN = 900;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mainFragment = new MainFragment();
+
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
+        loginBtn = findViewById(R.id.loginBtn);
+        createIdBtn = findViewById(R.id.createIdBtn);
+        passwdedit = findViewById(R.id.passwdedit);
+        emailedit = findViewById(R.id.emailedit);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        ((AppCompatActivity)getActivity()).setDisplayHomeAsUpEnabled(true);
         drawer = findViewById(R.id.drawer);
 
 
@@ -82,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         main_layout = findViewById(R.id.main_layout);
 
 
-        toggle = new ActionBarDrawerToggle(this,drawer, navigation_drawer_open,R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(MainActivity.this,drawer, navigation_drawer_open,R.string.navigation_drawer_close);
 
 
         drawer.addDrawerListener(toggle);
@@ -125,17 +136,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        });
 
 
-        loginBtn = findViewById(R.id.loginBtn);
-        createIdBtn = findViewById(R.id.createIdBtn);
-        passwdedit = findViewById(R.id.passwdedit);
-        emailedit = findViewById(R.id.emailedit);
 
 
         mAuth = FirebaseAuth.getInstance();
-        createIdBtn.setOnClickListener(this);
-        loginBtn.setOnClickListener(this);
+//        createIdBtn.setOnClickListener(this);
+//        loginBtn.setOnClickListener(this);
 
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -148,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("hi",passwd);
 
             loginUser();
-            Toast.makeText(MainActivity.this, "hi" ,Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "hi" ,Toast.LENGTH_LONG).show();
         }
 
         if (view == createIdBtn) {
@@ -169,8 +178,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.nav_logout) {
             mAuth.getInstance().signOut();
-            Toast.makeText(MainActivity.this,"logout!! bye~",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+            Toast.makeText(context,"logout!! bye~",Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(context, MainActivity.class);
             startActivity(intent);
             Log.d("nav","nav1");
         } else if (id == R.id.nav_drawer) {
@@ -180,12 +189,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        toggle.syncState();
-    }
+//    @Override
+//    protected void onPostCreate(Bundle savedInstanceState) {
+//        super.onPostCreate(savedInstanceState);
+//        // Sync the toggle state after onRestoreInstanceState has occurred.
+//        toggle.syncState();
+//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -211,7 +220,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void createUser(String email, String passwd) {
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(MainActivity.this,"이메일과 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"이메일과 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
         } else {
 
             mAuth.createUserWithEmailAndPassword(email,passwd)
@@ -220,9 +229,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
 
-                                Toast.makeText(MainActivity.this,"회원가입성공",Toast.LENGTH_LONG).show();
+                                Toast.makeText(context,"회원가입성공",Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(MainActivity.this,"회원가입 실패",Toast.LENGTH_LONG).show();
+                                Toast.makeText(context,"회원가입 실패",Toast.LENGTH_LONG).show();
                             }
 
 
@@ -233,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loginUser() {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(MainActivity.this,"이메일 OR 비밀번호를 입력해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(context,"이메일 OR 비밀번호를 입력해주세요",Toast.LENGTH_LONG).show();
 
         } else {
             email = emailedit.getEditText().getText().toString();
@@ -248,13 +257,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 try {
                                     throw task.getException();
                                 } catch (FirebaseAuthInvalidUserException e) {
-                                    Toast.makeText(MainActivity.this,"존재하지 않는 id 입니다." ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"존재하지 않는 id 입니다." ,Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    Toast.makeText(MainActivity.this,"이메일 형식이 맞지 않습니다." ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"이메일 형식이 맞지 않습니다." ,Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseNetworkException e) {
-                                    Toast.makeText(MainActivity.this,"Firebase NetworkException" ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"Firebase NetworkException" ,Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(MainActivity.this,"Exception" ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context,"Exception" ,Toast.LENGTH_SHORT).show();
                                 }
 
                             }else{
@@ -262,10 +271,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                 currentUser = mAuth.getCurrentUser();
 
-                                Toast.makeText(MainActivity.this, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid() ,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid() ,Toast.LENGTH_SHORT).show();
 
-                                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                                startActivity(new Intent(context, SearchActivity.class));
                                 finish();
+
                             }
 
 
@@ -291,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onStart();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            startActivity(new Intent(MainActivity.this,SearchActivity.class));
+            startActivity(new Intent(context,SearchActivity.class));
             finish();
         }
     }
