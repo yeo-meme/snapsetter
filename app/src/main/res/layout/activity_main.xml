@@ -14,7 +14,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-<!--    &lt;!&ndash;앱바추가&ndash;&gt;-->
+
+
+    <!--        <com.google.android.material.appbar.AppBarLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:theme="@style/Widget.MaterialComponents.Toolbar">-->
+
+
+<!--                &lt;!&ndash;앱바추가&ndash;&gt;-->
+<!--                <com.google.android.material.appbar.MaterialToolbar-->
+<!--                    android:layout_height="?attr/actionBarSize"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:backgroundTint="@color/purple"-->
+<!--                    android:id="@+id/toolbar">-->
+<!--                </com.google.android.material.appbar.MaterialToolbar>-->
+
+
+
+<!--        </com.google.android.material.appbar.AppBarLayout>-->
+
+
+    <!--    &lt;!&ndash;앱바추가&ndash;&gt;-->
 <!--    <com.google.android.material.appbar.MaterialToolbar-->
 <!--        android:layout_height="?attr/actionBarSize"-->
 <!--        android:layout_width="match_parent"-->
