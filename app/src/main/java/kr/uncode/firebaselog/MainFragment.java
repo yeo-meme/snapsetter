@@ -69,6 +69,20 @@ public class MainFragment extends Fragment {
         mainActivity = null;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+
+            ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
+
+//            startActivity(new Intent(context,SearchActivity.class));
+            onDestroy();
+        }
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -83,7 +84,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mainFragment = new MainFragment();
 
 
-//        getSupportFragmentManager().beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
 
         loginBtn = findViewById(R.id.loginBtn);
         createIdBtn = findViewById(R.id.createIdBtn);
@@ -106,41 +106,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         drawer.addDrawerListener(toggle);
         navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
-//
-        navigationView.setNavigationItemSelectedListener(this);
-//       navigationView mAppBarConfiguration = new AppBarConfiguration.Builder(
-//
-//        ).setDrawerLayout(drawer)
-//                .build();
-//        NavController navController = Navigation.findNavController(this,R.id.main_layout);
-//        NavigationUI.setupActionBarWithNavController(this,navController,mAppBarConfiguration);
-//        NavigationUI.setupWithNavController(navigationView,navController);
-
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
-//
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("SNAP SETTER");
 
 
 
-//
-//        Toolbar toolbar = findViewById(R.id.toolbar);
-//        setSupportActionBar(toolbar);
-//        FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                    Snackbar.make(view,"action",Snackbar.LENGTH_LONG)
-//                            .setAction("Action!!",null).show();
-//
-//
-//                    DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//                NavigationView navigationView = findViewById(R.id.nav_view);
-//
-//
-//
-//            }
-//        });
+
 
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
@@ -149,8 +118,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         mAuth = FirebaseAuth.getInstance();
-//        createIdBtn.setOnClickListener(this);
-//        loginBtn.setOnClickListener(this);
 
     }
 
@@ -196,10 +163,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            mAuth.getInstance().signOut();
-            Toast.makeText(context,"logout!! bye~",Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(context, MainActivity.class);
-            startActivity(intent);
+
+            logout();
             Log.d("nav","nav1");
         } else if (id == R.id.nav_drawer) {
             Log.d("nav","nav2");
@@ -214,6 +179,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        // Sync the toggle state after onRestoreInstanceState has occurred.
 //        toggle.syncState();
 //    }
+
+
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -236,6 +203,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void logout() {
+        mAuth.getInstance().signOut();
+        Toast.makeText(MainActivity.this,"logout!! bye~",Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        startActivity(intent);
+    }
     private void createUser(String email, String passwd) {
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
@@ -314,16 +287,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
         }
     }
-
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        currentUser = mAuth.getCurrentUser();
-//        if (currentUser != null) {
-//            startActivity(new Intent(context,SearchActivity.class));
-//            finish();
-//        }
-//    }
 
 
 }
