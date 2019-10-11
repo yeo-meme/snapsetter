@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -141,14 +142,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                         url = documents.image_url;
 
                         Log.d("image", url);
-                        picActivity.savePic(url);
+
 
                         binding.eheart.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
 
-
-                                picActivity.getPic();
+                                picActivity.savePic(url);
+                                Log.d("ssss","ssss");
+//                                picActivity.getPic();
                             }
                         });
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다

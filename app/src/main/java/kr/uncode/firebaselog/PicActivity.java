@@ -59,7 +59,7 @@ public class PicActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
-        
+
         if (currentUser != null) {
             currentUser = mAuth.getCurrentUser();
             userEmail= currentUser.getEmail();
