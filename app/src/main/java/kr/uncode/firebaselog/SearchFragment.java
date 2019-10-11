@@ -109,7 +109,7 @@ public class SearchFragment extends Fragment {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideKeyboard();
+//                hideKeyboard();
             }
         });
 
@@ -131,10 +131,10 @@ public class SearchFragment extends Fragment {
     }
 
 
-    private void hideKeyboard() {
-
-        manager.hideSoftInputFromWindow(search_edit_frame.getWindowToken(),0);
-    }
+//    private void hideKeyboard() {
+//
+//        manager.hideSoftInputFromWindow(search_edit_frame.getWindowToken(),0);
+//    }
 
 
     private void btnSearch(View view) {
