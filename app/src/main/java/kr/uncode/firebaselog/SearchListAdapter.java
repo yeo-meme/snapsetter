@@ -131,20 +131,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
                         PicActivity picActivity = new PicActivity();
 
-                        picActivity.savePic();
-//                        Realm realm = Realm.getDefaultInstance();
-//                        realm.executeTransaction(new Realm.Transaction() {
-//                            @Override
-//                            public void execute(Realm realm) {
-//
-//                                PictureData picD = new PictureData();
-//                                //관리 객체를 직접만들떄 사용
-////                                PictureData mPic = realm.createObject(PictureData.class);
-//                                picD.setName("동구");
-//                                picD.setImage_url("dddddd");
-//                                realm.commitTransaction();
-//                            }
-//                        });
+
 
                         Log.d("hi", "hi");
                         //온어탭터뷰클릭 순간에 Url을 담는
@@ -154,6 +141,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                         url = documents.image_url;
 
                         Log.d("image", url);
+                        picActivity.savePic(url);
 
                         binding.eheart.setOnClickListener(new View.OnClickListener() {
                             @Override

@@ -7,6 +7,9 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
@@ -17,6 +20,11 @@ public class PicActivity extends AppCompatActivity {
     private String name ="";
     private String image_url="";
     private Realm mRealm;
+
+
+    public String userEmail ="";
+    private FirebaseAuth mAuth;
+    private FirebaseUser currentUser;
 
 //    public PicActivity(String name, String image_url, Realm realm) {
 //        this.name = name;
@@ -46,19 +54,28 @@ public class PicActivity extends AppCompatActivity {
     }
 
 
-    public  void savePic() {
+    public  void savePic(String image_url) {
         final  Realm realm = Realm.getDefaultInstance();
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        
+        if (currentUser != null) {
+            currentUser = mAuth.getCurrentUser();
+            userEmail= currentUser.getEmail();
+            Log.d("email",userEmail);
+        }
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
 
-                Log.d("aaaaaaaaaaaaaaa","aaaaaaaaaaaaaaaaaaa");
+                Log.d("aaaaaaaaaaaaaaa",userEmail);
+                Log.d("aaaaaaaaaaaaaaa",image_url);
                 PictureData picD = new PictureData();
 ////                                //관리 객체를 직접만들떄 사용
 //////                                PictureData mPic = realm.createObject(PictureData.class);
-                                picD.setName("동구");
-                                picD.setImage_url("dddddd");
+                                picD.setName(userEmail);
+                                picD.setImage_url(image_url);
 //                                realm.commitTransaction();
             }
         });
