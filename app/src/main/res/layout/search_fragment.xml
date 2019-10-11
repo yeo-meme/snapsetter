@@ -50,12 +50,7 @@
                 android:layout_centerInParent="true"
                 android:layout_below="@id/font"
                 android:text="hi,찾으실 이미지의 검색어를 입력해주세요"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="logout"
-                android:id="@+id/logout"/>
-
+   
 
 
 

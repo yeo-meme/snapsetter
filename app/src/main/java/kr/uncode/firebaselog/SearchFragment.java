@@ -40,7 +40,6 @@ public class SearchFragment extends Fragment {
     private InputMethodManager manager;
     private LinearLayout back;
 
-    private Button logout;
     private FirebaseAuth mAuth;
 
     private ImageView eHeart;
@@ -100,7 +99,6 @@ public class SearchFragment extends Fragment {
         listItemImage = new ListItemImage();
 
 
-        logout = rootView.findViewById(R.id.logout);
 
         searchListAdapter = new SearchListAdapter();
 
@@ -120,12 +118,7 @@ public class SearchFragment extends Fragment {
             }
         });
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
 
         return rootView;
     }
