@@ -6,11 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,13 +15,19 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.ListItemImageBinding;
 
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
     int so = 0;
 
+    private PicActivity pic;
 
+    private String name ="" ;
+    private String image_url = "";
+    private Realm realm;
     private final List<RetrofitResponse.Documents> data = new ArrayList<>();
     private OnAdapterItemClickListener onAdapterItemClickListener;
     private Context context;
@@ -62,7 +65,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
 
         context = xx.getContext();
-
 
         return new SearchListViewHolder(binding);
     }
@@ -111,6 +113,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             super(itemView.getRoot());
             binding = itemView;
 
+
             itemView.area.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -122,7 +125,26 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                 @Override
                 public void onClick(View view) {
 
+
+
                     if (binding.ivImage != null) {
+
+                        PicActivity picActivity = new PicActivity();
+
+                        picActivity.savePic();
+//                        Realm realm = Realm.getDefaultInstance();
+//                        realm.executeTransaction(new Realm.Transaction() {
+//                            @Override
+//                            public void execute(Realm realm) {
+//
+//                                PictureData picD = new PictureData();
+//                                //관리 객체를 직접만들떄 사용
+////                                PictureData mPic = realm.createObject(PictureData.class);
+//                                picD.setName("동구");
+//                                picD.setImage_url("dddddd");
+//                                realm.commitTransaction();
+//                            }
+//                        });
 
                         Log.d("hi", "hi");
                         //온어탭터뷰클릭 순간에 Url을 담는
@@ -132,8 +154,18 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                         url = documents.image_url;
 
                         Log.d("image", url);
+
+                        binding.eheart.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+
+                                picActivity.getPic();
+                            }
+                        });
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
                         if (url != null) {
+
                             Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
                             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
                             Log.d(EXTRA_KEY_IMAGE_URL, url);

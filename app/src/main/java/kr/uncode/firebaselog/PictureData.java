@@ -1,9 +1,16 @@
 package kr.uncode.firebaselog;
 
-public class Picture {
+
+import android.widget.RelativeLayout;
+
+import io.realm.RealmObject;
+
+// 각 아이템을 위한 데이터 클래스
+public class PictureData extends RealmObject {
 
     private String name;
     private String image_url;
+
 
     public String getName() {
         return name;

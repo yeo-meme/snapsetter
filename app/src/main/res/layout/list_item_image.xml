@@ -39,6 +39,8 @@
                     android:backgroundTint="@color/colorPrimary"
                     android:scaleType="centerCrop" />
 
+
+
                 <RelativeLayout
                     android:layout_width="80dp"
                     android:layout_height="80dp"
