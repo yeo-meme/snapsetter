@@ -1,9 +1,12 @@
 package kr.uncode.firebaselog;
 
 import android.content.Context;
+import android.graphics.Rect;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -55,6 +58,7 @@ public class SearchFragment extends Fragment {
     private static final String FULL_H = "FULL";
     private String heart_state = EMPTY_H;
 
+    private Context context;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -98,18 +102,20 @@ public class SearchFragment extends Fragment {
 
         listItemImage = new ListItemImage();
 
-
-
         searchListAdapter = new SearchListAdapter();
 
         rvImageList.setAdapter(searchListAdapter);
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                hideKeyboard();
-            }
-        });
+//        back.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                downKeyboard(context,search_edit_frame);
+//     }
+//        });
+
+
+
+
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +130,11 @@ public class SearchFragment extends Fragment {
     }
 
 
+//    public static void downKeyboard(Context context, EditText editText) {
+//        InputMethodManager mInputMethodManager = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+//
+//        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(),0);
+//    }
 //    private void hideKeyboard() {
 //
 //        manager.hideSoftInputFromWindow(search_edit_frame.getWindowToken(),0);

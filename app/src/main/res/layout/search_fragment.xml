@@ -6,6 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/back"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:layout_marginTop="?attr/actionBarSize"
         android:orientation="vertical">
 
@@ -50,7 +52,7 @@
                 android:layout_centerInParent="true"
                 android:layout_below="@id/font"
                 android:text="hi,찾으실 이미지의 검색어를 입력해주세요"/>
-   
+
 
 
 

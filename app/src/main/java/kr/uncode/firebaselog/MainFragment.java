@@ -167,7 +167,7 @@ public class MainFragment extends Fragment {
 
                                 currentUser = mAuth.getCurrentUser();
 
-                                Toast.makeText(context, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid() ,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요",Toast.LENGTH_SHORT).show();
 
 //                                startActivity(new Intent(context, SearchActivity.class));
 
