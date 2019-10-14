@@ -106,6 +106,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     }
 
     class SearchListViewHolder extends RecyclerView.ViewHolder {
+        PicActivity picActivity = new PicActivity();
 
         ListItemImageBinding binding;
 
@@ -114,6 +115,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             super(itemView.getRoot());
             binding = itemView;
 
+            binding.heartArea.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    picActivity.savePic(url);
+                    Log.d("ssss","ssss");
+//                                picActivity.getPic();
+                }
+            });
 
             itemView.area.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,8 +140,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
                     if (binding.ivImage != null) {
 
-                        PicActivity picActivity = new PicActivity();
-
 
 
                         Log.d("hi", "hi");
@@ -144,15 +152,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                         Log.d("image", url);
 
 
-                        binding.eheart.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
 
-                                picActivity.savePic(url);
-                                Log.d("ssss","ssss");
-//                                picActivity.getPic();
-                            }
-                        });
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
                         if (url != null) {
 

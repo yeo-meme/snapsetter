@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".SearchActivity" />
         <activity android:name=".DetailActivity" />
+        <activity android:name=".DrawerFragment" />
     </application>
 
 </manifest>

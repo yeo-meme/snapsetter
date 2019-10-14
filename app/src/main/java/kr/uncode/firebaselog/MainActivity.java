@@ -168,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("nav","nav1");
         } else if (id == R.id.nav_drawer) {
             Log.d("nav","nav2");
+                        replaceFragment(DrawerFragment.newInstance());
+
         }
         drawer.closeDrawer(GravityCompat.START);
         return false;
