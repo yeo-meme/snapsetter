@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Context context;
     private TextInputLayout passwdedit;
-    private TextInputLayout  emailedit;
+    private TextInputLayout emailedit;
 
     private String email = "";
     private String passwd = "";
@@ -73,16 +73,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final int RC_SIGN_IN = 900;
 
 
-
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         mainFragment = new MainFragment();
-
 
 
         loginBtn = findViewById(R.id.loginBtn);
@@ -100,7 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         main_layout = findViewById(R.id.main_layout);
 
 
-        toggle = new ActionBarDrawerToggle(MainActivity.this,drawer, navigation_drawer_open,R.string.navigation_drawer_close);
+        toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, navigation_drawer_open, R.string.navigation_drawer_close);
 
 
         drawer.addDrawerListener(toggle);
@@ -108,19 +104,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         toggle.syncState();
 
 
-
-
-
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
-
 
 
         mAuth = FirebaseAuth.getInstance();
 
     }
-
 
 
     public void replaceFragment(Fragment fragment) {
@@ -130,8 +120,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-
-
     @Override
     public void onClick(View view) {
 
@@ -139,21 +127,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             email = emailedit.getEditText().getText().toString();
             passwd = passwdedit.getEditText().getText().toString();
 
-            Log.d("hi",email);
-            Log.d("hi",passwd);
+            Log.d("hi", email);
+            Log.d("hi", passwd);
 
             loginUser();
-            Toast.makeText(context, "hi" ,Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "hi", Toast.LENGTH_LONG).show();
         }
 
         if (view == createIdBtn) {
             email = emailedit.getEditText().getText().toString();
             passwd = passwdedit.getEditText().getText().toString();
 
-            Log.d("hi",email);
-            Log.d("hi",passwd);
+            Log.d("hi", email);
+            Log.d("hi", passwd);
 
-            createUser(email,passwd);
+            createUser(email, passwd);
         }
     }
 
@@ -165,10 +153,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (id == R.id.nav_logout) {
 
             logout();
-            Log.d("nav","nav1");
+            Log.d("nav", "nav1");
         } else if (id == R.id.nav_drawer) {
-            Log.d("nav","nav2");
-                        replaceFragment(DrawerFragment.newInstance());
+            Log.d("nav", "nav2");
+            replaceFragment(DrawerFragment.newInstance());
 
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -181,7 +169,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //        // Sync the toggle state after onRestoreInstanceState has occurred.
 //        toggle.syncState();
 //    }
-
 
 
     @Override
@@ -207,25 +194,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void logout() {
         mAuth.getInstance().signOut();
-        Toast.makeText(MainActivity.this,"logout!! bye~",Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "logout!! bye~", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
+
     private void createUser(String email, String passwd) {
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(context,"이메일과 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "이메일과 비밀번호를 확인해주세요", Toast.LENGTH_LONG).show();
         } else {
 
-            mAuth.createUserWithEmailAndPassword(email,passwd)
+            mAuth.createUserWithEmailAndPassword(email, passwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
 
-                                Toast.makeText(context,"회원가입성공",Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "회원가입성공", Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(context,"회원가입 실패",Toast.LENGTH_LONG).show();
+                                Toast.makeText(context, "회원가입 실패", Toast.LENGTH_LONG).show();
                             }
 
 
@@ -236,13 +224,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void loginUser() {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(context,"이메일 OR 비밀번호를 입력해주세요",Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
 
         } else {
             email = emailedit.getEditText().getText().toString();
             passwd = passwdedit.getEditText().getText().toString();
 
-            mAuth.signInWithEmailAndPassword(email,passwd)
+            mAuth.signInWithEmailAndPassword(email, passwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -251,28 +239,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 try {
                                     throw task.getException();
                                 } catch (FirebaseAuthInvalidUserException e) {
-                                    Toast.makeText(context,"존재하지 않는 id 입니다." ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "존재하지 않는 id 입니다.", Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    Toast.makeText(context,"이메일 형식이 맞지 않습니다." ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseNetworkException e) {
-                                    Toast.makeText(context,"Firebase NetworkException" ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Firebase NetworkException", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(context,"Exception" ,Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show();
                                 }
 
-                            }else{
+                            } else {
 
 
                                 currentUser = mAuth.getCurrentUser();
 
-                                Toast.makeText(context, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid() ,Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid(), Toast.LENGTH_SHORT).show();
 
                                 startActivity(new Intent(context, SearchActivity.class));
                                 finish();
 
                             }
-
-
 
 
 //                            if (task.isSuccessful()) {
