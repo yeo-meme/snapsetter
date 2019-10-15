@@ -41,7 +41,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     }
 
     // 프래그먼트에서 얻은 이미지 URL을 뿌리기 위해 이미지 주소를 받아서 전역변수에 담는 메소드
-    public void  getPic(RealmResults<PictureData> img) {
+    public void  setPic(RealmResults<PictureData> img) {
         if (img != null) {
             getImageList = img;
             Log.d("00", String.valueOf(getImageList));
@@ -54,15 +54,15 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
         onAdapterItemClickListener = itemClickListener;
     }
 
-    public void addData(RetrofitResponse.Documents documents) {
-        data.add(documents);
-        notifyDataSetChanged();
-    }
+//    public void addData(RetrofitResponse.Documents documents) {
+//        data.add(documents);
+//        notifyDataSetChanged();
+//    }
+//
 
-
-    public void addDataAll(List<RetrofitResponse.Documents> getImageList) {
-        data.clear();
-        data.addAll(getImageList);
+    public void addDataAll( RealmResults<PictureData> getImageList) {
+        getImageList.clear();
+        getImageList.addAll(getImageList);
         notifyDataSetChanged();
     }
 

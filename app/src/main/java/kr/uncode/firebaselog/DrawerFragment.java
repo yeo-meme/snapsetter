@@ -95,7 +95,9 @@ public class DrawerFragment  extends Fragment {
 
             if (pic != null) {
                 drawerListAdapter = new DrawerListAdapter();
-                drawerListAdapter.getPic(pic);
+//                drawerListAdapter.setPic(pic);
+                drawerListAdapter.addDataAll(pic);
+
 
             }
         }
