@@ -106,7 +106,7 @@ public class DrawerFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        int numberOfColumns = 5;
+        int numberOfColumns = 2;
 
         gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
