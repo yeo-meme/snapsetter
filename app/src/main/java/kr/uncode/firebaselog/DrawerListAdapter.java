@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,8 +32,17 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     private String userEmail="";
     private String image_url="";
 
-    public DrawerListAdapter() {
+    //----------------------------------------------------------------더미데이터
 
+    private ArrayList<DermyData> mDataset;
+
+
+    private String word;
+    private String meaning;
+
+
+    public DrawerListAdapter(ArrayList<DermyData> mData) {
+        this.mDataset = mData;
     }
 
     public void setOnAdapterItemClickListener(OnAdapterItemClickListener itemClickListener) {
@@ -56,41 +66,50 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     @Override
     public DrawerListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        DrawerItemImageBinding binding = DrawerItemImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.drawer_item_image,parent,false);
 
-        context = parent.getContext();
+//        DrawerItemImageBinding binding = DrawerItemImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+//        binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
+//
+//        context = parent.getContext();
 
-        return new DrawerListViewHolder(binding);
+//        return new DrawerListViewHolder(binding);
 
+        return new DrawerListViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
 
 
-
-        RetrofitResponse.Documents documents = data.get(position);
-        Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
+            holder.name.setText(mDataset.get(position).getName());
+//        RetrofitResponse.Documents documents = data.get(position);
+//        Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
 
 
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return mDataset.size();
     }
 
     class DrawerListViewHolder extends RecyclerView.ViewHolder {
+        public TextView name, lat;
+//        DrawerItemImageBinding binding;
 
-        DrawerItemImageBinding binding;
+        public DrawerListViewHolder(View view) {
+            super(view);
+            name = view.findViewById(R.id.name);
+        }}
 
+//        public DrawerListViewHolder(@NonNull DrawerItemImageBinding itemView) {
+//            super(itemView.getRoot());
+//            binding = itemView;
+//        }
+//    }
 
-        public DrawerListViewHolder(@NonNull DrawerItemImageBinding itemView) {
-            super(itemView.getRoot());
-            binding = itemView;
-        }
-    }
 
     interface OnAdapterItemClickListener {
         void onAdapterViewClick(View view);
