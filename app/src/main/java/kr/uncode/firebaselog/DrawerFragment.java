@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -42,15 +44,18 @@ public class DrawerFragment  extends Fragment {
     private String userEmail = "";
     private String image_url = "";
     private String user_Id ="";
+    private String getImage = "";
+    private String recentUser = "";
 
-
+    private RealmResults<PictureData> pictureDataList;
+    private ArrayList<String> picGet = new ArrayList<>();
     private GridLayoutManager gridLayoutManager;
     //-----------------------------------------------------더미데이타
     private ArrayList<DermyData> dermyDataList = new ArrayList<>();
     private RecyclerView recyclerView;
     private DrawerListAdapter mAdater;
     private ArrayList<DermyData> mDataset;
-
+    private Object ViewGroup;
 
 
     public static DrawerFragment newInstance() {
@@ -61,43 +66,74 @@ public class DrawerFragment  extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prepareData();
+        getBookmark();
     }
 
-    private void prepareData() {
-        dermyDataList.add(new DermyData("서울시청","호호"));
-        dermyDataList.add(new DermyData("경복궁","호호"));
-        dermyDataList.add(new DermyData("서울역","호호"));
-        dermyDataList.add(new DermyData("남산","호호"));
-        dermyDataList.add(new DermyData("을지로입구역","호호"));
+
+    // 리얼엠을 통해 사용자 아이로 검색된 url 가지고 오기
+    private void getBookmark() {
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+        recentUser= currentUser.getEmail();
+        Log.d("fff", recentUser);
+
+        final  Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name",recentUser)
+                .findAll();
+
+        pictureDataList = pic;
+        Log.d("33", String.valueOf(pic));
+        if (pic.size() != 0) {
+//            getImage = pic.get(0).getImage_url();
+
+            Log.d("aa", String.valueOf(pic));
 
 
 
+
+            if (pic != null) {
+                drawerListAdapter = new DrawerListAdapter();
+                drawerListAdapter.getPic(pic);
+
+            }
+        }
     }
+
+//    private void prepareData() {
+//        dermyDataList.add(new DermyData("서울시청","호호"));
+//        dermyDataList.add(new DermyData("경복궁","호호"));
+//        dermyDataList.add(new DermyData("서울역","호호"));
+//        dermyDataList.add(new DermyData("남산","호호"));
+//        dermyDataList.add(new DermyData("을지로입구역","호호"));
+//
+//
+//
+//    }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
         mainActivity = (MainActivity) getActivity();
-
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
-
         mainActivity = null;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-//        currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
 
-            Log.d("ddd", "ddd");
+        //사용자가 아이디가 없으면 로그인후 네비게이션 드로어 사용가능 메세지 알림
+        recentUser = currentUser.getEmail();
+        Log.d("uu",recentUser);
+        if (recentUser == null) {
+            Toast.makeText(getActivity().getApplicationContext(),"로그인후 이용이 가능합니다.",Toast.LENGTH_LONG).show();
         }
     }
 
@@ -120,18 +156,20 @@ public class DrawerFragment  extends Fragment {
 
         drawer_rc.setLayoutManager(gridLayoutManager);
         drawer_rc.setAdapter(drawerListAdapter);
-        drawerListAdapter.addDataAll(data);
+//        drawerListAdapter.addDataAll(data);
 
-        setDetail_img(rootView);
+//        setDetail_img(rootView);
         return rootView;
     }
 
 
     public void setDetail_img(View view) {
-        final Realm realm = Realm.getDefaultInstance();
+//        final Realm realm = Realm.getDefaultInstance();
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        currentUser = mAuth.getCurrentUser();
 
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
+
 
 //        realm.executeTransaction(new Realm.Transaction() {
 //            @Override

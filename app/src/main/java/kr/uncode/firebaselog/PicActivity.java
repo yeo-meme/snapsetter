@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
@@ -21,6 +23,10 @@ public class PicActivity extends AppCompatActivity {
     private String name ="";
     private String image_url="";
     private Realm mRealm;
+
+
+    private String rr = "";
+    private ArrayList<PictureData> pictureData = new ArrayList<>();
 
 
     public String userEmail ="";
@@ -84,12 +90,12 @@ public class PicActivity extends AppCompatActivity {
 //                                realm.commitTransaction();
             }
         });
-        getPic();
+//        getPic();
 
     }
 
 
-    public void  getPic() {
+    public String  getPic() {
         final  Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransaction(new Realm.Transaction() {
@@ -99,17 +105,18 @@ public class PicActivity extends AppCompatActivity {
                 RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name",userEmail)
                         .findAll();
 
-
-
-                String rr =  pic.get(0).getImage_url();
-
                 if (pic.size() != 0) {
-                    Log.d("11",rr);
+
+                    String image = pic.get(0).getImage_url();
+                    Log.d("99",image);
                 } else {
                     Log.d("11","데이터없음");
 
                 }
+
             }
         });
+
+        return rr;
     }
 }
