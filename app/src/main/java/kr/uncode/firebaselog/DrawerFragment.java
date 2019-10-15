@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -42,6 +43,8 @@ public class DrawerFragment  extends Fragment {
     private String image_url = "";
     private String user_Id ="";
 
+
+    private GridLayoutManager gridLayoutManager;
     //-----------------------------------------------------더미데이타
     private ArrayList<DermyData> dermyDataList = new ArrayList<>();
     private RecyclerView recyclerView;
@@ -103,6 +106,9 @@ public class DrawerFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        int numberOfColumns = 5;
+
+        gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
 
         drawer_rc = rootView.findViewById(R.id.drawer_rc);
@@ -111,7 +117,7 @@ public class DrawerFragment  extends Fragment {
 
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        drawer_rc.setLayoutManager(mLayoutManager);
+        drawer_rc.setLayoutManager(gridLayoutManager);
         drawer_rc.setAdapter(drawerListAdapter);
         drawerListAdapter.addDataAll(data);
 
