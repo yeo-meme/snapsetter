@@ -113,10 +113,11 @@ public class DrawerFragment  extends Fragment {
 
         drawer_rc = rootView.findViewById(R.id.drawer_rc);
         drawer_rc.setHasFixedSize(true);
-        drawerListAdapter = new DrawerListAdapter(dermyDataList);
+
+        // 원래 더미 데이터 어레이 리스트가 생성자에도 들어가고 변수에도 들어가던 자리
+        drawerListAdapter = new DrawerListAdapter();
 
 
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         drawer_rc.setLayoutManager(gridLayoutManager);
         drawer_rc.setAdapter(drawerListAdapter);
         drawerListAdapter.addDataAll(data);
@@ -132,22 +133,22 @@ public class DrawerFragment  extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                Log.d("zzzzzzzzzzzzzzz", "zzzzzzzzzzzzzzzzzz");
-                RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name", "동구")
-                        .findAll();
-
-                if (pic.size() != 0) {
-                    Log.d("11", "데이타있음");
-                } else {
-                    Log.d("11", "데이터없음");
-
-                }
-            }
-
-        });
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                Log.d("zzzzzzzzzzzzzzz", "zzzzzzzzzzzzzzzzzz");
+//                RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name", "동구")
+//                        .findAll();
+//
+//                if (pic.size() != 0) {
+//                    Log.d("11", "데이타있음");
+//                } else {
+//                    Log.d("11", "데이터없음");
+//
+//                }
+//            }
+//
+//        });
 //
     }
 }

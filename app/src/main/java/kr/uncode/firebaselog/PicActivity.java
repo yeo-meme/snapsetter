@@ -3,6 +3,7 @@ package kr.uncode.firebaselog;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.util.Log;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -57,6 +58,8 @@ public class PicActivity extends AppCompatActivity {
     public  void savePic(String image_url) {
         final  Realm realm = Realm.getDefaultInstance();
 
+
+
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 
@@ -64,6 +67,7 @@ public class PicActivity extends AppCompatActivity {
             currentUser = mAuth.getCurrentUser();
             userEmail= currentUser.getEmail();
             Log.d("email",userEmail);
+
         }
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -71,14 +75,17 @@ public class PicActivity extends AppCompatActivity {
 
                 Log.d("aaaaaaaaaaaaaaa",userEmail);
                 Log.d("aaaaaaaaaaaaaaa",image_url);
-                PictureData picD = new PictureData();
+                PictureData pictureData = realm.createObject(PictureData.class);
+
 ////                                //관리 객체를 직접만들떄 사용
 //////                                PictureData mPic = realm.createObject(PictureData.class);
-                                picD.setName(userEmail);
-                                picD.setImage_url(image_url);
+                pictureData.setName(userEmail);
+                pictureData.setImage_url(image_url);
 //                                realm.commitTransaction();
             }
         });
+        getPic();
+
     }
 
 
@@ -88,12 +95,16 @@ public class PicActivity extends AppCompatActivity {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Log.d("zzzzzzzzzzzzzzz","zzzzzzzzzzzzzzzzzz");
-                RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name","동구")
-                .findAll();
+                Log.d("zzzzzzzzzzzzzzz",userEmail);
+                RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name",userEmail)
+                        .findAll();
+
+
+
+                String rr =  pic.get(0).getImage_url();
 
                 if (pic.size() != 0) {
-                    Log.d("11","데이타있음");
+                    Log.d("11",rr);
                 } else {
                     Log.d("11","데이터없음");
 

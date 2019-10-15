@@ -38,6 +38,7 @@ public class ListItemImage extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
                 if (area != null) {
+
                     return;
                 } else {
                     return;

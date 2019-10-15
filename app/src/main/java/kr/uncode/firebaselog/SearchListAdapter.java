@@ -118,8 +118,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             binding.heartArea.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    int position = getAdapterPosition();
+                    RetrofitResponse.Documents documents = data.get(position);
 
-                    picActivity.savePic(url);
+                    String img_url = documents.toString();
+                    picActivity.savePic(img_url);
                     Log.d("ssss","ssss");
 //                                picActivity.getPic();
                 }
