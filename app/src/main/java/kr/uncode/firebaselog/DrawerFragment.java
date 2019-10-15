@@ -159,7 +159,7 @@ public class DrawerFragment  extends Fragment {
         drawer_rc.setLayoutManager(gridLayoutManager);
         drawer_rc.setAdapter(drawerListAdapter);
 //        drawerListAdapter.addDataAll(data);
-
+//
 //        setDetail_img(rootView);
         return rootView;
     }

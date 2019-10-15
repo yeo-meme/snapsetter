@@ -20,13 +20,11 @@ import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder>  {
 
 
-    private final List<RetrofitResponse.Documents> data = new ArrayList<>();
-    private RealmResults<PictureData> getImageList;
+    private final List<PictureData> getImageList = new ArrayList<>();
     private OnAdapterItemClickListener onAdapterItemClickListener;
     private Context context;
     private String userEmail="";
     private String image_url="";
-    private String getPic = "";
     //----------------------------------------------------------------더미데이터
 
     private ArrayList<DermyData> mDataset;
@@ -41,13 +39,13 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     }
 
     // 프래그먼트에서 얻은 이미지 URL을 뿌리기 위해 이미지 주소를 받아서 전역변수에 담는 메소드
-    public void  setPic(RealmResults<PictureData> img) {
-        if (img != null) {
-            getImageList = img;
-            Log.d("00", String.valueOf(getImageList));
-
-        }
-    }
+//    public void  setPic(Li<PictureData> img) {
+//        if (img != null) {
+//            getImageList = img;
+//            Log.d("00", String.valueOf(getImageList));
+//
+//        }
+//    }
 
 
     public void setOnAdapterItemClickListener(OnAdapterItemClickListener itemClickListener) {
@@ -60,9 +58,9 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
 //    }
 //
 
-    public void addDataAll( RealmResults<PictureData> getImageList) {
+    public void addDataAll( List<PictureData> data) {
         getImageList.clear();
-        getImageList.addAll(getImageList);
+        getImageList.addAll(data);
         notifyDataSetChanged();
     }
 
@@ -93,14 +91,19 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
 
 //            holder.name.setText(mDataset.get(position).getName());
 //        RetrofitResponse.Documents documents = data.get(position);
-        Glide.with(holder.binding.getRoot()).load(getPic).into(holder.binding.ivImage);
+
+
+        PictureData typeImg = getImageList.get(position);
+        Glide.with(holder.binding.getRoot()).load(typeImg.getImage_url()).into(holder.binding.ivImage);
+        Log.d("ia",typeImg.toString());
+
 
 
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return getImageList.size();
     }
 
     class DrawerListViewHolder extends RecyclerView.ViewHolder {
