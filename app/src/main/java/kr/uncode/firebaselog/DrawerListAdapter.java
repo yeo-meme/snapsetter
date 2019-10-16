@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+
 import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
 
@@ -49,7 +52,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
 
         holder.binding.name.setText(getImageList.get(position).getImage_url());
-
+        Glide.
         Log.d("11",getImageList.toString());
 
     }
