@@ -64,8 +64,6 @@ public class PicActivity extends AppCompatActivity {
     public  void savePic(String image_url) {
         final  Realm realm = Realm.getDefaultInstance();
 
-
-
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
 

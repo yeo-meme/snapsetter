@@ -18,6 +18,7 @@ public class MemeApplication extends Application {
                 .build();
 
 
-        Realm.setDefaultConfiguration(config);
+        Realm.setDefaultConfiguration(config
+        );
     }
 }

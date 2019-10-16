@@ -8,72 +8,36 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.bumptech.glide.Glide;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
 
-public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder>  {
+
+public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder> {
 
 
-    private final List<PictureData> getImageList = new ArrayList<>();
+    private RealmResults<PictureData> getImageList;
     private OnAdapterItemClickListener onAdapterItemClickListener;
     private Context context;
-    private String userEmail="";
-    private String image_url="";
-    //----------------------------------------------------------------더미데이터
-
-    private ArrayList<DermyData> mDataset;
-
-
-    private String word;
-    private String meaning;
+    private String userEmail = "";
+    private String image_url = "";
 
 
     //생성자
-    public DrawerListAdapter() {
+    public DrawerListAdapter(RealmResults<PictureData> all) {
+        getImageList = all;
     }
-
-    // 프래그먼트에서 얻은 이미지 URL을 뿌리기 위해 이미지 주소를 받아서 전역변수에 담는 메소드
-//    public void  setPic(Li<PictureData> img) {
-//        if (img != null) {
-//            getImageList = img;
-//            Log.d("00", String.valueOf(getImageList));
-//
-//        }
-//    }
-
 
     public void setOnAdapterItemClickListener(OnAdapterItemClickListener itemClickListener) {
         onAdapterItemClickListener = itemClickListener;
     }
 
-//    public void addData(RetrofitResponse.Documents documents) {
-//        data.add(documents);
-//        notifyDataSetChanged();
-//    }
-//
-
-    public void addDataAll( List<PictureData> data) {
-        getImageList.clear();
-        getImageList.addAll(data);
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
     public DrawerListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-//        View view = LayoutInflater.from(parent.getContext())
-//                .inflate(R.layout.drawer_item_image,parent,false);
-
         DrawerItemImageBinding binding = DrawerItemImageBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
         binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
-
         context = parent.getContext();
 
         return new DrawerListViewHolder(binding);
@@ -81,23 +45,12 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     }
 
 
-
     @Override
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
 
+        holder.binding.name.setText(getImageList.get(position).getImage_url());
 
-//        Glide.with(holder.binding.getRoot()).load(getImage).into(holder.binding.ivImage);
-
-
-//            holder.name.setText(mDataset.get(position).getName());
-//        RetrofitResponse.Documents documents = data.get(position);
-
-
-        PictureData typeImg = getImageList.get(position);
-        Glide.with(holder.binding.getRoot()).load(typeImg.getImage_url()).into(holder.binding.ivImage);
-        Log.d("ia",typeImg.toString());
-
-
+        Log.d("11",getImageList.toString());
 
     }
 
@@ -106,21 +59,15 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
         return getImageList.size();
     }
 
+
     class DrawerListViewHolder extends RecyclerView.ViewHolder {
-//        DrawerItemImageBinding binding;
-            DrawerItemImageBinding binding;
+        DrawerItemImageBinding binding;
 
         public DrawerListViewHolder(DrawerItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
-//            name = view.findViewById(R.id.name);
-        }}
-
-//        public DrawerListViewHolder(@NonNull DrawerItemImageBinding itemView) {
-//            super(itemView.getRoot());
-//            binding = itemView;
-//        }
-//    }
+        }
+    }
 
 
     interface OnAdapterItemClickListener {
