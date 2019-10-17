@@ -12,21 +12,54 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import io.realm.Realm;
+import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
 
 
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder> {
 
-
+    public RealmChangeListener realmChangeListener;
+    private static String KEY_IMAGE_POSITION = "PIE";
     private static String KEY_IMAGE_URL = "YEOMEME";
     private RealmResults<PictureData> getImageList;
     private OnAdapterItemClickListener onAdapterItemClickListener;
     private Context context;
     private String userEmail = "";
     private String image_url = "";
+    private int image_position ;
 
 
+    public void listDelete() {
+
+        final Realm realm = Realm.getDefaultInstance();
+        RealmResults<PictureData> data = realm.where(PictureData.class).findAllAsync();
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                getImageList = realm.where(PictureData.class).findAll();
+
+                for (int i =0; i<getImageList.size(); i++) {
+                    if ( i == image_position) {
+                        PictureData data = getImageList.get(image_position);
+                        data.deleteFromRealm();
+                    }
+                }
+            }
+        });
+
+        realmChangeListener = new RealmChangeListener() {
+            @Override
+            public void onChange(Object o) {
+                notifyDataSetChanged();
+            }
+        };
+
+        data.addChangeListener(realmChangeListener);
+
+    }
     //생성자
     public DrawerListAdapter(RealmResults<PictureData> all) {
         getImageList = all;
@@ -76,12 +109,13 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-
+                    image_position = position;
                     String xx = getImageList.get(position).getImage_url();
 
                     if (xx != null) {
                         Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
                         intent.putExtra(KEY_IMAGE_URL,xx);
+                        intent.putExtra(KEY_IMAGE_POSITION,position);
                         context.startActivity(intent);
                     }
                 }

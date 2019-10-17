@@ -41,6 +41,7 @@ public class DetailActivity extends AppCompatActivity {
     }
 
 
+
     public void setDetail_img(String url) {
         if (url != null) {
             Glide.with(getApplicationContext()).load(url).into(detail_img);
