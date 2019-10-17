@@ -59,25 +59,6 @@ public class DrawerFragment  extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        getBookmark();
-    }
-
-
-    // 리얼엠을 통해 사용자 아이로 검색된 url 가지고 오기
-    private void getBookmark() {
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
-        recentUser= currentUser.getEmail();
-        Log.d("fff", recentUser);
-        final  Realm realm = Realm.getDefaultInstance();
-        RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name",recentUser)
-                .findAll();
-        pictureDataList = pic;
-        Log.d("33", String.valueOf(pic));
-        if (pic.size() != 0) {
-            Log.d("aa", String.valueOf(pic));
-        }
     }
 
 
@@ -119,6 +100,7 @@ public class DrawerFragment  extends Fragment {
     }
 
     private void setAdapter() {
+
         Realm realm = Realm.getDefaultInstance();
         int numberOfColumns = 2;
 

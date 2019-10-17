@@ -120,14 +120,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-//                    RetrofitResponse.Documents documents = data.get(position);
-//                    String img_url = documents.toString();
                     String img_url = data.get(position).image_url;
 
-                    Log.d("img",img_url);
                     picActivity.savePic(img_url);
-                    Log.d("ssss","ssss");
-//                                picActivity.getPic();
                 }
             });
 
@@ -142,21 +137,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                 @Override
                 public void onClick(View view) {
 
-
-
                     if (binding.ivImage != null) {
-
-
 
                         Log.d("hi", "hi");
                         //온어탭터뷰클릭 순간에 Url을 담는
                         int position = getAdapterPosition();
                         RetrofitResponse.Documents documents = data.get(position);
-
                         url = documents.image_url;
 
                         Log.d("image", url);
-
 
 
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다

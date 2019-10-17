@@ -1,6 +1,7 @@
 package kr.uncode.firebaselog;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder> {
 
 
+    private static String KEY_IMAGE_URL = "YEOMEME";
     private RealmResults<PictureData> getImageList;
     private OnAdapterItemClickListener onAdapterItemClickListener;
     private Context context;
@@ -69,6 +71,21 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
         public DrawerListViewHolder(DrawerItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+
+            binding.ivImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position = getAdapterPosition();
+
+                    String xx = getImageList.get(position).getImage_url();
+
+                    if (xx != null) {
+                        Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
+                        intent.putExtra(KEY_IMAGE_URL,xx);
+                        context.startActivity(intent);
+                    }
+                }
+            });
         }
     }
 
