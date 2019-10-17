@@ -51,8 +51,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     @Override
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
 
-        holder.binding.name.setText(getImageList.get(position).getImage_url());
-        Glide.
+//        holder.binding.name.setText(getImageList.get(position).getImage_url());
+        Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url()).into(holder.binding.ivImage);
         Log.d("11",getImageList.toString());
 
     }

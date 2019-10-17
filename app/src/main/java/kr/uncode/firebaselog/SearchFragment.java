@@ -31,8 +31,6 @@ import retrofit2.Response;
 
 public class SearchFragment extends Fragment {
 
-
-
     private SearchListAdapter searchListAdapter;
     private EditText search_edit_frame;
     private Button searchBtn;
@@ -44,14 +42,10 @@ public class SearchFragment extends Fragment {
     private LinearLayout back;
 
     private FirebaseAuth mAuth;
-
     private ImageView eHeart;
     private ImageView heart;
-
     private ListItemImage listItemImage;
-
     private MainActivity mainActivity;
-
     private static final int RC_SIGN_IN = 900;
 
     private static final String EMPTY_H = "EMPTY";

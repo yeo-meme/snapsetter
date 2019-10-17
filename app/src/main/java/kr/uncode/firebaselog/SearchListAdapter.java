@@ -111,6 +111,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         ListItemImageBinding binding;
 
 
+        // 하트를 눌린 순간 하트를 누린 이미지를 저장하는 메서드
         SearchListViewHolder(ListItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
@@ -119,9 +120,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                 @Override
                 public void onClick(View view) {
                     int position = getAdapterPosition();
-                    RetrofitResponse.Documents documents = data.get(position);
+//                    RetrofitResponse.Documents documents = data.get(position);
+//                    String img_url = documents.toString();
+                    String img_url = data.get(position).image_url;
 
-                    String img_url = documents.toString();
+                    Log.d("img",img_url);
                     picActivity.savePic(img_url);
                     Log.d("ssss","ssss");
 //                                picActivity.getPic();
