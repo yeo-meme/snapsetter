@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.LongDef;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.ListItemImageBinding;
 
 
@@ -89,7 +87,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 //                Log.d("image",url);
 //                //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
 //                if (url != null) {
-//                    Intent intent = new Intent(context.getApplicationContext(),DetailActivity.class);
+//                    Intent intent = new Intent(context.getApplicationContext(),DeleteActivity.class);
 //                    intent.putExtra(EXTRA_KEY_IMAGE_URL,url);
 //                    Log.d(EXTRA_KEY_IMAGE_URL,url);
 //                    context.startActivity(intent);
@@ -150,8 +148,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
                         if (url != null) {
-
-                            Intent intent = new Intent(context.getApplicationContext(), DetailActivity.class);
+                            Intent intent = new Intent(context.getApplicationContext(), DrawerDetailActivity.class);
                             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
                             Log.d(EXTRA_KEY_IMAGE_URL, url);
                             context.startActivity(intent);

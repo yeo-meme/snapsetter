@@ -99,6 +99,9 @@ public class DrawerFragment  extends Fragment {
         return rootView;
     }
 
+    // 드로어 내보관함에 사진을 입력하기 위해
+    //리엘엠에 데이터를 빼오고 레이아웃 매니저 및 어답터를
+    //연결하는메서드
     private void setAdapter() {
 
         Realm realm = Realm.getDefaultInstance();
