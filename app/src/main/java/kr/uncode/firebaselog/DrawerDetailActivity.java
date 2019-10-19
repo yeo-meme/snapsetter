@@ -97,7 +97,6 @@ public class DrawerDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         image_url = intent.getStringExtra(KEY_IMAGE_URL);
         positon = intent.getStringExtra(KEY_IMAGE_POSITION);
-        Log.d("22222",image_url);
 
         //불러온 키로 글라이드로 이미지 셋팅을 위해 메서드 호출
         setDetail_img(image_url);

@@ -22,6 +22,7 @@
         <activity android:name=".SearchActivity" />
         <activity android:name=".DrawerFragment" />
         <activity android:name=".DrawerDetailActivity" />
+        <activity android:name=".ViewTwoStepActivity" />
     </application>
 
 </manifest>

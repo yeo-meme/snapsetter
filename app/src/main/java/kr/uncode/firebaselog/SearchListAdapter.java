@@ -148,7 +148,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
                         if (url != null) {
-                            Intent intent = new Intent(context.getApplicationContext(), DrawerDetailActivity.class);
+                            Intent intent = new Intent(context.getApplicationContext(), ViewTwoStepActivity.class);
                             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
                             Log.d(EXTRA_KEY_IMAGE_URL, url);
                             context.startActivity(intent);

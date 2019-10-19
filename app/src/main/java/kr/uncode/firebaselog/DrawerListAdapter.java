@@ -89,7 +89,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                         //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
                         Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
                         intent.putExtra(KEY_IMAGE_URL,xx);
-                        intent.putExtra(KEY_IMAGE_POSITION,position);
+                        intent.putExtra(KEY_IMAGE_POSITION,image_position);
                         context.startActivity(intent);
                     }
 
