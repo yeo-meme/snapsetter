@@ -32,6 +32,8 @@ public class PicActivity extends AppCompatActivity {
     public String userEmail ="";
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
+    private int not_drawer = 0;
+    private int in_drawer = 1;
 
 //    public PicActivity(String name, String image_url, Realm realm) {
 //        this.name = name;
@@ -85,6 +87,7 @@ public class PicActivity extends AppCompatActivity {
 //////                                PictureData mPic = realm.createObject(PictureData.class);
                 pictureData.setName(userEmail);
                 pictureData.setImage_url(image_url);
+//                pictureData.setHeart_state(in_drawer);
 //                                realm.commitTransaction();
             }
         });
@@ -92,6 +95,22 @@ public class PicActivity extends AppCompatActivity {
 
     }
 
+
+    public void delete(String url) {
+        Realm realm = Realm.getDefaultInstance();
+
+        PictureData gg = realm.where(PictureData.class).equalTo("image_url",url).findFirst();
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                    if (gg.isValid()) {
+                        gg.deleteFromRealm();
+                    }
+            }
+        });
+    }
 
     public String  getPic() {
         final  Realm realm = Realm.getDefaultInstance();

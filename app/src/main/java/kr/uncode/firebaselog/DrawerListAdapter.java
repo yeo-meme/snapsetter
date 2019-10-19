@@ -16,6 +16,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
+import kr.uncode.firebaselog.databinding.ListItemImageBinding;
 
 
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder> {
@@ -51,6 +52,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
         binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
         context = parent.getContext();
 
+
         return new DrawerListViewHolder(binding);
 
     }
@@ -59,7 +61,6 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     @Override
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
 
-//        holder.binding.name.setText(getImageList.get(position).getImage_url());
         Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url()).into(holder.binding.ivImage);
 
     }
@@ -70,8 +71,11 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     }
 
 
+    //찜했을떄
     class DrawerListViewHolder extends RecyclerView.ViewHolder {
         DrawerItemImageBinding binding;
+        ListItemImageBinding heartbinding;
+
 
         public DrawerListViewHolder(DrawerItemImageBinding itemView) {
             super(itemView.getRoot());
