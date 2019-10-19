@@ -57,6 +57,15 @@ public class DrawerFragment  extends Fragment {
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        Realm realm = Realm.getDefaultInstance();
+        pictureDataList  = realm.where(PictureData.class).findAll();
+        mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
+        recyclerView.setAdapter(mAdater);
+    }
+
+    @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -109,14 +118,14 @@ public class DrawerFragment  extends Fragment {
 
         gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         recyclerView.setHasFixedSize(true);
-        mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
 
-        pictureDataList  = realm.where(PictureData.class).findAll();
-        Log.d("2222",pictureDataList.toString());
-        recyclerView.setAdapter(mAdater);
+//        pictureDataList  = realm.where(PictureData.class).findAll();
+//        Log.d("2222",pictureDataList.toString());
+//        mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
+//        recyclerView.setAdapter(mAdater);
 
     }
 

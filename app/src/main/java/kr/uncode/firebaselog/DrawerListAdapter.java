@@ -31,35 +31,8 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     private int image_position ;
 
 
-    public void listDelete() {
 
-        final Realm realm = Realm.getDefaultInstance();
-        RealmResults<PictureData> data = realm.where(PictureData.class).findAllAsync();
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                getImageList = realm.where(PictureData.class).findAll();
-
-                for (int i =0; i<getImageList.size(); i++) {
-                    if ( i == image_position) {
-                        PictureData data = getImageList.get(image_position);
-                        data.deleteFromRealm();
-                    }
-                }
-            }
-        });
-
-        realmChangeListener = new RealmChangeListener() {
-            @Override
-            public void onChange(Object o) {
-                notifyDataSetChanged();
-            }
-        };
-
-        data.addChangeListener(realmChangeListener);
-
-    }
     //생성자
     public DrawerListAdapter(RealmResults<PictureData> all) {
         getImageList = all;
@@ -112,6 +85,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                     image_position = position;
                     String xx = getImageList.get(position).getImage_url();
 
+                    Log.d("dd",xx);
                     if (xx != null) {
                         //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
                         Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);

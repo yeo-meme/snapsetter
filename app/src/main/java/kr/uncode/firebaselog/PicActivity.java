@@ -103,6 +103,7 @@ public class PicActivity extends AppCompatActivity {
                 RealmResults<PictureData> pic = realm.where(PictureData.class).equalTo("name",userEmail)
                         .findAll();
 
+
                 if (pic.size() != 0) {
 
                     String image = pic.get(0).getImage_url();
