@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -55,6 +56,7 @@ public class DrawerFragment  extends Fragment {
         return new DrawerFragment();
     }
 
+    private TextView drawer_word;
 
     @Override
     public void onResume() {
@@ -63,6 +65,16 @@ public class DrawerFragment  extends Fragment {
         pictureDataList  = realm.where(PictureData.class).findAll();
         mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
         recyclerView.setAdapter(mAdater);
+
+        if (pictureDataList.size() == 0 ) {
+            drawer_word.setVisibility(View.VISIBLE);
+            Log.d("gg","kk");
+        } else if (pictureDataList.size() != 0) {
+            drawer_word.setVisibility(View.GONE);
+            Log.d("gg","ll");
+
+
+        }
     }
 
     @Override
@@ -104,6 +116,7 @@ public class DrawerFragment  extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
+        drawer_word = rootView.findViewById(R.id.drawer_word);
         setAdapter();
         return rootView;
     }

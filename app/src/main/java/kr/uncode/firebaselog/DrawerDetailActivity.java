@@ -103,6 +103,8 @@ public class DrawerDetailActivity extends AppCompatActivity {
         setDetail_img(image_url);
     }
 
+
+
     //툴바 셋팅 메서드
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
@@ -166,7 +168,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
             }
         });
 
-
+        Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG);
         finish();
 
     }

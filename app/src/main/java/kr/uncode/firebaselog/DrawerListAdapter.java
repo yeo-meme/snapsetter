@@ -61,7 +61,6 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
 
 //        holder.binding.name.setText(getImageList.get(position).getImage_url());
         Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url()).into(holder.binding.ivImage);
-        Log.d("11",getImageList.toString());
 
     }
 
@@ -93,6 +92,9 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                         intent.putExtra(KEY_IMAGE_POSITION,position);
                         context.startActivity(intent);
                     }
+
+
+
                 }
             });
         }
