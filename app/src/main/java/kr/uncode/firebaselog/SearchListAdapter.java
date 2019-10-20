@@ -2,7 +2,7 @@ package kr.uncode.firebaselog;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,201 +22,147 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import kr.uncode.firebaselog.databinding.ListItemImageBinding;
 
-
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
-    int so = 0;
-
-
-    private RealmHelper pic;
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-    private String name = "";
-    private String image_url = "";
-    private Realm realm;
-    private final List<RetrofitResponse.Documents> data = new ArrayList<>();
-    private OnAdapterItemClickListener onAdapterItemClickListener;
-    private Context context;
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
-    public String url = "";
-//    public RetrofitResponse.Documents documents;
 
-    //    private String img_url;
-    public SearchListAdapter() {
+    private static final String TAG = SearchListAdapter.class.getSimpleName();
+
+    private final List<RetrofitResponse.Documents> mRestApiImageData = new ArrayList<>();
+    private String mUserEmail;
+    private Realm mRealm;
+
+    public SearchListAdapter(Realm realm) {
+        this.mRealm = realm;
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            mUserEmail = currentUser.getEmail();
+        }
     }
-
-
-    public void setOnAdapterItemClickListener(OnAdapterItemClickListener itemClickListener) {
-        onAdapterItemClickListener = itemClickListener;
-    }
-
-
-    public void addData(RetrofitResponse.Documents documents) {
-        data.add(documents);
-        notifyDataSetChanged();
-    }
-
 
     public void addDataAll(List<RetrofitResponse.Documents> dataList) {
-        data.clear();
-        data.addAll(dataList);
+        mRestApiImageData.clear();
+        mRestApiImageData.addAll(dataList);
         notifyDataSetChanged();
     }
 
+    @Override
+    public int getItemCount() {
+        return mRestApiImageData.size();
+    }
 
     @NonNull
     @Override
-    public SearchListViewHolder onCreateViewHolder(@NonNull ViewGroup xx, int viewType) {
-
-        ListItemImageBinding binding = ListItemImageBinding.inflate(LayoutInflater.from(xx.getContext()), xx, false);
-        binding.getRoot().setOnClickListener(v -> onAdapterItemClickListener.onAdapterViewClick(v));
-
-        context = xx.getContext();
-
-        return new SearchListViewHolder(binding,this);
+    public SearchListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
+        ListItemImageBinding binding = ListItemImageBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
+        return new SearchListViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchListAdapter.SearchListViewHolder holder, int position) {
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        String recentUser = currentUser.getEmail();
-
-        Log.d("hh", "사용자 이메일은 " + recentUser);
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<PictureData> kk = realm.where(PictureData.class).equalTo("name", recentUser).findAll();
-        RetrofitResponse.Documents documents = data.get(position);
-
-        Log.d("vv", String.valueOf(kk));
-        if (kk == null|| kk.size() == 0 ) {
-            holder.binding.eheart.setImageResource(R.drawable.eheart);
+        RetrofitResponse.Documents documents = mRestApiImageData.get(position);
+        if (checkBookmarkUrl(documents.image_url)) {
+            holder.binding.eheart.setImageResource(R.drawable.heart);
         } else {
-            for (int k = 0; k < kk.size(); k++) {
-                PictureData dd = kk.get(k);
-                Log.d("cc", String.valueOf(dd));
-                Log.d("yy", "db url : " + dd.getImage_url());
-                Log.d("yy", "bind url : " + documents.image_url);
-                if (dd.getImage_url().equals(documents.image_url)) {
-                    holder.binding.eheart.setImageResource(R.drawable.heart);
-                } else if (!dd.getImage_url().equals(documents.image_url)) {
-                    holder.binding.eheart.setImageResource(R.drawable.eheart);
-                }
-            }
-
+            holder.binding.eheart.setImageResource(R.drawable.eheart);
         }
         Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
-
     }
 
+    /**
+     * DB 북마크 URL 데이터와 현재 onBind된 URL 데이터 비교
+     *
+     * @return 동일한것을 찾으면 TRUE , 없으면 FALSE 반환
+     */
+    private boolean checkBookmarkUrl(String bindUrl) {
+        if (mRealm == null) return false;
 
-    @Override
-    public int getItemCount() {
-        return data.size();
+        Log.d(TAG, "checkBookmarkUrl : " + bindUrl);
+
+        // 현재 유저에 해당하는 DB데이터 모두 가져오기
+        RealmResults<PictureData> pictureDataList = mRealm.where(PictureData.class)
+                .equalTo("name", mUserEmail).findAll();
+
+        // 가져온 DB데이터에서 반복하면서 bindUrl 과 비교 해서 동일한것을 찾으면 TRUE 반환
+        for (PictureData pd : pictureDataList) {
+            if (TextUtils.equals(bindUrl, pd.getImage_url())) {
+                Log.d(TAG, "checkBookmarkUrl : TRUE");
+                return true;
+            }
+        }
+
+        Log.d(TAG, "checkBookmarkUrl : FALSE");
+        return false;
     }
 
-    static class SearchListViewHolder extends RecyclerView.ViewHolder {
-        RealmHelper realmHelper = new RealmHelper();
+    class SearchListViewHolder extends RecyclerView.ViewHolder {
         ListItemImageBinding binding;
-        boolean checkClick = false;
 
-
-        // 하트를 눌린 순간 하트를 누린 이미지를 저장하는 메서드
-        SearchListViewHolder(ListItemImageBinding itemView, SearchListAdapter searchListAdapter) {
+        SearchListViewHolder(ListItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+            initClickListener();
+        }
 
-            // 하트를 클릭하면 내보관함에 사진을 리스트로 뿌리기 위해
-            //이미지 url을 DB에 따로 저장하기 위해 액티비티 안에 메서드로 저장작업을 분리함
-
-
-            binding.clickheart.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    FirebaseAuth mAuth;
-                    FirebaseUser currentUser;
-
-                    mAuth = FirebaseAuth.getInstance();
-                    currentUser = mAuth.getCurrentUser();
-                    String recentUser = currentUser.getEmail();
-
-                    //지금 사용자가 클릭한 이미지
-                    int position = getAdapterPosition();
-                    final String nowClickImg = searchListAdapter.data.get(position).image_url;
-
-                    Realm realm = Realm.getDefaultInstance();
-                    final RealmResults<PictureData> ll = realm.where(PictureData.class).equalTo("name", recentUser).findAll();
-
-                    //보관함에 들어있는 url
-                    Log.d("gg", "ll데이터" + ll.toString());
-
-                    if (ll == null || ll.size() == 0) {
-                        //없으면 하트주려고
-                        saveDbImage(nowClickImg,searchListAdapter);
-                    } else {
-                        for (int r = 0; r < ll.size(); r++) {
-                            PictureData hh = ll.get(r);
-
-                            Log.d("gg", "현재클릭한 이미지주소 " + nowClickImg);
-                            Log.d("gg", "디비에서 가져와서 비교할 데이터" + hh.getImage_url());
-                            if (hh.getImage_url().equals(nowClickImg)) {
-//                                binding.eheart.setImageResource(R.drawable.eheart);
-                                Log.d("gg", "같다");
-                                realmHelper.delete(nowClickImg);
-                                searchListAdapter.notifyDataSetChanged();
-
-                            } else if (!hh.getImage_url().equals(nowClickImg)) {
-                                saveDbImage(nowClickImg,searchListAdapter);
-                            }
-                        }
-                    }
-                    realm.close();
-                }
-            });
-
-
+        private void initClickListener() {
+            binding.clickheart.setOnClickListener(this::bookmarkIconClick);
             // 이미지 사진영역을 클릭하면 자세히 보기 화면으로 새액티비티가 나타나
             // 리스트가 아닌 싱글로 사진을 보여준다
-            binding.ivImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+            binding.ivImage.setOnClickListener(this::imageDetailView);
+        }
 
-                    if (binding.ivImage != null) {
+        /**
+         * 하트 아이콘 클릭 이벤트 메서드
+         */
+        private void bookmarkIconClick(View view) {
+            int position = getAdapterPosition();
+            final String currentImageUrl = mRestApiImageData.get(position).image_url;
 
-                        Log.d("hi", "hi");
-                        //온어탭터뷰클릭 순간에 Url을 담는
-                        int position = getAdapterPosition();
-                        RetrofitResponse.Documents documents = searchListAdapter.data.get(position);
-                        final String url = documents.image_url;
+            if (checkBookmarkUrl(currentImageUrl)) { // DB에 있음
+                deleteBookmarkUrl(currentImageUrl);
+            } else { // DB에 없음
+                saveBookmarkUrl(currentImageUrl);
+            }
 
-                        Log.d("image", url);
+            notifyDataSetChanged();
+        }
 
-                        //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
-                        if (url != null) {
-                            Intent intent = new Intent(view.getContext() , ViewTwoStepActivity.class);
-                            intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
-                            Log.d(EXTRA_KEY_IMAGE_URL, url);
-                            view.getContext().startActivity(intent);
-                        }
+        /**
+         * 이미지 클릭시 상세뷰 액티비티로 이동 메서드
+         */
+        private void imageDetailView(View view) {
+            //온어탭터뷰클릭 순간에 Url을 담는
+            int position = getAdapterPosition();
+            RetrofitResponse.Documents documents = mRestApiImageData.get(position);
+            final String url = documents.image_url;
 
-                    }
-                }
-            });
+            Log.d("image", url);
 
-
+            //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
+            Context context = view.getContext();
+            Intent intent = new Intent(context, ViewTwoStepActivity.class);
+            intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
+            context.startActivity(intent);
         }
 
         /**
          * 하트 클릭이벤트 체인저의 URL파라미터를 DB에 저장하는 메서드
          */
-        private void saveDbImage(String nowClickImg,SearchListAdapter searchListAdapter) {
-            Log.d("gg", "다르다");
-            realmHelper.savePic(nowClickImg);
-            searchListAdapter.notifyDataSetChanged();
-
+        private void saveBookmarkUrl(String url) {
+            Log.d(TAG, "saveBookmarkUrl : " + url);
+            PictureData data = new PictureData();
+            data.setImage_url(url);
+            data.setName(mUserEmail);
+            mRealm.executeTransaction(realm -> realm.copyToRealm(data));
         }
-    }
 
-    interface OnAdapterItemClickListener {
-        void onAdapterViewClick(View view);
+        /**
+         * 해당하는 URL을 DB에서 삭제하는 메서드
+         */
+        private void deleteBookmarkUrl(String url) {
+            Log.d(TAG, "deleteBookmarkUrl : " + url);
+            RealmResults<PictureData> imageUrlList = mRealm.where(PictureData.class)
+                    .equalTo("image_url", url).findAll();
+            mRealm.executeTransaction(realm -> imageUrlList.deleteAllFromRealm());
+        }
     }
 }

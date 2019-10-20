@@ -1,12 +1,9 @@
 package kr.uncode.firebaselog;
 
 import android.content.Context;
-import android.graphics.Rect;
-import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -25,12 +22,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SearchFragment extends Fragment {
-
+public class SearchFragment extends Fragment implements View.OnClickListener {
     private SearchListAdapter searchListAdapter;
     private EditText search_edit_frame;
     private Button searchBtn;
@@ -44,14 +41,13 @@ public class SearchFragment extends Fragment {
     private FirebaseAuth mAuth;
     private ImageView eHeart;
     private ImageView heart;
-    private MainActivity mainActivity;
     private static final int RC_SIGN_IN = 900;
 
     private static final String EMPTY_H = "EMPTY";
     private static final String FULL_H = "FULL";
     private String heart_state = EMPTY_H;
 
-    private Context context;
+    private Realm mRealm;
 
     public static SearchFragment newInstance() {
         return new SearchFragment();
@@ -60,29 +56,21 @@ public class SearchFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-        mainActivity = (MainActivity) getActivity();
-
+        mRealm = Realm.getDefaultInstance();
     }
-
 
     @Override
     public void onDetach() {
         super.onDetach();
-
-        mainActivity = null;
+        if (mRealm != null && !mRealm.isClosed()) mRealm.close();
     }
-
-
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.search_fragment, container,false);
+        View rootView = inflater.inflate(R.layout.search_fragment, container, false);
 
-
-
-        search_edit_frame =rootView.findViewById(R.id.search_edit_frame);
+        search_edit_frame = rootView.findViewById(R.id.search_edit_frame);
         searchBtn = rootView.findViewById(R.id.searchBtn);
         rvImageList = rootView.findViewById(R.id.rv_image_list);
         progress_bar = rootView.findViewById(R.id.progress_bar);
@@ -93,8 +81,7 @@ public class SearchFragment extends Fragment {
         // 키보드내리기
 //        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-
-        searchListAdapter = new SearchListAdapter();
+        searchListAdapter = new SearchListAdapter(mRealm);
 
         rvImageList.setAdapter(searchListAdapter);
 
@@ -106,16 +93,12 @@ public class SearchFragment extends Fragment {
 //        });
 
 
-
-
-
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btnSearch(container.getRootView());
             }
         });
-
 
 
         return rootView;
@@ -167,7 +150,7 @@ public class SearchFragment extends Fragment {
     }
 
     private void showToast(String msg) {
-        Toast.makeText(getContext(),msg,Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
 
     }
 
@@ -180,5 +163,8 @@ public class SearchFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View view) {
 
+    }
 }

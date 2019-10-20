@@ -17,7 +17,6 @@ public class DetailActivity extends AppCompatActivity {
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
 
 
-    private SearchListAdapter searchListAdapter;
     private ImageView detail_img;
 
     private String img = "img";
@@ -28,7 +27,6 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_twostep);
 
         detail_img = findViewById(R.id.detail_img);
-        searchListAdapter = new SearchListAdapter();
 
         //데이터수신
         Intent intent = getIntent();

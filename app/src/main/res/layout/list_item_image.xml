@@ -5,12 +5,11 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/cardViewBg"
         android:orientation="vertical"
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
-        android:background="@color/cardViewBg"
         android:paddingRight="15dp">
-
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardView"
@@ -28,10 +27,8 @@
                 android:id="@+id/area"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:background="@color/cardViewBg">
-
-
+                android:background="@color/cardViewBg"
+                android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/iv_image"
@@ -40,14 +37,11 @@
                     android:backgroundTint="@color/colorPrimary"
                     android:scaleType="centerCrop" />
 
-
-
                 <RelativeLayout
+                    android:id="@+id/clickheart"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_gravity="bottom|end"
-                    android:id="@+id/clickheart"
-                    >
+                    android:layout_gravity="bottom|end">
 
                     <ImageView
                         android:id="@+id/eheart"

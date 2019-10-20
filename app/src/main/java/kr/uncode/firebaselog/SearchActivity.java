@@ -77,7 +77,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         logout = findViewById(R.id.logout);
 
-        searchListAdapter = new SearchListAdapter();
 
         rvImageList.setAdapter(searchListAdapter);
 
