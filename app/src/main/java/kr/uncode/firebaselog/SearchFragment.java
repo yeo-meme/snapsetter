@@ -85,12 +85,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         rvImageList.setAdapter(searchListAdapter);
 
-//        back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                downKeyboard(context,search_edit_frame);
-//     }
-//        });
 
 
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -104,16 +98,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         return rootView;
     }
 
-
-//    public static void downKeyboard(Context context, EditText editText) {
-//        InputMethodManager mInputMethodManager = (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
-//
-//        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(),0);
-//    }
-//    private void hideKeyboard() {
-//
-//        manager.hideSoftInputFromWindow(search_edit_frame.getWindowToken(),0);
-//    }
 
 
     private void btnSearch(View view) {

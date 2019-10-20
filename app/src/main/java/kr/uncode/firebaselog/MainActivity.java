@@ -48,29 +48,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button loginBtn;
     private Button createIdBtn;
 
-
-    private Context context;
     private TextInputLayout passwdedit;
     private TextInputLayout emailedit;
 
     private String email = "";
     private String passwd = "";
 
+    /**
+     * 메인화면 툴바 왼쪽 버튼 누르면 나오는 네비게이션뷰 객체
+     */
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private AppBarConfiguration mAppBarConfiguration;
 
     private ActionBarDrawerToggle toggle;
-
-    private LinearLayout main_layout;
-
-    private static int drawer_open = 123;
-    private static int drawer_close = -123;
-
-
     private MainFragment mainFragment;
-    //구글로그인 result 상수
-    private static final int RC_SIGN_IN = 900;
 
 
     @Override
@@ -78,46 +69,58 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mainFragment = new MainFragment();
+
+        //파인드바이 뷰 및 툴바 설정
+        initView();
+
+        //프래그먼트 셋
+        fragmentLayoutSet();
 
 
-        loginBtn = findViewById(R.id.loginBtn);
-        createIdBtn = findViewById(R.id.createIdBtn);
-        passwdedit = findViewById(R.id.passwdedit);
-        emailedit = findViewById(R.id.emailedit);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        drawer = findViewById(R.id.drawer);
-
-
-        navigationView = findViewById(R.id.nav_view);
-        main_layout = findViewById(R.id.main_layout);
-
-
+        //네비게이션 바를 여는 토글 버튼
         toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, navigation_drawer_open, R.string.navigation_drawer_close);
-
-
         drawer.addDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(this);
         toggle.syncState();
-
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
+        navigationView.setNavigationItemSelectedListener(this);
 
 
         mAuth = FirebaseAuth.getInstance();
 
     }
 
+    private void fragmentLayoutSet() {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
+        mainFragment = new MainFragment();
 
+
+    }
+
+
+    //init View setting
+    private void initView() {
+
+        loginBtn = findViewById(R.id.loginBtn);
+        createIdBtn = findViewById(R.id.createIdBtn);
+        passwdedit = findViewById(R.id.passwdedit);
+        emailedit = findViewById(R.id.emailedit);
+        drawer = findViewById(R.id.drawer);
+        navigationView = findViewById(R.id.nav_view);
+
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
+    }
+
+    // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null).commit();      // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
+        fragmentTransaction.addToBackStack(null).commit();
     }
 
 
@@ -132,7 +135,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("hi", passwd);
 
             loginUser();
-            Toast.makeText(context, "hi", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "hi", Toast.LENGTH_LONG).show();
         }
 
         if (view == createIdBtn) {
@@ -164,12 +167,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-//    @Override
-//    protected void onPostCreate(Bundle savedInstanceState) {
-//        super.onPostCreate(savedInstanceState);
-//        // Sync the toggle state after onRestoreInstanceState has occurred.
-//        toggle.syncState();
-//    }
 
 
     @Override
@@ -193,6 +190,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    //로그아웃
     private void logout() {
         mAuth.getInstance().signOut();
         Toast.makeText(MainActivity.this, "logout!! bye~", Toast.LENGTH_LONG).show();
@@ -200,10 +198,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-    private void createUser(String email, String passwd) {
 
+    //회원 가입 메서드
+    private void createUser(String email, String passwd) {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(context, "이메일과 비밀번호를 확인해주세요", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "이메일과 비밀번호를 확인해주세요", Toast.LENGTH_LONG).show();
         } else {
 
             mAuth.createUserWithEmailAndPassword(email, passwd)
@@ -212,9 +211,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
 
-                                Toast.makeText(context, "회원가입성공", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "회원가입성공", Toast.LENGTH_LONG).show();
                             } else {
-                                Toast.makeText(context, "회원가입 실패", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
                             }
 
 
@@ -223,9 +222,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+
+    //로그인 메서드
     private void loginUser() {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(context, "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
 
         } else {
             email = emailedit.getEditText().getText().toString();
@@ -240,38 +241,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 try {
                                     throw task.getException();
                                 } catch (FirebaseAuthInvalidUserException e) {
-                                    Toast.makeText(context, "존재하지 않는 id 입니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "존재하지 않는 id 입니다.", Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    Toast.makeText(context, "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                                 } catch (FirebaseNetworkException e) {
-                                    Toast.makeText(context, "Firebase NetworkException", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Firebase NetworkException", Toast.LENGTH_SHORT).show();
                                 } catch (Exception e) {
-                                    Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Exception", Toast.LENGTH_SHORT).show();
                                 }
-
                             } else {
-
-
                                 currentUser = mAuth.getCurrentUser();
-
-                                Toast.makeText(context, "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid(), Toast.LENGTH_SHORT).show();
-
-                                startActivity(new Intent(context, SearchActivity.class));
+                                Toast.makeText(getApplicationContext(), "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid(), Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
                                 finish();
 
                             }
-
-
-//                            if (task.isSuccessful()) {
-//                                Toast.makeText(MainActivity.this,"로그인 성공!",Toast.LENGTH_LONG).show();
-//                                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
-//                                startActivity(intent);
-//                                finish();
-//
-//                                ///인텐드가 들어갈 자리 데스용
-//                            } else {
-//                                Toast.makeText(MainActivity.this,"아이디와 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
-//                            }
                         }
                     });
         }
