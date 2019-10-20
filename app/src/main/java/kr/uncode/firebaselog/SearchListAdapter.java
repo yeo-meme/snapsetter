@@ -2,6 +2,7 @@ package kr.uncode.firebaselog;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +29,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     private PicActivity pic;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-    private String name ="" ;
+    private String name = "";
     private String image_url = "";
     private Realm realm;
     private final List<RetrofitResponse.Documents> data = new ArrayList<>();
@@ -38,7 +39,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     public String url = "";
 //    public RetrofitResponse.Documents documents;
 
-    private String img_url;
+    //    private String img_url;
     public SearchListAdapter() {
     }
 
@@ -79,26 +80,32 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         currentUser = mAuth.getCurrentUser();
         String recentUser = currentUser.getEmail();
 
-        Log.d("hh", "사용자 이메일은 " + recentUser );
+        Log.d("hh", "사용자 이메일은 " + recentUser);
         Realm realm = Realm.getDefaultInstance();
         RealmResults<PictureData> kk = realm.where(PictureData.class).equalTo("name", recentUser).findAll();
         RetrofitResponse.Documents documents = data.get(position);
 
         Log.d("vv", String.valueOf(kk));
-        for (int k =0; k < kk.size(); k++) {
-            PictureData dd = kk.get(k);
-            Log.d("cc", String.valueOf(dd));
-            Log.d("yy", "db url : "+dd.getImage_url());
-            Log.d("yy","bind url : "+documents.image_url);
+        if (kk.size() == 0 || kk == null) {
+            holder.binding.eheart.setImageResource(R.drawable.eheart);
+        } else {
+            for (int k = 0; k < kk.size(); k++) {
+                PictureData dd = kk.get(k);
+                Log.d("cc", String.valueOf(dd));
+                Log.d("yy", "db url : " + dd.getImage_url());
+                Log.d("yy", "bind url : " + documents.image_url);
                 if (dd.getImage_url().equals(documents.image_url)) {
                     holder.binding.eheart.setImageResource(R.drawable.heart);
                 } else if (!dd.getImage_url().equals(documents.image_url)) {
                     holder.binding.eheart.setImageResource(R.drawable.eheart);
                 }
+            }
+
         }
         Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -122,31 +129,37 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             binding.heartArea.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    String recentUser = currentUser.getEmail();
+
                     int position = getAdapterPosition();
-                   img_url = data.get(position).image_url;
-                    picActivity.savePic(img_url);
+                    String nowClickImg = data.get(position).image_url;
 
                     Realm realm = Realm.getDefaultInstance();
-                    RealmResults<PictureData> ll = realm.where(PictureData.class).equalTo("image_url",img_url).findAll();
+                    RealmResults<PictureData> ll = realm.where(PictureData.class).equalTo("name", recentUser).findAll();
 
-                    for (int r=0; r<ll.size(); r++) {
-                        PictureData hh = ll.get(r);
 
-                        Log.d("gg",img_url);
-                            if (hh.getImage_url().equals(img_url)) {
-                                binding.eheart.setImageResource(R.drawable.eheart);
-                                Log.d("gg","같다");
-                                picActivity.delete(img_url);
-                                data.remove(position);
+                    Log.d("gg", "ll데이터" + ll.toString());
+
+                    if (ll == null || ll.size() == 0) {
+                        saveDbImage(nowClickImg);
+                    } else {
+                        for (int r = 0; r < ll.size(); r++) {
+                            PictureData hh = ll.get(r);
+
+                            Log.d("gg", "현재클릭한 이미지주소 " + nowClickImg);
+                            Log.d("gg", "디비에서 가져와서 비교할 데이터" + hh.getImage_url());
+                            if (hh.getImage_url().equals(nowClickImg)) {
+//                                binding.eheart.setImageResource(R.drawable.eheart);
+                                Log.d("gg", "같다");
+                                picActivity.delete(nowClickImg);
                                 notifyDataSetChanged();
-                            } else if (!hh.getImage_url().equals(img_url)) {
-                                binding.eheart.setImageResource(R.drawable.heart);
-                                Log.d("gg","다르다");
-                                picActivity.savePic(image_url);
-                                notifyDataSetChanged();
 
+                            } else if (!hh.getImage_url().equals(nowClickImg)) {
+                                saveDbImage(nowClickImg);
                             }
+                        }
                     }
+
                 }
             });
 
@@ -180,6 +193,16 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                 }
             });
 
+
+        }
+
+        /**
+         * 하트 클릭이벤트 체인저의 URL파라미터를 DB에 저장하는 메서드
+         */
+        private void saveDbImage(String nowClickImg) {
+            Log.d("gg", "다르다");
+            picActivity.savePic(nowClickImg);
+            notifyDataSetChanged();
 
         }
     }

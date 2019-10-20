@@ -106,6 +106,7 @@ public class PicActivity extends AppCompatActivity {
             public void execute(Realm realm) {
 
                     if (gg.isValid()) {
+                        Log.d("dd","딜리트 이미지 잘들어오나"+gg);
                         gg.deleteFromRealm();
                     }
             }
