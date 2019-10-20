@@ -1,5 +1,6 @@
 package kr.uncode.firebaselog;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
@@ -82,6 +83,11 @@ public class DrawerFragment  extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //부모를 부르거야 아하하하하하하 액티비티 커스텀 타입변환
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) activity;
+        }
     }
 
 

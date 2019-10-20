@@ -21,6 +21,8 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private DrawerLayout drawer;
 
+    public  MenuInflater menuInflater;
     private ActionBarDrawerToggle toggle;
     private MainFragment mainFragment;
 
@@ -85,6 +88,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    //이걸 해야지 이xml아이디를 쓸수있는 == 온크리에이트와 같은거임
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu, menu);
+        return true;
 
     }
 
@@ -115,6 +127,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    public void showToolbarRightBtn(Boolean show) {
+        //true
+        if (show) {
+        }
+
+    }
     // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -180,10 +198,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // Pass the event to ActionBarDrawerToggle, if it returns
         // true, then it has handled the app icon touch event
 
-
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
+
+        switch (item.getItemId()) {
+            case R.id.all_delete_btn: { // 오른쪽 상단 버튼 눌렀을 때
+                Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
