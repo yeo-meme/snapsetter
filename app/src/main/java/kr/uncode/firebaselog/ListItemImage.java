@@ -31,20 +31,20 @@ public class ListItemImage extends AppCompatActivity  {
         heartArea.bringToFront() ;
         area = findViewById(R.id.area);
 
-        heartArea = findViewById(R.id.heartArea);
+        heartArea = findViewById(R.id.clickheart);
 
 
-        area.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (area != null) {
-
-                    return;
-                } else {
-                    return;
-                }
-            }
-        });
+//        area.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                if (area != null) {
+//
+//                    return;
+//                } else {
+//                    return;
+//                }
+//            }
+//        });
 
 
     }

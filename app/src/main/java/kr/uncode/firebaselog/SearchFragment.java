@@ -44,7 +44,6 @@ public class SearchFragment extends Fragment {
     private FirebaseAuth mAuth;
     private ImageView eHeart;
     private ImageView heart;
-    private ListItemImage listItemImage;
     private MainActivity mainActivity;
     private static final int RC_SIGN_IN = 900;
 
@@ -94,7 +93,6 @@ public class SearchFragment extends Fragment {
         // 키보드내리기
 //        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        listItemImage = new ListItemImage();
 
         searchListAdapter = new SearchListAdapter();
 

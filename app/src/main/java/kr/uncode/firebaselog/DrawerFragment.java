@@ -67,6 +67,7 @@ public class DrawerFragment  extends Fragment {
         mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
         recyclerView.setAdapter(mAdater);
 
+        Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
         if (pictureDataList.size() == 0 ) {
             drawer_word.setVisibility(View.VISIBLE);
             Log.d("gg","kk");

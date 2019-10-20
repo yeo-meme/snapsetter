@@ -26,7 +26,8 @@ import kr.uncode.firebaselog.databinding.ListItemImageBinding;
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
     int so = 0;
 
-    private PicActivity pic;
+
+    private RealmHelper pic;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
     private String name = "";
@@ -71,7 +72,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
         context = xx.getContext();
 
-        return new SearchListViewHolder(binding);
+        return new SearchListViewHolder(binding,this);
     }
 
     @Override
@@ -86,7 +87,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         RetrofitResponse.Documents documents = data.get(position);
 
         Log.d("vv", String.valueOf(kk));
-        if (kk.size() == 0 || kk == null) {
+        if (kk == null|| kk.size() == 0 ) {
             holder.binding.eheart.setImageResource(R.drawable.eheart);
         } else {
             for (int k = 0; k < kk.size(); k++) {
@@ -112,36 +113,45 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         return data.size();
     }
 
-    class SearchListViewHolder extends RecyclerView.ViewHolder {
-        PicActivity picActivity = new PicActivity();
-
+    static class SearchListViewHolder extends RecyclerView.ViewHolder {
+        RealmHelper realmHelper = new RealmHelper();
         ListItemImageBinding binding;
+        boolean checkClick = false;
 
 
         // 하트를 눌린 순간 하트를 누린 이미지를 저장하는 메서드
-        SearchListViewHolder(ListItemImageBinding itemView) {
+        SearchListViewHolder(ListItemImageBinding itemView, SearchListAdapter searchListAdapter) {
             super(itemView.getRoot());
             binding = itemView;
 
             // 하트를 클릭하면 내보관함에 사진을 리스트로 뿌리기 위해
             //이미지 url을 DB에 따로 저장하기 위해 액티비티 안에 메서드로 저장작업을 분리함
 
-            binding.heartArea.setOnClickListener(new View.OnClickListener() {
+
+            binding.clickheart.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
+                    FirebaseAuth mAuth;
+                    FirebaseUser currentUser;
+
+                    mAuth = FirebaseAuth.getInstance();
+                    currentUser = mAuth.getCurrentUser();
                     String recentUser = currentUser.getEmail();
 
+                    //지금 사용자가 클릭한 이미지
                     int position = getAdapterPosition();
-                    String nowClickImg = data.get(position).image_url;
+                    final String nowClickImg = searchListAdapter.data.get(position).image_url;
 
                     Realm realm = Realm.getDefaultInstance();
-                    RealmResults<PictureData> ll = realm.where(PictureData.class).equalTo("name", recentUser).findAll();
+                    final RealmResults<PictureData> ll = realm.where(PictureData.class).equalTo("name", recentUser).findAll();
 
-
+                    //보관함에 들어있는 url
                     Log.d("gg", "ll데이터" + ll.toString());
 
                     if (ll == null || ll.size() == 0) {
-                        saveDbImage(nowClickImg);
+                        //없으면 하트주려고
+                        saveDbImage(nowClickImg,searchListAdapter);
                     } else {
                         for (int r = 0; r < ll.size(); r++) {
                             PictureData hh = ll.get(r);
@@ -151,15 +161,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                             if (hh.getImage_url().equals(nowClickImg)) {
 //                                binding.eheart.setImageResource(R.drawable.eheart);
                                 Log.d("gg", "같다");
-                                picActivity.delete(nowClickImg);
-                                notifyDataSetChanged();
+                                realmHelper.delete(nowClickImg);
+                                searchListAdapter.notifyDataSetChanged();
 
                             } else if (!hh.getImage_url().equals(nowClickImg)) {
-                                saveDbImage(nowClickImg);
+                                saveDbImage(nowClickImg,searchListAdapter);
                             }
                         }
                     }
-
+                    realm.close();
                 }
             });
 
@@ -175,18 +185,17 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
                         Log.d("hi", "hi");
                         //온어탭터뷰클릭 순간에 Url을 담는
                         int position = getAdapterPosition();
-                        RetrofitResponse.Documents documents = data.get(position);
-                        url = documents.image_url;
+                        RetrofitResponse.Documents documents = searchListAdapter.data.get(position);
+                        final String url = documents.image_url;
 
                         Log.d("image", url);
 
-
                         //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
                         if (url != null) {
-                            Intent intent = new Intent(context.getApplicationContext(), ViewTwoStepActivity.class);
+                            Intent intent = new Intent(view.getContext() , ViewTwoStepActivity.class);
                             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
                             Log.d(EXTRA_KEY_IMAGE_URL, url);
-                            context.startActivity(intent);
+                            view.getContext().startActivity(intent);
                         }
 
                     }
@@ -199,10 +208,10 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         /**
          * 하트 클릭이벤트 체인저의 URL파라미터를 DB에 저장하는 메서드
          */
-        private void saveDbImage(String nowClickImg) {
+        private void saveDbImage(String nowClickImg,SearchListAdapter searchListAdapter) {
             Log.d("gg", "다르다");
-            picActivity.savePic(nowClickImg);
-            notifyDataSetChanged();
+            realmHelper.savePic(nowClickImg);
+            searchListAdapter.notifyDataSetChanged();
 
         }
     }
