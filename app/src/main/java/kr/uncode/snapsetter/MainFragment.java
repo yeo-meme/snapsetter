@@ -36,7 +36,6 @@ public class MainFragment extends Fragment {
     private FirebaseUser currentUser;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Context context;
-//    private MainActivity mainActivity;
 
     private Button loginBtn;
     private Button createIdBtn;
@@ -56,36 +55,13 @@ public class MainFragment extends Fragment {
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-
-//        mainActivity = (MainActivity) getActivity();
-
     }
 
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Context = context;
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    String userEmail = currentUser.getEmail();
-                    currentUser = user;
-                    Toast.makeText(context.getApplicationContext(), "USER ID\n"+userEmail,Toast.LENGTH_SHORT).show();
-                    ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
-
-                }
-                else {
-                    Toast.makeText(context.getApplicationContext(), "no id got", Toast.LENGTH_SHORT).show();
-                }
-
-            }
-        };
-
     }
 
 
@@ -98,8 +74,6 @@ public class MainFragment extends Fragment {
     public void onStart() {
         super.onStart();
     }
-
-
 
      private void onClickEvent(){
          loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -134,7 +108,6 @@ public class MainFragment extends Fragment {
          });
      }
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -153,7 +126,6 @@ public class MainFragment extends Fragment {
 
         return rootView;
     }
-
 
     private void loginUser() {
             mAuth.signInWithEmailAndPassword(email,passwd)
@@ -181,7 +153,6 @@ public class MainFragment extends Fragment {
                     });
         }
 
-
     private void createUser(String email, String passwd) {
 
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
@@ -204,7 +175,6 @@ public class MainFragment extends Fragment {
                     });
         }
     }
-
 
 }
 

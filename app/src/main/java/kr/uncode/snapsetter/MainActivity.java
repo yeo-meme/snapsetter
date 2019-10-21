@@ -44,10 +44,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
      */
     private FirebaseAuth mAuth;
-    /**
-     * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
-     */
-    private FirebaseUser currentUser;
 
     /**
      * 파이어베이스 인증을 통해 얻은 사용자이메일을 스트링타입 저장
@@ -126,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                FirebaseUser currentUser = mAuth.getCurrentUser();
                 Log.d("ooooo", "outoLogin USer :" + currentUser);
                 if (currentUser != null) {
                     // User is signed in
@@ -135,8 +131,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Log.d("ff", "자동로그인 들어왔따");
                     replaceFragment(SearchFragment.newInstance());
                 } else {
-                    Toast.makeText(MainActivity.this, "no id got", Toast.LENGTH_SHORT).show();
-                    Log.d("ff", "자동로그인 안들어왔따");
+//                    Toast.makeText(MainActivity.this, "로그인 후 이용 부탁드립니다", Toast.LENGTH_SHORT).show();
+                    Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
                 }
             }
         };
@@ -144,8 +140,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getAuth() {
         mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-
     }
 
     @Override
@@ -198,7 +192,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         emailedit = findViewById(R.id.emailedit);
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
-        toolbarTitle = findViewById(R.id.toolbarTex);
 
 
     }
@@ -233,11 +226,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        getAuth();
+        FirebaseUser memberId = mAuth.getCurrentUser();
         if (view == toolbarTitle) {
             Log.d("tt", "toolbattitttle");
-            if (recentUser != null) {
+            if (memberId != null) {
                 replaceFragment(SearchFragment.newInstance());
-            } else if (recentUser == null) {
+                Log.d("kk","로그인 상태에서  툴바제목 선택하기 : " + memberId);
+
+            } else if (memberId == null) {
+                Log.d("kk","로그아웃 후 메인에서 툴바제목 선택하기 : " + memberId);
                 replaceFragment(MainFragment.newInstance());
             }
         }
