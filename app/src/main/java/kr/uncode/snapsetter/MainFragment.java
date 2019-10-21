@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter;
 
+import android.app.ListActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -33,7 +34,7 @@ public class MainFragment extends Fragment {
     private String recentUser = "";
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
-
+    private FirebaseAuth.AuthStateListener mAuthListener;
     private Context context;
 //    private MainActivity mainActivity;
 
@@ -46,6 +47,7 @@ public class MainFragment extends Fragment {
 
     private String email = "";
     private String passwd = "";
+    private Object Context;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -61,44 +63,59 @@ public class MainFragment extends Fragment {
 
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Context = context;
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    // User is signed in
+                    String userEmail = currentUser.getEmail();
+                    currentUser = user;
+                    Toast.makeText(context.getApplicationContext(), "USER ID\n"+userEmail,Toast.LENGTH_SHORT).show();
+                    ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
+
+                }
+                else {
+                    Toast.makeText(context.getApplicationContext(), "no id got", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        };
+
+    }
+
+
+    @Override
     public void onDetach() {
         super.onDetach();
-
-//        mainActivity = null;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        mAuth = FirebaseAuth.getInstance();
-        if (currentUser == null) {
-            return;
-        }
-        currentUser = mAuth.getCurrentUser();
-
-        Log.d("ss","currentUser : " + currentUser);
-        if (currentUser != null) {
-            ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
-        }
     }
 
 
 
      private void onClickEvent(){
-
          loginBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
 
-                 if (email != null && passwd != null)
-                     email = emailedit.getEditText().getText().toString();
+                 email = emailedit.getEditText().getText().toString();
                  passwd = passwdedit.getEditText().getText().toString();
 
+                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
+                     Toast.makeText(context,"이메일 OR 비밀번호를 입력해주세요",Toast.LENGTH_LONG).show();
+                 } else {
+                     loginUser();
+                 }
                  Log.d("hi",email);
                  Log.d("hi",passwd);
-
-                 loginUser();
-                 Toast.makeText(context, "hi" ,Toast.LENGTH_LONG).show();
              }
          });
          createIdBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +132,6 @@ public class MainFragment extends Fragment {
                  createUser(email,passwd);
              }
          });
-
      }
 
 
@@ -140,18 +156,10 @@ public class MainFragment extends Fragment {
 
 
     private void loginUser() {
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(context,"이메일 OR 비밀번호를 입력해주세요",Toast.LENGTH_LONG).show();
-
-        } else {
-            email = emailedit.getEditText().getText().toString();
-            passwd = passwdedit.getEditText().getText().toString();
-
             mAuth.signInWithEmailAndPassword(email,passwd)
                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-
                             if (!task.isSuccessful()) {
                                 try {
                                     throw task.getException();
@@ -164,39 +172,14 @@ public class MainFragment extends Fragment {
                                 } catch (Exception e) {
                                     Toast.makeText(context,"Exception" ,Toast.LENGTH_SHORT).show();
                                 }
-
                             }else{
-
-
-                                currentUser = mAuth.getCurrentUser();
-
                                 Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요",Toast.LENGTH_SHORT).show();
-
-//                                startActivity(new Intent(context, SearchActivity.class));
-
-
                                 ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
-//                                ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
-//                                fragmentManager.beginTransaction().replace(R.id.frameLayout,new SearchFragment()).commit();
+                                Log.d("cc","코드수정후 변화확인");
                             }
-
-
-
-
-//                            if (task.isSuccessful()) {
-//                                Toast.makeText(MainActivity.this,"로그인 성공!",Toast.LENGTH_LONG).show();
-//                                Intent intent = new Intent(getApplicationContext(),SearchActivity.class);
-//                                startActivity(intent);
-//                                finish();
-//
-//                                ///인텐드가 들어갈 자리 데스용
-//                            } else {
-//                                Toast.makeText(MainActivity.this,"아이디와 비밀번호를 확인해주세요",Toast.LENGTH_LONG).show();
-//                            }
                         }
                     });
         }
-    }
 
 
     private void createUser(String email, String passwd) {

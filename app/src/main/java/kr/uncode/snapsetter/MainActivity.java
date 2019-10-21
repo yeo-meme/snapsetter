@@ -40,7 +40,6 @@ import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
-
     /**
      * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
      */
@@ -55,13 +54,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private String recentUser = "";
 
+    /**
+     * 로그인 버튼
+     */
     private Button loginBtn;
+    /**
+     * 회원가입버튼
+     */
     private Button createIdBtn;
 
+    /**
+     * 머티리얼 디자인 에딧텍스 사용자가 입력한 패스워드를 들고있따
+     */
     private TextInputLayout passwdedit;
+    /**
+     * 머티리얼 디자인 에딧텍스 사용자가 입력한 이메일=아이디를 들고있따
+     */
     private TextInputLayout emailedit;
 
+    /**
+     * 사용자가 에딧텍스트에 입력한 아이디 값을 스트링을 변환하는 변수
+     */
     private String email = "";
+    /**
+     * 사용자가 에딧텍스트에 입력한 패스워드 값을 스트링을 변환하는 변수
+     */
     private String passwd = "";
 
     /**
@@ -69,11 +86,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private NavigationView navigationView;
     private DrawerLayout drawer;
-
-    public  MenuInflater menuInflater;
     private ActionBarDrawerToggle toggle;
-    private MainFragment mainFragment;
-    private TextView toolbarTex;
+    private TextView toolbarTitle;
+    private Toolbar toolbar;
+
+    /**
+     * 파이어베이스 어스 리스너 객체
+     */
+    public FirebaseAuth.AuthStateListener mAuthListener;
 
 
     @Override
@@ -81,10 +101,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 파이어베이스 인증 얻기 --
+        // 리스너가 자동로그인을 하기위해 auth정보를 가장먼저 받는다
+        getAuth();
 
         //툴바셋팅
         toolbarSet();
-
 
         //파인드바이 뷰 및 툴바 설정
         initView();
@@ -92,26 +114,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //프래그먼트 셋
         fragmentLayoutSet();
 
-
-
         //네비게이션 바를 여는 토글 버튼
         navigationToggle();
 
-
+        //자동로그인 리스너
+        authListener();
 
     }
 
+    private void authListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+//                FirebaseUser currentUser = firebaseAuth.getCurrentUser();
+                Log.d("ooooo", "outoLogin USer :" + currentUser);
+                if (currentUser != null) {
+                    // User is signed in
+                    String userEmail = currentUser.getEmail();
+                    Toast.makeText(MainActivity.this, "USER ID\n" + userEmail, Toast.LENGTH_SHORT).show();
+                    Log.d("ff", "자동로그인 들어왔따");
+                    replaceFragment(SearchFragment.newInstance());
+                } else {
+                    Toast.makeText(MainActivity.this, "no id got", Toast.LENGTH_SHORT).show();
+                    Log.d("ff", "자동로그인 안들어왔따");
+                }
+            }
+        };
+    }
+
+    private void getAuth() {
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+
+    }
+
+    @Override
+    protected void onStop() {
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
+        super.onStop();
+    }
 
     @Override
     protected void onStart() {
+        mAuth.addAuthStateListener(mAuthListener);
         super.onStart();
-        mAuth = FirebaseAuth.getInstance();
-        if (currentUser == null) {
-            return;
-        }
-        currentUser = mAuth.getCurrentUser();
-
-
     }
 
     @Override
@@ -139,7 +187,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void fragmentLayoutSet() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
-        mainFragment = new MainFragment();
     }
 
     //init View setting
@@ -151,26 +198,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         emailedit = findViewById(R.id.emailedit);
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
-        toolbarTex = findViewById(R.id.toolbarTex);
-
+        toolbarTitle = findViewById(R.id.toolbarTex);
 
 
     }
+
     private void toolbarSet() {
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbarTex);
+        toolbarTitle.setOnClickListener(this::onClick);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
+    //TODO 내보관함에 들어갔을때만 툴바 오른쪽 버튼 보이고 보관함에 모든 데이터 삭제하기
     public void showToolbarRightBtn(Boolean show) {
         //true
         if (show) {
         }
 
     }
-
 
     // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
     public void replaceFragment(Fragment fragment) {
@@ -184,6 +233,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        if (view == toolbarTitle) {
+            Log.d("tt", "toolbattitttle");
+            if (recentUser != null) {
+                replaceFragment(SearchFragment.newInstance());
+            } else if (recentUser == null) {
+                replaceFragment(MainFragment.newInstance());
+            }
+        }
         if (view == loginBtn) {
             email = emailedit.getEditText().getText().toString();
             passwd = passwdedit.getEditText().getText().toString();
@@ -191,8 +248,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("hi", email);
             Log.d("hi", passwd);
 
-            loginUser();
-            Toast.makeText(getApplicationContext(), "hi", Toast.LENGTH_LONG).show();
+            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
+                Toast.makeText(getApplicationContext(), "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
+            }
         }
 
         if (view == createIdBtn) {
@@ -274,50 +332,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             } else {
                                 Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
                             }
-
-
                         }
                     });
         }
     }
-
-    //로그인 메서드
-    private void loginUser() {
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(getApplicationContext(), "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
-
-        } else {
-            email = emailedit.getEditText().getText().toString();
-            passwd = passwdedit.getEditText().getText().toString();
-
-            mAuth.signInWithEmailAndPassword(email, passwd)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-
-                            if (!task.isSuccessful()) {
-                                try {
-                                    throw task.getException();
-                                } catch (FirebaseAuthInvalidUserException e) {
-                                    Toast.makeText(getApplicationContext(), "존재하지 않는 id 입니다.", Toast.LENGTH_SHORT).show();
-                                } catch (FirebaseAuthInvalidCredentialsException e) {
-                                    Toast.makeText(getApplicationContext(), "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
-                                } catch (FirebaseNetworkException e) {
-                                    Toast.makeText(getApplicationContext(), "Firebase NetworkException", Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    Toast.makeText(getApplicationContext(), "Exception", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                currentUser = mAuth.getCurrentUser();
-                                Toast.makeText(getApplicationContext(), "로그인 성공" + "/" + currentUser.getEmail() + "/" + currentUser.getUid(), Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(), SearchActivity.class));
-                                finish();
-
-                            }
-                        }
-                    });
-        }
-    }
-
-
 }
