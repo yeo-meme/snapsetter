@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter.Detail_View;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
 
-public class ViewTwoStepActivity extends AppCompatActivity {
+import kr.uncode.snapsetter.R;
+
+public class DetailActivity extends AppCompatActivity {
+
+    public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
+
+
     private ImageView detail_img;
 
     private String img = "img";
@@ -24,7 +30,7 @@ public class ViewTwoStepActivity extends AppCompatActivity {
 
         //데이터수신
         Intent intent = getIntent();
-        String image_url = intent.getStringExtra(SearchListAdapter.EXTRA_KEY_IMAGE_URL);
+        String image_url = intent.getStringExtra(EXTRA_KEY_IMAGE_URL);
         Log.d("check_image",image_url);
         setDetail_img(image_url);
 //        Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
@@ -42,4 +48,3 @@ public class ViewTwoStepActivity extends AppCompatActivity {
         }
     }
 }
-

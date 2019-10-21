@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter;
 
 import android.content.Context;
 import android.content.Intent;

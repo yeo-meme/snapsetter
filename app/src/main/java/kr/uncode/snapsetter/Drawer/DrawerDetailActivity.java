@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter.Drawer;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
@@ -20,15 +19,10 @@ import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.realm.DynamicRealmObject;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
-import io.realm.RealmList;
-import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.PictureData;
+import kr.uncode.snapsetter.R;
 
 
 /**
@@ -77,7 +71,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this,R.layout.activity_drawerdetail);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_drawerdetail);
 
         //중복 액티티비가 존재하여 실제동작하는 액티비티 확인차 토스트
 //        Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();

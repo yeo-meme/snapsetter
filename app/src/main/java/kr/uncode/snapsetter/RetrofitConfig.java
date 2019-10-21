@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter;
 
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;

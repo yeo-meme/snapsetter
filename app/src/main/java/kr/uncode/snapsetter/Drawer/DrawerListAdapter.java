@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter.Drawer;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
-import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
-import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
-import kr.uncode.firebaselog.databinding.ListItemImageBinding;
+import kr.uncode.snapsetter.PictureData;
+import kr.uncode.snapsetter.databinding.DrawerItemImageBinding;
+import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
 
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder> {

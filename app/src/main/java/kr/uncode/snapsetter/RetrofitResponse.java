@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter;
 
 import java.util.Date;
 import java.util.List;

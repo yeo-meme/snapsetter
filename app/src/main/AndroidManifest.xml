@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="kr.uncode.firebaselog">
+    package="kr.uncode.snapsetter">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
 
     <application
-        android:name=".MemeApplication"
+        android:name="kr.uncode.snapsetter.MemeApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".MainActivity">
+        <activity android:name="kr.uncode.snapsetter.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SearchActivity" />
-        <activity android:name=".DrawerFragment" />
-        <activity android:name=".DrawerDetailActivity" />
-        <activity android:name=".ViewTwoStepActivity" />
+        <activity android:name="kr.uncode.snapsetter.SearchActivity" />
+        <activity android:name="kr.uncode.snapsetter.Drawer.DrawerFragment" />
+        <activity android:name="kr.uncode.snapsetter.Drawer.DrawerDetailActivity" />
+        <activity android:name="kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity" />
     </application>
 
 </manifest>

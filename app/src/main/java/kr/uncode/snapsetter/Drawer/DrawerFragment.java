@@ -1,9 +1,8 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter.Drawer;
 
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,26 +12,19 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.uncode.firebaselog.databinding.DrawerItemImageBinding;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import kr.uncode.snapsetter.MainActivity;
+import kr.uncode.snapsetter.PictureData;
+import kr.uncode.snapsetter.R;
 
 public class DrawerFragment  extends Fragment {
 

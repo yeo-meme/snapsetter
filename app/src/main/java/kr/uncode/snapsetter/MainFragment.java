@@ -1,7 +1,6 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -13,10 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -30,14 +27,15 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainFragment extends Fragment {
 
-
-    private FragmentManager fragmentManager;
+    /**
+     * 파이어베이스 객체에서 유저Email을 받아 스트링으로 받는 변수
+     */
+    private String recentUser = "";
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
-
     private Context context;
-    private MainActivity mainActivity;
+//    private MainActivity mainActivity;
 
     private Button loginBtn;
     private Button createIdBtn;
@@ -57,7 +55,7 @@ public class MainFragment extends Fragment {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
 
-        mainActivity = (MainActivity) getActivity();
+//        mainActivity = (MainActivity) getActivity();
 
     }
 
@@ -66,21 +64,59 @@ public class MainFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        mainActivity = null;
+//        mainActivity = null;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        if (currentUser == null) {
+            return;
+        }
         currentUser = mAuth.getCurrentUser();
+
+        Log.d("ss","currentUser : " + currentUser);
         if (currentUser != null) {
-
             ((MainActivity)getActivity()).replaceFragment(SearchFragment.newInstance());
-
-//            startActivity(new Intent(context,SearchActivity.class));
-            onDestroy();
         }
     }
+
+
+
+     private void onClickEvent(){
+
+         loginBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 if (email != null && passwd != null)
+                     email = emailedit.getEditText().getText().toString();
+                 passwd = passwdedit.getEditText().getText().toString();
+
+                 Log.d("hi",email);
+                 Log.d("hi",passwd);
+
+                 loginUser();
+                 Toast.makeText(context, "hi" ,Toast.LENGTH_LONG).show();
+             }
+         });
+         createIdBtn.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+
+                 if (email != null && passwd != null)
+                     email = emailedit.getEditText().getText().toString();
+                 passwd = passwdedit.getEditText().getText().toString();
+
+                 Log.d("hi",email);
+                 Log.d("hi",passwd);
+
+                 createUser(email,passwd);
+             }
+         });
+
+     }
 
 
     @Nullable
@@ -91,50 +127,17 @@ public class MainFragment extends Fragment {
         context = container.getContext();
         View rootView = inflater.inflate(R.layout.main_fragment, container,false);
 
-
-
         loginBtn = rootView.findViewById(R.id.loginBtn);
         createIdBtn = rootView.findViewById(R.id.createIdBtn);
         passwdedit = rootView.findViewById(R.id.passwdedit);
         emailedit = rootView.findViewById(R.id.emailedit);
 
 
-        loginBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (email != null && passwd != null)
-                email = emailedit.getEditText().getText().toString();
-                passwd = passwdedit.getEditText().getText().toString();
-
-                Log.d("hi",email);
-                Log.d("hi",passwd);
-
-                loginUser();
-                Toast.makeText(context, "hi" ,Toast.LENGTH_LONG).show();
-            }
-        });
-
-
-        createIdBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (email != null && passwd != null)
-                email = emailedit.getEditText().getText().toString();
-                passwd = passwdedit.getEditText().getText().toString();
-
-                Log.d("hi",email);
-                Log.d("hi",passwd);
-
-                createUser(email,passwd);
-            }
-        });
-
-
+        onClickEvent();
 
         return rootView;
     }
+
 
     private void loginUser() {
         if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {

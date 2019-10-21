@@ -1,7 +1,6 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,25 +9,19 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.ui.AppBarConfiguration;
 
 import com.google.android.material.navigation.NavigationView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -41,12 +34,27 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
-import static kr.uncode.firebaselog.R.string.navigation_drawer_open;
+import kr.uncode.snapsetter.Drawer.DrawerFragment;
+
+import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
+
+    /**
+     * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
+     */
     private FirebaseAuth mAuth;
+    /**
+     * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
+     */
     private FirebaseUser currentUser;
+
+    /**
+     * 파이어베이스 인증을 통해 얻은 사용자이메일을 스트링타입 저장
+     */
+    private String recentUser = "";
+
     private Button loginBtn;
     private Button createIdBtn;
 
@@ -65,12 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public  MenuInflater menuInflater;
     private ActionBarDrawerToggle toggle;
     private MainFragment mainFragment;
+    private TextView toolbarTex;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        //툴바셋팅
+        toolbarSet();
 
 
         //파인드바이 뷰 및 툴바 설정
@@ -80,34 +93,54 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentLayoutSet();
 
 
+
         //네비게이션 바를 여는 토글 버튼
+        navigationToggle();
+
+
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mAuth = FirebaseAuth.getInstance();
+        if (currentUser == null) {
+            return;
+        }
+        currentUser = mAuth.getCurrentUser();
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void navigationToggle() {
         toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        mAuth = FirebaseAuth.getInstance();
-
     }
 
     //이걸 해야지 이xml아이디를 쓸수있는 == 온크리에이트와 같은거임
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        menuInflater = getMenuInflater();
-        menuInflater.inflate(R.menu.menu, menu);
-        return true;
-
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        menuInflater = getMenuInflater();
+//        menuInflater.inflate(R.menu.menu, menu);
+//        return true;
+//
+//    }
 
     private void fragmentLayoutSet() {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
         mainFragment = new MainFragment();
-
-
     }
-
 
     //init View setting
     private void initView() {
@@ -118,12 +151,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         emailedit = findViewById(R.id.emailedit);
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.nav_view);
+        toolbarTex = findViewById(R.id.toolbarTex);
 
+
+
+    }
+    private void toolbarSet() {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
 
     }
 
@@ -133,6 +170,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+
     // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -185,8 +224,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return false;
     }
 
-
-
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -213,7 +250,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return super.onOptionsItemSelected(item);
     }
 
-
     //로그아웃
     private void logout() {
         mAuth.getInstance().signOut();
@@ -221,7 +257,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
     }
-
 
     //회원 가입 메서드
     private void createUser(String email, String passwd) {
@@ -245,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     });
         }
     }
-
 
     //로그인 메서드
     private void loginUser() {

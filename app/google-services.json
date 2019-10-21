@@ -1,42 +1,34 @@
 {
   "project_info": {
-    "project_number": "47846792108",
-    "firebase_url": "https://fir-log-c142a.firebaseio.com",
-    "project_id": "fir-log-c142a",
-    "storage_bucket": "fir-log-c142a.appspot.com"
+    "project_number": "412173983919",
+    "firebase_url": "https://snapsetter-d4968.firebaseio.com",
+    "project_id": "snapsetter-d4968",
+    "storage_bucket": "snapsetter-d4968.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:47846792108:android:d723040e0c4063990f7809",
+        "mobilesdk_app_id": "1:412173983919:android:8b00b191192100cd2a345a",
         "android_client_info": {
-          "package_name": "kr.uncode.firebaselog"
+          "package_name": "kr.uncode.snapsetter"
         }
       },
       "oauth_client": [
         {
-          "client_id": "47846792108-61q9ik5vcg9608dpgu23ofamr0mqv6ia.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "kr.uncode.firebaselog",
-            "certificate_hash": "75c4ce25fc03f9d97dcce7914738ce7e45497bbc"
-          }
-        },
-        {
-          "client_id": "47846792108-j4ic8r2rnf4ueql87rbfrlukq5s8fa7t.apps.googleusercontent.com",
+          "client_id": "412173983919-icqhoctg5js4j41vugncurgdrmuumbqu.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBrkodBqR_RL5VzE_7eeB-JuA65nUyaiiI"
+          "current_key": "AIzaSyD48sriY2Ot5QzRFhS5BFjnfBWSEKTu-l4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "47846792108-j4ic8r2rnf4ueql87rbfrlukq5s8fa7t.apps.googleusercontent.com",
+              "client_id": "412173983919-icqhoctg5js4j41vugncurgdrmuumbqu.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

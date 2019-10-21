@@ -1,4 +1,4 @@
-package kr.uncode.firebaselog;
+package kr.uncode.snapsetter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +20,8 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.uncode.firebaselog.databinding.ListItemImageBinding;
+import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
+import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
