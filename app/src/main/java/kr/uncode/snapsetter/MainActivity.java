@@ -119,23 +119,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void authListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser currentUser = mAuth.getCurrentUser();
-                Log.d("ooooo", "outoLogin USer :" + currentUser);
-                if (currentUser != null) {
-                    // User is signed in
-                    String userEmail = currentUser.getEmail();
-                    Toast.makeText(MainActivity.this, "USER ID\n" + userEmail, Toast.LENGTH_SHORT).show();
-                    Log.d("ff", "자동로그인 들어왔따");
-                    replaceFragment(SearchFragment.newInstance());
-                } else {
+        try {
+            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser listnerCurrentUser = mAuth.getCurrentUser();
+                    Log.d("ooooo", "outoLogin USer :" + listnerCurrentUser);
+                    if (listnerCurrentUser != null) {
+                        // User is signed in
+                        String userEmail = listnerCurrentUser.getEmail();
+                        Toast.makeText(MainActivity.this, "USER ID\n" + userEmail, Toast.LENGTH_SHORT).show();
+                        Log.d("ff", "자동로그인 들어왔따");
+                        replaceFragment(SearchFragment.newInstance());
+                    } else {
 //                    Toast.makeText(MainActivity.this, "로그인 후 이용 부탁드립니다", Toast.LENGTH_SHORT).show();
-                    Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
+                        Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
+                    }
                 }
-            }
-        };
+            };
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext()," firebase에러라고 띄우고 잠시후에 다시 시도하세요",Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
     }
 
     private void getAuth() {
