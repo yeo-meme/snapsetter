@@ -126,14 +126,13 @@ public class DrawerFragment  extends Fragment {
     //연결하는메서드
     private void setAdapter() {
 
-        Realm realm = Realm.getDefaultInstance();
         int numberOfColumns = 2;
 
         gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
+//        layoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(gridLayoutManager);
 
 //        pictureDataList  = realm.where(PictureData.class).findAll();
 //        Log.d("2222",pictureDataList.toString());

@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (listnerCurrentUser != null) {
                         // User is signed in
                         String userEmail = listnerCurrentUser.getEmail();
-                        Toast.makeText(MainActivity.this, "USER ID\n" + userEmail, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(MainActivity.this, "USER ID\n" + userEmail, Toast.LENGTH_SHORT).show();
                         Log.d("ff", "자동로그인 들어왔따");
                         replaceFragment(SearchFragment.newInstance());
                     } else {
