@@ -77,24 +77,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
         back = rootView.findViewById(R.id.back);
-
         // 키보드내리기
 //        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
         searchListAdapter = new SearchListAdapter(mRealm);
-
         rvImageList.setAdapter(searchListAdapter);
-
-
-
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 btnSearch(container.getRootView());
             }
         });
-
-
         return rootView;
     }
 
@@ -108,10 +101,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             showToast("검색어를 입력하세요.");
             return;
         }
-
         search(query);
     }
-
 
     private void search(String query) {
         showProgressBar();

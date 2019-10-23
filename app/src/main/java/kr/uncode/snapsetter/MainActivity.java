@@ -34,6 +34,8 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Stack;
+
 import kr.uncode.snapsetter.Drawer.DrawerFragment;
 
 import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
@@ -91,6 +93,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public FirebaseAuth.AuthStateListener mAuthListener;
 
+
+
+    final static int FRAGMENT_SEARCH= 1001;
+    final static int FRAGMENT_DRAWER = 1002;
+    final static int FRAGMENT_MAIN = 1003;
+
+
+    public static DrawerFragment drawerFragment;
+    public static MainFragment mainFragment;
+    public static SearchFragment searchFragment;
+
+    public static Stack<Fragment> fragmentStack;
+
+    public static FragmentManager manager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -184,8 +200,38 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
     private void fragmentLayoutSet() {
+
+        mainFragment = new MainFragment();
+        searchFragment = new SearchFragment();
+        drawerFragment = new DrawerFragment();
+
+
+//        fragmentStack.push(mainFragment);
+//        manager = getSupportFragmentManager();
+//        manager.beginTransaction().replace(R.id.frameLayout, mainFragment);
+
+
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
+    }
+
+    public static void changeFragment(int index) {
+        switch (index) {
+            case FRAGMENT_MAIN :
+                manager.beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
+                break;
+            case  FRAGMENT_SEARCH:
+                manager.beginTransaction().replace(R.id.frameLayout, searchFragment).commit();
+                break;
+            case  FRAGMENT_DRAWER:
+                manager.beginTransaction().replace(R.id.frameLayout,drawerFragment).commit();
+                break;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
     }
 
     //init View setting
@@ -273,13 +319,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-
             logout();
             Log.d("nav", "nav1");
         } else if (id == R.id.nav_drawer) {
             Log.d("nav", "nav2");
             replaceFragment(DrawerFragment.newInstance());
-
         }
         drawer.closeDrawer(GravityCompat.START);
         return false;

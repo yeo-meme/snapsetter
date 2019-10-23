@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter.Drawer;
 
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.MainFragment;
 import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.R;
 
@@ -130,15 +134,14 @@ public class DrawerDetailActivity extends AppCompatActivity {
     private void deleteImg() {
         //리얼엠 인스턴스객체를 불러와성 이따 삭제할때 쓸꺼니깡
         Realm realm = Realm.getDefaultInstance();
-
-        //파이어베이스 인증 객체를 불러와성
-        mAuth = FirebaseAuth.getInstance();
-        //인증객체에서 최근 사용자를 불러와서 (접속해있는 최근 사용자)
-        currentUser = mAuth.getCurrentUser();
-        //최근 사용자를 스트링 객체로 담아서
-        String recentUser = currentUser.getEmail();
-        //최근 사용자 스트링으로 확인!!
-        Log.d("aa",recentUser);
+//        //파이어베이스 인증 객체를 불러와성
+//        mAuth = FirebaseAuth.getInstance();
+//        //인증객체에서 최근 사용자를 불러와서 (접속해있는 최근 사용자)
+//        currentUser = mAuth.getCurrentUser();
+//        //최근 사용자를 스트링 객체로 담아서
+//        String recentUser = currentUser.getEmail();
+//        //최근 사용자 스트링으로 확인!!
+//        Log.d("aa",recentUser);
 
 
         //리얼엠에 이미지 스트링은 이미 알고 있음 왜??
@@ -162,9 +165,25 @@ public class DrawerDetailActivity extends AppCompatActivity {
         });
 
         Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG);
-        finish();
+
+//
+//        DrawerFragment mainFragment = (DrawerFragment) getFragmentManager().findFragmentById(R.id.frameLayout);
+//        mainFragment.changeFragmentTextView("호호호");
+
+
+//        Fragment newFragment = new DrawerFragment();
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//
+//// Replace whatever is in the fragment_container view with this fragment,
+//// and add the transaction to the back stack
+//        transaction.replace(R.id.fragment_drawer, newFragment);
+//        transaction.addToBackStack(null);
+
+// Commit the transaction
+//        transaction.commit();
 
     }
+
 
 
     public void setDetail_img(String url) {

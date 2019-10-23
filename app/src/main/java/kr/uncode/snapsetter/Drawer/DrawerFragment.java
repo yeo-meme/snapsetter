@@ -13,6 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +51,6 @@ public class DrawerFragment  extends Fragment {
     public static DrawerFragment newInstance() {
         return new DrawerFragment();
     }
-
     private TextView drawer_word;
 
     @Override
@@ -124,20 +125,14 @@ public class DrawerFragment  extends Fragment {
     // 드로어 내보관함에 사진을 입력하기 위해
     //리엘엠에 데이터를 빼오고 레이아웃 매니저 및 어답터를
     //연결하는메서드
+
     private void setAdapter() {
 
         int numberOfColumns = 2;
-
         gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         recyclerView.setHasFixedSize(true);
-
-//        layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(gridLayoutManager);
 
-//        pictureDataList  = realm.where(PictureData.class).findAll();
-//        Log.d("2222",pictureDataList.toString());
-//        mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
-//        recyclerView.setAdapter(mAdater);
 
     }
 

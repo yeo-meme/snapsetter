@@ -36,9 +36,18 @@ public class SplashActivity extends Activity {
             @Override
             public void run() {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
 
             }
         },1000);
     }
+
+
+    @Override
+    public void onBackPressed() {
+        /* 스플래시 화면에서 뒤로가기 기능 제거. */
+    }
+
+
 }
