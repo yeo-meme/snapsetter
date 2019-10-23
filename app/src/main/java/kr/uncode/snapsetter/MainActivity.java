@@ -215,19 +215,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
     }
 
-    public static void changeFragment(int index) {
-        switch (index) {
-            case FRAGMENT_MAIN :
-                manager.beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
-                break;
-            case  FRAGMENT_SEARCH:
-                manager.beginTransaction().replace(R.id.frameLayout, searchFragment).commit();
-                break;
-            case  FRAGMENT_DRAWER:
-                manager.beginTransaction().replace(R.id.frameLayout,drawerFragment).commit();
-                break;
-        }
-    }
+//    public static void changeFragment(int index) {
+//        switch (index) {
+//            case FRAGMENT_MAIN :
+//                manager.beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
+//                break;
+//            case  FRAGMENT_SEARCH:
+//                manager.beginTransaction().replace(R.id.frameLayout, searchFragment).commit();
+//                break;
+//            case  FRAGMENT_DRAWER:
+//                manager.beginTransaction().replace(R.id.frameLayout,drawerFragment).commit();
+//                break;
+//        }
+//    }
 
     @Override
     public void onBackPressed() {

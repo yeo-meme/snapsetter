@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
@@ -61,7 +62,9 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     @Override
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
 
-        Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url()).into(holder.binding.ivImage);
+        Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.binding.ivImage);
 
     }
 
@@ -94,11 +97,9 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                         Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
                         intent.putExtra(KEY_IMAGE_URL,xx);
                         intent.putExtra(KEY_IMAGE_POSITION,image_position);
+                        
                         context.startActivity(intent);
                     }
-
-
-
                 }
             });
         }

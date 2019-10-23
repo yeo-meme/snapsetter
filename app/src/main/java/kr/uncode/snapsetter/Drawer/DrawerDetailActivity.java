@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -188,7 +189,9 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
     public void setDetail_img(String url) {
         if (url != null) {
-            Glide.with(getApplicationContext()).load(url).into(detailsDrawer);
+            Glide.with(getApplicationContext()).load(url)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(detailsDrawer);
         } else {
             Log.d("image error","error");
         }

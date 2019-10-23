@@ -24,7 +24,6 @@
         </activity>
 
         <activity android:name="kr.uncode.snapsetter.MainActivity" />
-        <activity android:name="kr.uncode.snapsetter.SearchActivity" />
         <activity android:name="kr.uncode.snapsetter.Drawer.DrawerFragment" />
         <activity android:name="kr.uncode.snapsetter.Drawer.DrawerDetailActivity" />
         <activity android:name="kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity" />

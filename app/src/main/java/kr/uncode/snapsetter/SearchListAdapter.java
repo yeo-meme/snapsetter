@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -66,7 +67,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         } else {
             holder.binding.eheart.setImageResource(R.drawable.eheart);
         }
-        Glide.with(holder.binding.getRoot()).load(documents.image_url).into(holder.binding.ivImage);
+        Glide.with(holder.binding.getRoot()).load(documents.image_url)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(holder.binding.ivImage);
     }
 
     /**
