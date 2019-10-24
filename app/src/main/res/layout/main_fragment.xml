@@ -73,6 +73,7 @@
                 android:hint="Email">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/putEmailEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -88,9 +89,17 @@
                 android:hint="Password">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/putPassEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/checkbox_remindIdPw"
+                android:id="@+id/checkbox" />
+
         </LinearLayout>
 
         <!--로그인버튼 , 신규가입생성 Area-->

@@ -7,6 +7,7 @@ import io.realm.RealmConfiguration;
 
 public class MemeApplication extends Application {
 
+
     @Override
     public void onCreate() {
         super.onCreate();
