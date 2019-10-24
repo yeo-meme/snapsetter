@@ -20,10 +20,13 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -38,7 +41,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainFragment extends Fragment {
 
-    private int CHECK_STATE = 0;
     /**
      * 파이어베이스 객체에서 유저Email을 받아 스트링으로 받는 변수
      */
@@ -136,6 +138,12 @@ public class MainFragment extends Fragment {
         });
     }
 
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
+    }
 
     private void editTextgetToString() {
         email = emailedit.getEditText().getText().toString();
@@ -234,7 +242,7 @@ public class MainFragment extends Fragment {
                             }
                         } else {
                             Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요", Toast.LENGTH_SHORT).show();
-                            ((MainActivity) getActivity()).replaceFragment(SearchFragment.newInstance());
+                            replaceFragment(SearchFragment.newInstance());
 //                                Fragment currentFragment = MainActivity.manager.findFragmentById(R.id.container);
                             // 이동버튼 클릭할 때 stack에 push
                             // 이동버튼 클릭할 때 stack에 push
