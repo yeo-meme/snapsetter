@@ -6,7 +6,10 @@ import android.content.SharedPreferences;
 import android.graphics.LinearGradient;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.method.HideReturnsTransformationMethod;
+import android.text.method.PasswordTransformationMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -47,7 +51,7 @@ public class MainFragment extends Fragment {
     private Button loginBtn;
     private Button createIdBtn;
 
-    private String  fred = "fred";
+    private String fred = "fred";
     private TextInputLayout passwdedit;
     private TextInputLayout emailedit;
 
@@ -56,11 +60,24 @@ public class MainFragment extends Fragment {
     private String passwd = "";
     private Object Context;
 
+    /**사용자가 저장한 이메일과 비밀번호를 저장하기
+     위해 프리페어런스 선언*/
     private SharedPreferences sharedPreferences;
+    /**
+     * 그 프리페어런스 저장 삭제를 위해 에디터 선언
+     */
     private SharedPreferences.Editor editor;
 
 
+    /**
+     * 머리티얼 디자인중 텍스트 가져오지게 머티리얼 layout으로 되어있는데
+     * 셋 텍스트할떄는 layout이 셋이 안되서 layout 안에 있는 텍스트 에디터 를 뻄
+     */
     private TextInputEditText putPassEdit;
+    /**
+     * 머리티얼 디자인중 텍스트 가져오지게 머티리얼 layout으로 되어있는데
+     * 셋 텍스트할떄는 layout이 셋이 안되서 layout 안에 있는 텍스트 에디터 를 뻄
+     */
     private TextInputEditText putEmailEdit;
 
 
@@ -91,25 +108,14 @@ public class MainFragment extends Fragment {
         super.onStart();
     }
 
-//    @Override
-//    public void onStop() {
-//        SharedPreferences pref = context.getSharedPreferences("idpw", android.content.Context.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = pref.edit();
-//
-//        editor.putString("id",emailedit.toString());
-//        editor.putBoolean("check",checkBox.isChecked());
-//
-//        editor.commit();
-//        super.onStop();
-//    }
+
 
     private void onClickEvent() {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                email = emailedit.getEditText().getText().toString();
-                passwd = passwdedit.getEditText().getText().toString();
+                editTextgetToString();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
                     Toast.makeText(context, "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
@@ -125,22 +131,15 @@ public class MainFragment extends Fragment {
             public void onClick(View view) {
 
                 if (email != null && passwd != null)
-                    getIdPw();
-//                     email = emailedit.getEditText().getText().toString();
-//                 passwd = passwdedit.getEditText().getText().toString();
-//
-//                 Log.d("hi",email);
-//                 Log.d("hi",passwd);
-                createUser(email, passwd);
+                    createUser(email, passwd);
             }
         });
     }
 
-    public void getIdPw() {
+
+    private void editTextgetToString() {
         email = emailedit.getEditText().getText().toString();
         passwd = passwdedit.getEditText().getText().toString();
-        Log.d("hi", email);
-        Log.d("hi", passwd);
     }
 
     @Nullable
@@ -159,7 +158,7 @@ public class MainFragment extends Fragment {
 
         putPassEdit = rootView.findViewById(R.id.putPassEdit);
         putEmailEdit = rootView.findViewById(R.id.putEmailEdit);
-            getPf();
+        getPf();
         onClickEvent();
         //체크박스를 클릭시 에딧내용을 저장하는 메서드
         checkBoxOnClick();
@@ -176,45 +175,45 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//                getIdPw();
-                if (email != null && passwd != null) {
-                    editor.putString("email_id", emailedit.toString());
-                    editor.putString("pass", passwdedit.toString());
-                    editor.putBoolean("check",checkBox.isChecked());
-                    editor.apply();
-                    CHECK_STATE = 1;
+                if (checkBox.isChecked()) {
+                    editTextgetToString();
+                    if (email != null && passwd != null) {
+                        editor.putString("email_id", email);
+                        Log.d("ee","email put check : " +email);
+                        editor.putString("pass", passwd);
+                        editor.putBoolean("check", checkBox.isChecked());
+                        editor.apply();
 
-                   boolean value = sharedPreferences.getBoolean("check",false);
-                    Log.d("hhh","check box boolean 저장 후 : " +  value);
-                } else {
-                    Toast.makeText(context.getApplicationContext(), "Email 과 패스워드를 입력해주세요", Toast.LENGTH_LONG);
+                        //체크값이 잘들어갔나 확인차 값을 빼봄
+                        boolean value = sharedPreferences.getBoolean("check", false);
+                        Log.d("hhh", "check box boolean 저장 후 : " + value);
+                    } else {
+                        Toast.makeText(context.getApplicationContext(), "Email 과 패스워드를 입력해주세요", Toast.LENGTH_LONG);
+                    }
+
+                    //사용자가 체크를 풀었을때 프리페어런스를 삭제하고 에딧텍스트를 지우기
+                } else if (!checkBox.isChecked()) {
+                    editor.remove("email_id");
+                    editor.remove("paa");
+                    editor.remove("check");
+                    putEmailEdit.setText("");
+                    putPassEdit.setText("");
                 }
-
-                Log.d("tet", "에딧텍스터 체크박스 클릭시 : 이메일 : " + email);
-                Log.d("tet", "에딧텍스터 체크박스 클릭시 : 패스워드 : " + passwd);
-
             }
         });
     }
 
-
     private void getPf() {
-
-        Log.d("tt","저장후 로그인 시도 들어옴");
+        Log.d("tt", "저장후 로그인 시도 들어옴");
         SharedPreferences SharedPreferences = context.getSharedPreferences("idpw", android.content.Context.MODE_PRIVATE);
-        Boolean value = SharedPreferences.getBoolean("check",false);
-//        if (value == true) {
-            Log.d("tt","저장후 로그인 시도 들어옴 투루구문");
-
             String valueId = SharedPreferences.getString("email_id", "");
             String valuePw = SharedPreferences.getString("pass", "");
             if (!valueId.isEmpty() && !valuePw.isEmpty()) {
                 putEmailEdit.setText(valueId);
                 putPassEdit.setText(valuePw);
-                checkBox.setChecked(SharedPreferences.getBoolean("check",false));
+                checkBox.setChecked(SharedPreferences.getBoolean("check", false));
             }
-//        }
-}
+    }
 
     private void loginUser() {
         mAuth.signInWithEmailAndPassword(email, passwd)
@@ -269,6 +268,7 @@ public class MainFragment extends Fragment {
                     });
         }
     }
+
 
 }
 
