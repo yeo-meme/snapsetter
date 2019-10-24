@@ -17,5 +17,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="main_info">Please sign up as a member by any email you are using. [Create_id] button press it and you can use app </string>
+
     <string name="drawer_empty">내 보관함이 비워져 있습니다. \n나만의 이미지를 채워보세요 </string>
 </resources>

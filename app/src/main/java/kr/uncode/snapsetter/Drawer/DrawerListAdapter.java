@@ -97,7 +97,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                         Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
                         intent.putExtra(KEY_IMAGE_URL,xx);
                         intent.putExtra(KEY_IMAGE_POSITION,image_position);
-                        
+
                         context.startActivity(intent);
                     }
                 }

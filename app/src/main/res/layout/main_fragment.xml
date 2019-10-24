@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_gravity="bottom"
+            android:layout_marginTop="?attr/actionBarSize"
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="vertical">
@@ -47,40 +48,31 @@
 
 
         </LinearLayout>
-
-        <!--    <com.google.android.gms.common.SignInButton-->
-        <!--        android:id="@+id/btn_googleSignIn"-->
-        <!--        android:layout_width="wrap_content"-->
-        <!--        android:layout_height="wrap_content">-->
-        <!--    </com.google.android.gms.common.SignInButton>-->
-
-        <!--Edit Text Area-->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:fontFamily="@font/notolight"
-            android:text="G메일 구글아이디로 Create_ID 하시면 구글계정으로 회원가입하고 사용하시면 됩니다:)"
+            android:text="@string/main_info"
             android:textSize="15sp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
 
             <!--이메일 에딧텍스트 ID-->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/emailedit"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_weight="1"
                 android:gravity="center"
                 android:hint="Email">
 
-                <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -88,7 +80,7 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/passwdedit"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
                 android:layout_weight="1"
@@ -121,6 +113,14 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/colorPrimary"
                 android:text="Log_in" />
+
+            <View
+                android:layout_width="8dp"
+                android:layout_height="match_parent"
+                android:layout_centerInParent="true"
+                android:background="@color/black"/>
+
+
 
             <Button
                 android:id="@+id/createIdBtn"
