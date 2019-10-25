@@ -116,7 +116,7 @@ public class MainFragment extends Fragment {
             mainActivity.removeToolbar(false);
             Log.d("dd","난 툴바를 지우러 갈꺼음");
         }
-        
+
         super.onStart();
     }
 
@@ -247,9 +247,9 @@ public class MainFragment extends Fragment {
                             } catch (FirebaseAuthInvalidCredentialsException e) {
                                 Toast.makeText(context, "이메일 형식이 맞지 않습니다.", Toast.LENGTH_SHORT).show();
                             } catch (FirebaseNetworkException e) {
-                                Toast.makeText(context, "Firebase NetworkException", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Firebase 오류", Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
-                                Toast.makeText(context, "Exception", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요", Toast.LENGTH_SHORT).show();

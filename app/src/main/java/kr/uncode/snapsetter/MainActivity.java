@@ -1,6 +1,18 @@
 package kr.uncode.snapsetter;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,32 +22,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.material.navigation.NavigationView;
-
-import android.content.Intent;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.FirebaseNetworkException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
-import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
-import java.time.LocalDate;
 import java.util.Stack;
 
 import kr.uncode.snapsetter.Drawer.DrawerFragment;
@@ -119,17 +113,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 리스너가 자동로그인을 하기위해 auth정보를 가장먼저 받는다
         getAuth();
 
-        //툴바셋팅
-        toolbarSet();
-
+        //툴바는 첨에 셋팅하지만 -> 메인프래그먼트가 바로 호출되면서 -> 툴바를 감추는
+        // 메인액티비티에 메서드를 호출하기 때문에 하이드 된다
+        //처음부터 셋팅이 안되어 있으면 이 코드에서 hide가 널이 나기 때문에 첫 세팅을 했다
+        toolbar = findViewById(R.id.toolbar);
+        //액션바와 툴바의 차이 뭔들
+        //일단 툴바가 더 유연하고 액션바를 네비게이션 토글 버튼을 구현하려면 필요한거 같다
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //자동 네비게이션 토글 버튼 연결
+        actionBar.setDisplayHomeAsUpEnabled(true);
         //파인드바이 뷰 및 툴바 설정
         initView();
 
         //프래그먼트 셋
         fragmentLayoutSet();
 
-        //네비게이션 바를 여는 토글 버튼
-        navigationToggle();
 
         //자동로그인 리스너
         authListener();
@@ -146,17 +145,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (listnerCurrentUser != null) {
                         // User is signed in
                         String userEmail = listnerCurrentUser.getEmail();
-//                        Toast.makeText(MainActivity.this, "USER ID\n" + userEmail, Toast.LENGTH_SHORT).show();
                         Log.d("ff", "자동로그인 들어왔따");
                         replaceFragment(SearchFragment.newInstance());
                     } else {
-//                    Toast.makeText(MainActivity.this, "로그인 후 이용 부탁드립니다", Toast.LENGTH_SHORT).show();
                         Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
                     }
                 }
             };
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext()," firebase에러라고 띄우고 잠시후에 다시 시도하세요",Toast.LENGTH_LONG);
+            Toast.makeText(getApplicationContext()," firebase 오류! 띄우고 잠시후에 다시 시도하세요",Toast.LENGTH_LONG);
             e.printStackTrace();
         }
     }
@@ -184,12 +181,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
-    private void navigationToggle() {
+    public void navigationToggle() {
+        Log.d("dd","when");
         toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
-
     }
 
     //이걸 해야지 이xml아이디를 쓸수있는 == 온크리에이트와 같은거임
@@ -207,29 +204,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchFragment = new SearchFragment();
         drawerFragment = new DrawerFragment();
 
-
-//        fragmentStack.push(mainFragment);
-//        manager = getSupportFragmentManager();
-//        manager.beginTransaction().replace(R.id.frameLayout, mainFragment);
-
-
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
     }
-
-//    public static void changeFragment(int index) {
-//        switch (index) {
-//            case FRAGMENT_MAIN :
-//                manager.beginTransaction().replace(R.id.frameLayout, mainFragment).commit();
-//                break;
-//            case  FRAGMENT_SEARCH:
-//                manager.beginTransaction().replace(R.id.frameLayout, searchFragment).commit();
-//                break;
-//            case  FRAGMENT_DRAWER:
-//                manager.beginTransaction().replace(R.id.frameLayout,drawerFragment).commit();
-//                break;
-//        }
-//    }
 
     @Override
     public void onBackPressed() {
@@ -251,10 +228,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void toolbarSet() {
         Log.d("dd","set1");
-        toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbarTex);
-        toolbarTitle.setOnClickListener(this::onClick);
-        setSupportActionBar(toolbar);
+//        toolbar = findViewById(R.id.toolbar);
+//        toolbarTitle = findViewById(R.id.toolbarTex);
+//        toolbarTitle.setOnClickListener(this::onClick);
 
     }
 
@@ -278,13 +254,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //메인프래그먼트가 이메서드를 호출하여 메인화면에 툴바를 삭제한다
     public void removeToolbar(Boolean useToolbar) {
         if (useToolbar) {
-//            toolbarSet();
             getSupportActionBar().show();
             toolbar.setVisibility(View.VISIBLE);
+            navigationToggle();
             Log.d("dd","툴바를 셋팅한다");
         } else  {
             Log.d("dd","set2222222");
-
             getSupportActionBar().hide();
             toolbar.setVisibility(View.GONE);
             Log.d("dd","폴스로 툴바를 지운다");

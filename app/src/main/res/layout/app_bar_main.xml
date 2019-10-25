@@ -6,20 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+<!--<com.google.android.material.appbar.AppBarLayout-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="?attr/actionBarSize"-->
+<!--    android:id="@+id/action_bar"-->
+<!--    android:backgroundTint="@color/purple"-->
+<!--    >-->
 
-            <!--앱바추가-->
-            <com.google.android.material.appbar.MaterialToolbar
-                android:layout_height="?attr/actionBarSize"
-                android:layout_width="match_parent"
-                android:backgroundTint="@color/purple"
-                android:id="@+id/toolbar">
-                <TextView
-                    android:layout_height="?attr/actionBarSize"
-                    android:layout_width="match_parent"
-                    android:text="@string/app_name"
-                    android:id="@+id/toolbarTex"
-                    android:gravity="center_vertical"/>
-            </com.google.android.material.appbar.MaterialToolbar>
+    <!--툴바추가-->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_height="?attr/actionBarSize"
+        android:layout_width="match_parent"
+        android:background="@color/purple"
+        android:id="@+id/toolbar">
+        <TextView
+            android:layout_height="?attr/actionBarSize"
+            android:layout_width="match_parent"
+            android:text="@string/app_name"
+            android:id="@+id/toolbarTex"
+            android:gravity="center_vertical"/>
+    </com.google.android.material.appbar.MaterialToolbar>
+<!--</com.google.android.material.appbar.AppBarLayout>-->
 
 
 
