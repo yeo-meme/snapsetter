@@ -35,23 +35,23 @@ public class SplashActivity extends Activity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-//                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                startActivity(intent);
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
 
-                replaceFragment(MainFragment.newInstance());
+//                replaceFragment(MainFragment.newInstance());
 
                 finish();
             }
         },1000);
     }
 
-    public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = mFragmentActivity.getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null).commit();
-    }
+//    public void replaceFragment(Fragment fragment) {
+//        FragmentManager fragmentManager = mFragmentActivity.getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frameLayout, fragment);
+//        fragmentTransaction.addToBackStack(null).commit();
+//    }
 
     @Override
     public void onBackPressed() {
