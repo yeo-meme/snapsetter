@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -81,14 +82,15 @@ public class DrawerDetailActivity extends AppCompatActivity {
         //중복 액티티비가 존재하여 실제동작하는 액티비티 확인차 토스트
 //        Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
 
+        setToolbar();
+
+
         detailsDrawer = findViewById(R.id.drawerDetail_img);
-        toolbar = findViewById(R.id.toolbar);
 
         //드로어리스어탭터 홀더에서 보낸 인텐트 키를 받아오는 구문
         getImageUrlKey();
 
         //툴바셋팅
-        setToolbar();
 
     }
 
@@ -103,7 +105,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
 
 
-    //툴바 셋팅 메서드
+//    툴바 셋팅 메서드
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -118,17 +120,18 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
         //딜리트 메뉴 클릭시
         switch (item.getItemId()) {
             /**사진삭제 툴바메뉴
              *
              */
-            case R.id.menu_search:
+            case R.id.menu_delete:
                 deleteImg();
+                Log.d("ww","케이스 끝내고");
                 break;
-
         }
+        Log.d("ww","케이스 트루전");
+        finish();
         return true;
     }
 
@@ -153,7 +156,6 @@ public class DrawerDetailActivity extends AppCompatActivity {
         //리얼엠에서 URL 삭제
          PictureData aa = realm.where(PictureData.class).equalTo("image_url",image_url)
                 .findFirst();
-
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -166,22 +168,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
         });
 
         Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG);
-
-//
-//        DrawerFragment mainFragment = (DrawerFragment) getFragmentManager().findFragmentById(R.id.frameLayout);
-//        mainFragment.changeFragmentTextView("호호호");
-
-
-//        Fragment newFragment = new DrawerFragment();
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//
-//// Replace whatever is in the fragment_container view with this fragment,
-//// and add the transaction to the back stack
-//        transaction.replace(R.id.fragment_drawer, newFragment);
-//        transaction.addToBackStack(null);
-
-// Commit the transaction
-//        transaction.commit();
+        Log.d("ww","딜리트끝나고");
 
     }
 

@@ -13,10 +13,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -77,28 +74,36 @@ public class DrawerFragment  extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //부모를 부르거야 아하하하하하하 액티비티 커스텀 타입변환
-        Activity activity = getActivity();
-        if (activity != null && activity instanceof MainActivity) {
-            MainActivity mainActivity = (MainActivity) activity;
-        }
+//        Activity activity = getActivity();
+//        if (activity != null && activity instanceof MainActivity) {
+//            MainActivity mainActivity = (MainActivity) activity;
+//        }
     }
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        mainActivity = (MainActivity) getActivity();
+//        mainActivity = (MainActivity) getActivity();
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mainActivity = null;
+//        mainActivity = null;
     }
 
     @Override
     public void onStart() {
+
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof MainActivity) {
+            Log.d("gg","들어오니");
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.removeToolbar(true);
+        }
+
         super.onStart();
         //사용자가 아이디가 없으면 로그인후 네비게이션 드로어 사용가능 메세지 알림
         mAuth = FirebaseAuth.getInstance();

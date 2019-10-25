@@ -113,16 +113,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 리스너가 자동로그인을 하기위해 auth정보를 가장먼저 받는다
         getAuth();
 
-        //툴바는 첨에 셋팅하지만 -> 메인프래그먼트가 바로 호출되면서 -> 툴바를 감추는
-        // 메인액티비티에 메서드를 호출하기 때문에 하이드 된다
-        //처음부터 셋팅이 안되어 있으면 이 코드에서 hide가 널이 나기 때문에 첫 세팅을 했다
-        toolbar = findViewById(R.id.toolbar);
-        //액션바와 툴바의 차이 뭔들
-        //일단 툴바가 더 유연하고 액션바를 네비게이션 토글 버튼을 구현하려면 필요한거 같다
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        //자동 네비게이션 토글 버튼 연결
-        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        toolbarset();
+
         //파인드바이 뷰 및 툴바 설정
         initView();
 
@@ -133,6 +126,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //자동로그인 리스너
         authListener();
 
+    }
+
+    public void toolbarset() {
+        //툴바는 첨에 셋팅하지만 -> 메인프래그먼트가 바로 호출되면서 -> 툴바를 감추는
+        // 메인액티비티에 메서드를 호출하기 때문에 하이드 된다
+        //처음부터 셋팅이 안되어 있으면 이 코드에서 hide가 널이 나기 때문에 첫 세팅을 했다
+        toolbar = findViewById(R.id.toolbar);
+        //액션바와 툴바의 차이 뭔들
+        //일단 툴바가 더 유연하고 액션바를 네비게이션 토글 버튼을 구현하려면 필요한거 같다
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //자동 네비게이션 토글 버튼 연결
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        Log.d("gg","여기는 오니?");
     }
 
     private void authListener() {
@@ -252,8 +259,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     //메인프래그먼트가 이메서드를 호출하여 메인화면에 툴바를 삭제한다
+
+    /**
+     * 불린 값이 트루 = 비져블.쇼우 , 불린 값이 폴스이면 = 곤.하이드
+     */
     public void removeToolbar(Boolean useToolbar) {
         if (useToolbar) {
+            toolbarset();
             getSupportActionBar().show();
             toolbar.setVisibility(View.VISIBLE);
             navigationToggle();
@@ -337,11 +349,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return true;
         }
 
-        switch (item.getItemId()) {
-            case R.id.all_delete_btn: { // 오른쪽 상단 버튼 눌렀을 때
-                Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
-            }
-        }
+//        switch (item.getItemId()) {
+//            case R.id.all_delete_btn: { // 오른쪽 상단 버튼 눌렀을 때
+//                Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
+//            }
+//        }
 
         // Handle your other action bar items...
 
