@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter;
 
+import android.app.Activity;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -93,10 +94,12 @@ public class MainFragment extends Fragment {
     }
 
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Context = context;
+
     }
 
 
@@ -107,8 +110,17 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onStart() {
+        Activity activity = getActivity();
+        if (activity !=null && activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.removeToolbar(false);
+            Log.d("dd","난 툴바를 지우러 갈꺼음");
+        }
+        
         super.onStart();
     }
+
+
 
 
 
@@ -131,7 +143,6 @@ public class MainFragment extends Fragment {
         createIdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 if (email != null && passwd != null)
                     createUser(email, passwd);
             }
@@ -171,9 +182,9 @@ public class MainFragment extends Fragment {
         //체크박스를 클릭시 에딧내용을 저장하는 메서드
         checkBoxOnClick();
 
+
         return rootView;
     }
-
 
     private void checkBoxOnClick() {
         sharedPreferences = context.getSharedPreferences("idpw", android.content.Context.MODE_PRIVATE);

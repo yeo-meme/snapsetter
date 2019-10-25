@@ -1,8 +1,10 @@
 package kr.uncode.snapsetter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,10 +67,31 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         if (mRealm != null && !mRealm.isClosed()) mRealm.close();
     }
 
+    @Override
+    public void onStart() {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof MainActivity) {
+            Log.d("dd","서치에 들어와서 툴바를 넣으러");
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.removeToolbar(true);
+        }
+        super.onStart();
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+
+
+
+
+        super.onCreate(savedInstanceState);
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
+
 
         search_edit_frame = rootView.findViewById(R.id.search_edit_frame);
         searchBtn = rootView.findViewById(R.id.searchBtn);
@@ -88,6 +111,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 btnSearch(container.getRootView());
             }
         });
+
+
         return rootView;
     }
 

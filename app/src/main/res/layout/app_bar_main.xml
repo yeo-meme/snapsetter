@@ -6,11 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/Widget.MaterialComponents.Toolbar">
-
 
             <!--앱바추가-->
             <com.google.android.material.appbar.MaterialToolbar
@@ -27,8 +22,6 @@
             </com.google.android.material.appbar.MaterialToolbar>
 
 
-
-    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/frameLayout"

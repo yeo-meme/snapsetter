@@ -35,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.time.LocalDate;
 import java.util.Stack;
 
 import kr.uncode.snapsetter.Drawer.DrawerFragment;
@@ -248,13 +249,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    private void toolbarSet() {
-
+    public void toolbarSet() {
+        Log.d("dd","set1");
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbarTex);
         toolbarTitle.setOnClickListener(this::onClick);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -272,6 +272,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.addToBackStack(null).commit();
+    }
+
+
+    //메인프래그먼트가 이메서드를 호출하여 메인화면에 툴바를 삭제한다
+    public void removeToolbar(Boolean useToolbar) {
+        if (useToolbar) {
+//            toolbarSet();
+            getSupportActionBar().show();
+            toolbar.setVisibility(View.VISIBLE);
+            Log.d("dd","툴바를 셋팅한다");
+        } else  {
+            Log.d("dd","set2222222");
+
+            getSupportActionBar().hide();
+            toolbar.setVisibility(View.GONE);
+            Log.d("dd","폴스로 툴바를 지운다");
+        }
     }
 
 
