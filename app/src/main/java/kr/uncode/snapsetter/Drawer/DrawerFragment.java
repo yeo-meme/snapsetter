@@ -27,27 +27,34 @@ import kr.uncode.snapsetter.R;
 
 public class DrawerFragment  extends Fragment {
 
-    private DrawerListAdapter drawerListAdapter;
     private FirebaseAuth mAuth;
     private FirebaseUser currentUser;
 
+    /**내보관함 리사이클러뷰 변수
+     */
     private RecyclerView recyclerView;
-
-//    private MainActivity mainActivity;
-//    private String userEmail = "";
-//    private String image_url = "";
-//    private String user_Id ="";
-//    private String getImage = "";
+    /**파이어베이스 최신사용자 를 스트링에 담는 변수
+     */
     private String recentUser = "";
 
+    /** 리얼엠 리절트 를 픽쳐데이타 타입 리스트로 보관하는 변수
+     */
     private RealmResults<PictureData> pictureDataList;
+
+    /**보관함에 리사이클러뷰 정렬을 위해 매니저 변수 사용
+     */
     private GridLayoutManager gridLayoutManager;
-//    private RecyclerView.LayoutManager layoutManager;
+
+    /**보관함에 리스트를 가져오기 위해 어댑터 셋하기 위한 변수
+     */
     private RecyclerView.Adapter mAdater;
 
     public static DrawerFragment newInstance() {
         return new DrawerFragment();
     }
+
+    /**데이터 == 0 일때 리사이클러뷰대신 안내 텍스트 보이게하는 텍스트
+     */
     private TextView drawer_word;
 
 
@@ -119,7 +126,6 @@ public class DrawerFragment  extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
 
         Activity activity = getActivity();
         if (activity != null && activity instanceof MainActivity) {

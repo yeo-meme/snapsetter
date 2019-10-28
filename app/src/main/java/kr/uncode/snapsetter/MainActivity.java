@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.List;
 import java.util.Stack;
 
 import kr.uncode.snapsetter.Drawer.DrawerFragment;
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 파이어베이스 어스 리스너 객체
      */
     public FirebaseAuth.AuthStateListener mAuthListener;
+
 
 
     @Override
@@ -254,6 +257,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    private void serch(String charText) {
+
+
+    }
     @Override
     public void onClick(View view) {
 

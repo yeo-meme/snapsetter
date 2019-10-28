@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter.Drawer;
 
+import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.MainActivity;
 import kr.uncode.snapsetter.MainFragment;
 import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.R;
@@ -35,11 +37,6 @@ import kr.uncode.snapsetter.R;
  * 내보관함을 열면 내보관함의 리스트를 클릭했을때 화면 (가장 마지막 디테일의 자세한 화면 삭제가 가능)
  */
 public class DrawerDetailActivity extends AppCompatActivity {
-
-
-    private FirebaseAuth mAuth;
-    private FirebaseUser currentUser;
-
 
     private static final String TAG = DrawerDetailActivity.class.getSimpleName();
 
@@ -82,6 +79,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
         //중복 액티티비가 존재하여 실제동작하는 액티비티 확인차 토스트
 //        Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
 
+        //딜리트 메뉴를 포함하는 툴바
         setToolbar();
 
 
@@ -131,8 +129,10 @@ public class DrawerDetailActivity extends AppCompatActivity {
                 break;
         }
         Log.d("ww","케이스 트루전");
+
         finish();
-        return true;
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void deleteImg() {
@@ -167,12 +167,17 @@ public class DrawerDetailActivity extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG);
+        Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
         Log.d("ww","딜리트끝나고");
 
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Realm realm = Realm.getDefaultInstance();
+        realm.close();
+    }
 
     public void setDetail_img(String url) {
         if (url != null) {

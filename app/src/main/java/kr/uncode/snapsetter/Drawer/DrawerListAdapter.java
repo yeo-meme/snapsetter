@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter.Drawer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -77,8 +78,6 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     //찜했을떄
     class DrawerListViewHolder extends RecyclerView.ViewHolder {
         DrawerItemImageBinding binding;
-        ListItemImageBinding heartbinding;
-
 
         public DrawerListViewHolder(DrawerItemImageBinding itemView) {
             super(itemView.getRoot());
@@ -91,13 +90,12 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                     image_position = position;
                     String xx = getImageList.get(position).getImage_url();
 
-                    Log.d("dd",xx);
                     if (xx != null) {
                         //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
+
                         Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
                         intent.putExtra(KEY_IMAGE_URL,xx);
                         intent.putExtra(KEY_IMAGE_POSITION,image_position);
-
                         context.startActivity(intent);
                     }
                 }
