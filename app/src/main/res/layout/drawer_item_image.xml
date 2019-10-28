@@ -5,45 +5,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/cardViewBg"
         android:orientation="vertical"
         android:paddingLeft="15dp"
         android:paddingTop="15dp"
-        android:background="@color/cardViewBg"
         android:paddingRight="15dp">
 
+        <LinearLayout
+            android:id="@+id/area"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/cardViewBg"
+            android:backgroundTint="@color/purple"
+            android:orientation="vertical">
 
-<!--        <com.google.android.material.card.MaterialCardView-->
-<!--            android:id="@+id/cardView"-->
-<!--            style="@style/Widget.MaterialComponents.CardView"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:minHeight="30dp"-->
-<!--            app:cardElevation="5dp"-->
-<!--            app:cardUseCompatPadding="true">-->
+            <ImageView
+                android:id="@+id/iv_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:backgroundTint="@color/colorPrimary"
+                android:scaleType="centerCrop"
+                android:src="@drawable/aa" />
 
-            <LinearLayout
-                android:id="@+id/area"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:backgroundTint="@color/purple"
-                android:background="@color/cardViewBg">
-
-
-
-
-                <ImageView
-                    android:id="@+id/iv_image"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/aa"/>
-
-
-
-            </LinearLayout>
-
-<!--        </com.google.android.material.card.MaterialCardView>-->
+        </LinearLayout>
     </LinearLayout>
 </layout>

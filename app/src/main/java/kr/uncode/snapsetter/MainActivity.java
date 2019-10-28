@@ -81,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private ActionBarDrawerToggle toggle;
+
     private TextView toolbarTitle;
     private Toolbar toolbar;
 
@@ -89,20 +90,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public FirebaseAuth.AuthStateListener mAuthListener;
 
-
-
-    final static int FRAGMENT_SEARCH= 1001;
-    final static int FRAGMENT_DRAWER = 1002;
-    final static int FRAGMENT_MAIN = 1003;
-
-
-    public static DrawerFragment drawerFragment;
-    public static MainFragment mainFragment;
-    public static SearchFragment searchFragment;
-
-    public static Stack<Fragment> fragmentStack;
-
-    public static FragmentManager manager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,21 +100,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         // 리스너가 자동로그인을 하기위해 auth정보를 가장먼저 받는다
         getAuth();
 
-
+        //디폴트 툴바셋팅
         toolbarset();
 
         //파인드바이 뷰 및 툴바 설정
         initView();
-
-        //프래그먼트 셋
-        fragmentLayoutSet();
-
 
         //자동로그인 리스너
         authListener();
 
     }
 
+
+    //디폴트 툴바셋팅
     public void toolbarset() {
         //툴바는 첨에 셋팅하지만 -> 메인프래그먼트가 바로 호출되면서 -> 툴바를 감추는
         // 메인액티비티에 메서드를 호출하기 때문에 하이드 된다
@@ -142,6 +127,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d("gg","여기는 오니?");
     }
 
+
+    //어더 리스너 처음에 사용자가 기억에 있으면 = 서치프래그먼트로 (검색창)
+    //처음에 사용자가 없으면 = 메인프래그먼트로 (회원가이브,로그인)
     private void authListener() {
         try {
             mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -149,6 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser listnerCurrentUser = mAuth.getCurrentUser();
                     Log.d("ooooo", "outoLogin USer :" + listnerCurrentUser);
+
                     if (listnerCurrentUser != null) {
                         // User is signed in
                         String userEmail = listnerCurrentUser.getEmail();
@@ -156,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         replaceFragment(SearchFragment.newInstance());
                     } else {
                         Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
+                        replaceFragment(MainFragment.newInstance());
                     }
                 }
             };
@@ -188,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
     }
 
+    //네비게이션 드로우를 열고 닫는 토글버튼 장착
     public void navigationToggle() {
         Log.d("dd","when");
         toggle = new ActionBarDrawerToggle(MainActivity.this, drawer, navigation_drawer_open, R.string.navigation_drawer_close);
@@ -205,15 +196,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //    }
 
-    private void fragmentLayoutSet() {
-
-        mainFragment = new MainFragment();
-        searchFragment = new SearchFragment();
-        drawerFragment = new DrawerFragment();
-
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        fragmentTransaction.add(R.id.frameLayout, MainFragment.newInstance()).commit();
-    }
 
     @Override
     public void onBackPressed() {
@@ -233,13 +215,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
-    public void toolbarSet() {
-        Log.d("dd","set1");
-//        toolbar = findViewById(R.id.toolbar);
-//        toolbarTitle = findViewById(R.id.toolbarTex);
-//        toolbarTitle.setOnClickListener(this::onClick);
-
-    }
 
     //TODO 내보관함에 들어갔을때만 툴바 오른쪽 버튼 보이고 보관함에 모든 데이터 삭제하기
     public void showToolbarRightBtn(Boolean show) {
@@ -282,6 +257,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
 
+        //툴바 메뉴를 선택했을때 메인화면 이동하는 메서드
         getAuth();
         FirebaseUser memberId = mAuth.getCurrentUser();
         if (view == toolbarTitle) {
@@ -295,6 +271,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 replaceFragment(MainFragment.newInstance());
             }
         }
+
+        //TODO 로그인 버튼을 눌를떄 프래그먼트에서 작동하는데 여기서 코드를 사용하는지 확인할것
         if (view == loginBtn) {
             email = emailedit.getEditText().getText().toString();
             passwd = passwdedit.getEditText().getText().toString();
@@ -307,6 +285,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
 
+
+        //TODO 크리에이트 아디 버튼을 눌렀을때 회원가입로직 : 프래그 먼트에서 하는데
+        //여기서도 코드를 쓰는지 확인해보것
         if (view == createIdBtn) {
             email = emailedit.getEditText().getText().toString();
             passwd = passwdedit.getEditText().getText().toString();
@@ -318,6 +299,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    //네비게이션 드로어 설렉티드
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -325,11 +307,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (id == R.id.nav_logout) {
             logout();
-            Log.d("nav", "nav1");
+            Log.d("nav", "사용자가 로그아웃버튼을 선택 이벤트 ");
         } else if (id == R.id.nav_drawer) {
-            Log.d("nav", "nav2");
+            Log.d("nav", "사용자가 네비게이션드로어 메뉴를 선택");
             replaceFragment(DrawerFragment.newInstance());
         }
+
         drawer.closeDrawer(GravityCompat.START);
         return false;
     }
@@ -348,14 +331,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (toggle.onOptionsItemSelected(item)) {
             return true;
         }
-
-//        switch (item.getItemId()) {
-//            case R.id.all_delete_btn: { // 오른쪽 상단 버튼 눌렀을 때
-//                Toast.makeText(getApplicationContext(), "click", Toast.LENGTH_SHORT).show();
-//            }
-//        }
-
-        // Handle your other action bar items...
 
         return super.onOptionsItemSelected(item);
     }

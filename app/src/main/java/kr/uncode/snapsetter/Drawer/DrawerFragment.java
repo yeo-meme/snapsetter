@@ -33,22 +33,28 @@ public class DrawerFragment  extends Fragment {
 
     private RecyclerView recyclerView;
 
-    private MainActivity mainActivity;
-    private String userEmail = "";
-    private String image_url = "";
-    private String user_Id ="";
-    private String getImage = "";
+//    private MainActivity mainActivity;
+//    private String userEmail = "";
+//    private String image_url = "";
+//    private String user_Id ="";
+//    private String getImage = "";
     private String recentUser = "";
 
     private RealmResults<PictureData> pictureDataList;
     private GridLayoutManager gridLayoutManager;
-    private RecyclerView.LayoutManager layoutManager;
+//    private RecyclerView.LayoutManager layoutManager;
     private RecyclerView.Adapter mAdater;
 
     public static DrawerFragment newInstance() {
         return new DrawerFragment();
     }
     private TextView drawer_word;
+
+
+    //리섬이 시작할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //다시 리얼엠 인스턴스를 불러오고
+    //드로어 어댑터에 리얼엠 데이터를 모두 받아서 넘긴다
+    //리사이클뷰에 어답터를 작용해서 셋
 
     @Override
     public void onResume() {
@@ -58,7 +64,10 @@ public class DrawerFragment  extends Fragment {
         mAdater= new DrawerListAdapter(realm.where(PictureData.class).findAll());
         recyclerView.setAdapter(mAdater);
 
+        //보관함에 저장된 데이터 로그 확인
         Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
+
+        //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
         if (pictureDataList.size() == 0 ) {
             drawer_word.setVisibility(View.VISIBLE);
             Log.d("gg","kk");
@@ -73,36 +82,27 @@ public class DrawerFragment  extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //부모를 부르거야 아하하하하하하 액티비티 커스텀 타입변환
-//        Activity activity = getActivity();
-//        if (activity != null && activity instanceof MainActivity) {
-//            MainActivity mainActivity = (MainActivity) activity;
-//        }
     }
 
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-//        mainActivity = (MainActivity) getActivity();
     }
 
 
     @Override
     public void onDetach() {
         super.onDetach();
-//        mainActivity = null;
     }
 
+
+
+    // 온스타트 할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // 다시 부모 액티비티를 얻어서 툴바를 셋하는 작업을 한다
     @Override
     public void onStart() {
 
-        Activity activity = getActivity();
-        if (activity != null && activity instanceof MainActivity) {
-            Log.d("gg","들어오니");
-            MainActivity mainActivity = (MainActivity) activity;
-            mainActivity.removeToolbar(true);
-        }
 
         super.onStart();
         //사용자가 아이디가 없으면 로그인후 네비게이션 드로어 사용가능 메세지 알림
@@ -120,25 +120,32 @@ public class DrawerFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof MainActivity) {
+            Log.d("gg","들어오니");
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.removeToolbar(true);
+        }
+
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
         drawer_word = rootView.findViewById(R.id.drawer_word);
+
+        //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
         setAdapter();
+
+
         return rootView;
     }
 
-    // 드로어 내보관함에 사진을 입력하기 위해
-    //리엘엠에 데이터를 빼오고 레이아웃 매니저 및 어답터를
-    //연결하는메서드
 
+    //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
     private void setAdapter() {
-
         int numberOfColumns = 2;
         gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
-
-
     }
 
 

@@ -67,6 +67,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         if (mRealm != null && !mRealm.isClosed()) mRealm.close();
     }
 
+
+    //온스타트에서 툴바를 넣어주기
     @Override
     public void onStart() {
         Activity activity = getActivity();
@@ -80,18 +82,14 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-
-
-
-
         super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.search_fragment, container, false);
 
+        View rootView = inflater.inflate(R.layout.search_fragment, container, false);
 
         search_edit_frame = rootView.findViewById(R.id.search_edit_frame);
         searchBtn = rootView.findViewById(R.id.searchBtn);
@@ -105,6 +103,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         searchListAdapter = new SearchListAdapter(mRealm);
         rvImageList.setAdapter(searchListAdapter);
+
+        //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트 메서드를 호출하는 버튼
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,12 +112,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-
         return rootView;
     }
 
-
-
+    //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {
         String query = search_edit_frame.getText().toString();
         tx.setVisibility(View.GONE);

@@ -255,10 +255,10 @@ public class MainFragment extends Fragment {
                             Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요", Toast.LENGTH_SHORT).show();
                             replaceFragment(SearchFragment.newInstance());
 //                                Fragment currentFragment = MainActivity.manager.findFragmentById(R.id.container);
-                            // 이동버튼 클릭할 때 stack에 push
-                            // 이동버튼 클릭할 때 stack에 push
-//                                MainActivity.fragmentStack.push(currentFragment);
-//                                MainActivity.changeFragment(MainActivity.FRAGMENT_SEARCH);
+//                            // 이동버튼 클릭할 때 stack에 push
+//                            // 이동버튼 클릭할 때 stack에 push
+////                                MainActivity.fragmentStack.push(currentFragment);
+////                                MainActivity.changeFragment(MainActivity.FRAGMENT_SEARCH);
                             Log.d("cc", "코드수정후 변화확인");
                         }
                     }
