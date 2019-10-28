@@ -167,6 +167,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         });
 
+        list.clear();
         return rootView;
     }
 
@@ -174,6 +175,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         list.clear();
 
         if (charText.length() == 0) {
+            for (int i =0; i<arrayList.size(); i++) {
+                if (arrayList.get(i).toLowerCase().contains(charText)) {
+                    list.add(arrayList.get(i));
+                }
+            }
 
         } else {
             for (int i =0; i<arrayList.size(); i++) {
@@ -187,6 +193,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         adapter.notifyDataSetChanged();
     }
 
+    //최근 검색 기록
     private void settingList() {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<PictureData> keyword = realm.where(PictureData.class).findAll();
