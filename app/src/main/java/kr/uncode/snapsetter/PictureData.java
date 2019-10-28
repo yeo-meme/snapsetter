@@ -10,6 +10,16 @@ public class PictureData extends RealmObject {
     private String name;
     private String image_url;
 
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    private String keyword;
+
 
     /**내보관함 데이터와 연관된 하트
      * 1 = 색깔이 채워진 하트 = 내보관함에 찜한 사진

@@ -32,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -152,26 +153,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         });
 
 
-
-//        adapter.add("Adam Smith") ;
-//        adapter.add("Bryan Adams") ;
-//        adapter.add("Chris Martin") ;
-//        adapter.add("Daniel Craig") ;
-//        adapter.add("Eric Clapton") ;
-//        adapter.add("Frank Sinatra") ;
-//        adapter.add("Gary Moore") ;
-//        adapter.add("Helloween") ;
-//        adapter.add("Ian Hunter") ;
-//        adapter.add("Jennifer Lopez") ;
-
-
-
-
         // 키보드내리기
 //        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-//        searchListAdapter = new SearchListAdapter(mRealm);
-//        rvImageList.setAdapter(searchListAdapter);
+        searchListAdapter = new SearchListAdapter(mRealm);
+        rvImageList.setAdapter(searchListAdapter);
 
         //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트 메서드를 호출하는 버튼
         searchBtn.setOnClickListener(new View.OnClickListener() {
@@ -189,11 +175,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         if (charText.length() == 0) {
 
-
         } else {
-
             for (int i =0; i<arrayList.size(); i++) {
-
                 if (arrayList.get(i).toLowerCase().contains(charText)) {
                     list.add(arrayList.get(i));
                 }
@@ -205,38 +188,31 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     }
 
     private void settingList() {
-        list.add("채수빈");
-        list.add("박지현");
-        list.add("수지");
-        list.add("남태현");
-        list.add("하성운");
-        list.add("크리스탈");
-        list.add("강승윤");
-        list.add("손나은");
-        list.add("남주혁");
-        list.add("루이");
-        list.add("진영");
-        list.add("슬기");
-        list.add("이해인");
-        list.add("고원희");
-        list.add("공명");
-        list.add("김예림");
-        list.add("혜리");
-        list.add("웬디");
-        list.add("박혜수");
-        list.add("카이");
-        list.add("진세연");
-        list.add("동호");
-        list.add("박세완");
-        list.add("도희");
-        list.add("창모");
-        list.add("허영지");
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<PictureData> keyword = realm.where(PictureData.class).findAll();
+
+        for (PictureData pd : keyword) {
+            pd.getKeyword();
+            Log.d("dd","get keyword :" + pd.getKeyword());
+            String aa = pd.getKeyword();
+            list.add(aa);
+        }
+
     }
 
 
     //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {
         String query = search_edit_frame.getText().toString();
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                PictureData pictureData = realm.createObject(PictureData.class);
+                pictureData.setKeyword(query);
+            }
+        });
         tx.setVisibility(View.GONE);
         font.setVisibility(View.GONE);
         if (TextUtils.isEmpty(query)) {
