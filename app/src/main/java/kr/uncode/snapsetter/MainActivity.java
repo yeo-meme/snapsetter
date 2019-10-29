@@ -228,13 +228,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
+
+    public void replaceFragmentNoStack(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+    }
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
         fragmentTransaction.addToBackStack(null).commit();
     }
-
 
     //메인프래그먼트가 이메서드를 호출하여 메인화면에 툴바를 삭제한다
 
@@ -270,12 +276,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == toolbarTitle) {
             Log.d("tt", "toolbattitttle");
             if (memberId != null) {
-                replaceFragment(SearchFragment.newInstance());
+                replaceFragmentNoStack(SearchFragment.newInstance());
                 Log.d("kk","로그인 상태에서  툴바제목 선택하기 : " + memberId);
 
             } else if (memberId == null) {
                 Log.d("kk","로그아웃 후 메인에서 툴바제목 선택하기 : " + memberId);
-                replaceFragment(MainFragment.newInstance());
+                replaceFragmentNoStack(MainFragment.newInstance());
             }
         }
 
