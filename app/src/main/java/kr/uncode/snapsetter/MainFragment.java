@@ -61,10 +61,11 @@ public class MainFragment extends Fragment {
     private CheckBox checkBox;
     private String email = "";
     private String passwd = "";
-    private Object Context;
 
-    /**사용자가 저장한 이메일과 비밀번호를 저장하기
-     위해 프리페어런스 선언*/
+    /**
+     * 사용자가 저장한 이메일과 비밀번호를 저장하기
+     * 위해 프리페어런스 선언
+     */
     private SharedPreferences sharedPreferences;
     /**
      * 그 프리페어런스 저장 삭제를 위해 에디터 선언
@@ -89,39 +90,16 @@ public class MainFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
-
-
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Context = context;
-
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
-
-    @Override
     public void onStart() {
         Activity activity = getActivity();
-        if (activity !=null && activity instanceof MainActivity) {
+        if (activity != null && activity instanceof MainActivity) {
             MainActivity mainActivity = (MainActivity) activity;
             mainActivity.removeToolbar(false);
-            Log.d("dd","난 툴바를 지우러 갈꺼음");
+            Log.d("dd", "난 툴바를 지우러 갈꺼음");
         }
 
         super.onStart();
     }
-
-
-
 
 
     private void onClickEvent() {
@@ -156,6 +134,13 @@ public class MainFragment extends Fragment {
         fragmentTransaction.addToBackStack(null).commit();
     }
 
+    public void replaceFragmentNoStack(Fragment fragment) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit();
+    }
+
     private void editTextgetToString() {
         email = emailedit.getEditText().getText().toString();
         passwd = passwdedit.getEditText().getText().toString();
@@ -165,8 +150,8 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mAuth = FirebaseAuth.getInstance();
+        context = getContext();
 
-        context = container.getContext();
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
         loginBtn = rootView.findViewById(R.id.loginBtn);
         createIdBtn = rootView.findViewById(R.id.createIdBtn);
@@ -177,7 +162,7 @@ public class MainFragment extends Fragment {
 
         putPassEdit = rootView.findViewById(R.id.putPassEdit);
         putEmailEdit = rootView.findViewById(R.id.putEmailEdit);
-        getPf();
+//        getPf();
         onClickEvent();
         //체크박스를 클릭시 에딧내용을 저장하는 메서드
         checkBoxOnClick();
@@ -198,7 +183,7 @@ public class MainFragment extends Fragment {
                     editTextgetToString();
                     if (email != null && passwd != null) {
                         editor.putString("email_id", email);
-                        Log.d("ee","email put check : " +email);
+                        Log.d("ee", "email put check : " + email);
                         editor.putString("pass", passwd);
                         editor.putBoolean("check", checkBox.isChecked());
                         editor.apply();
@@ -225,13 +210,13 @@ public class MainFragment extends Fragment {
     private void getPf() {
         Log.d("tt", "저장후 로그인 시도 들어옴");
         SharedPreferences SharedPreferences = context.getSharedPreferences("idpw", android.content.Context.MODE_PRIVATE);
-            String valueId = SharedPreferences.getString("email_id", "");
-            String valuePw = SharedPreferences.getString("pass", "");
-            if (!valueId.isEmpty() && !valuePw.isEmpty()) {
-                putEmailEdit.setText(valueId);
-                putPassEdit.setText(valuePw);
-                checkBox.setChecked(SharedPreferences.getBoolean("check", false));
-            }
+        String valueId = SharedPreferences.getString("email_id", "");
+        String valuePw = SharedPreferences.getString("pass", "");
+        if (!valueId.isEmpty() && !valuePw.isEmpty()) {
+            putEmailEdit.setText(valueId);
+            putPassEdit.setText(valuePw);
+            checkBox.setChecked(SharedPreferences.getBoolean("check", false));
+        }
     }
 
     private void loginUser() {
@@ -289,5 +274,10 @@ public class MainFragment extends Fragment {
     }
 
 
-}
+    //뒤로가기 버튼을 뺏어올 리스너 등록
 
+    //메인에서 토스트를 띄우며 종료확인을 하기 위해 필드선언
+    MainFragment mainFragment = new MainFragment();
+
+
+}

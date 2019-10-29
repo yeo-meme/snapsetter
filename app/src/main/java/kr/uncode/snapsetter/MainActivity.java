@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -38,7 +39,7 @@ import kr.uncode.snapsetter.Drawer.DrawerFragment;
 
 import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener  {
 
     /**
      * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
@@ -92,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     public FirebaseAuth.AuthStateListener mAuthListener;
 
-
+    private long pressedTime = 0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,6 +114,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         authListener();
 
     }
+
+
+
 
 
     //디폴트 툴바셋팅
@@ -199,11 +203,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //
 //    }
 
-
-    @Override
-    public void onBackPressed() {
-            super.onBackPressed();
-    }
 
     //init View setting
     private void initView() {
@@ -333,7 +332,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        toggle.onConfigurationChanged(newConfig);
+//        toggle.onConfigurationChanged(newConfig);
     }
 
     @Override
