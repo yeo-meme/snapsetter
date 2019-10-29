@@ -14,7 +14,7 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
     <string name="drawer_empty">box is empty Fill in my own image. </string>
-    <string name="main_info">G메일 구글아이디로 Create_ID 하시면 구글계정으로 회원가입하고 사용하시면 됩니다:)</string>
+    <string name="main_info">Please sign up as a member by any email you are using. [Create_id] button press it and you can use app </string>
     <string name="checkbox_remindIdPw">Remember ID and password</string>
 
 

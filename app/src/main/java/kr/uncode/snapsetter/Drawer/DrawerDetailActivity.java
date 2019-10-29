@@ -81,10 +81,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
         //딜리트 메뉴를 포함하는 툴바
         setToolbar();
-
-
         detailsDrawer = findViewById(R.id.drawerDetail_img);
-
         //드로어리스어탭터 홀더에서 보낸 인텐트 키를 받아오는 구문
         getImageUrlKey();
 
@@ -184,6 +181,8 @@ public class DrawerDetailActivity extends AppCompatActivity {
             Glide.with(getApplicationContext()).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(detailsDrawer);
+
+//            detailsDrawer
         } else {
             Log.d("image error","error");
         }

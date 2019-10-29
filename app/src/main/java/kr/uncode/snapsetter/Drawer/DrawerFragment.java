@@ -5,6 +5,9 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -57,6 +62,7 @@ public class DrawerFragment  extends Fragment {
      */
     private TextView drawer_word;
 
+    private Toolbar toolbar;
 
     //리섬이 시작할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //다시 리얼엠 인스턴스를 불러오고
@@ -81,16 +87,37 @@ public class DrawerFragment  extends Fragment {
         } else if (pictureDataList.size() != 0) {
             drawer_word.setVisibility(View.GONE);
             Log.d("gg","ll");
-
-
         }
+        getActivity().invalidateOptionsMenu();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
+    //    툴바 셋팅 메서드
+    private void setToolbar() {
+
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        inflater.inflate(R.menu.alldelete, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.all_delete :
+                String message = "menu is selected";
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -127,24 +154,38 @@ public class DrawerFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        Activity activity = getActivity();
-        if (activity != null && activity instanceof MainActivity) {
-            Log.d("gg","들어오니");
-            MainActivity mainActivity = (MainActivity) activity;
-            mainActivity.removeToolbar(true);
-        }
+//        Activity activity = getActivity();
+//        if (activity != null && activity instanceof MainActivity) {
+//            Log.d("gg","들어오니");
+//            MainActivity mainActivity = (MainActivity) activity;
+//            mainActivity.removeToolbar(true);
+//        }
 
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
         drawer_word = rootView.findViewById(R.id.drawer_word);
+        toolbar = rootView.findViewById(R.id.drawer_toolbar);
 
         //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
+
+        fragmentToolbarSet();
+
+
         setAdapter();
 
 
         return rootView;
     }
 
+    //온크레이트 메뉴를 적용시키기 위해 필요한 메서드
+    private void fragmentToolbarSet() {
+        setHasOptionsMenu(true); //onCreateOptionMenu에서 바뀔 menu 를 승인
+        MainActivity activity = (MainActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
+        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowTitleEnabled(false);
+    }
 
     //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
     private void setAdapter() {

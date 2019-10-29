@@ -65,7 +65,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     //리스트뷰 아이템 시작
 
     private List<String> list;
-    private ListView listView;
+//    private ListView listView;
     private SearchAdapter adapter;
     private ArrayList<String> arrayList;
 
@@ -86,6 +86,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         super.onDetach();
         if (mRealm != null && !mRealm.isClosed()) mRealm.close();
     }
+
 
 
     //온스타트에서 툴바를 넣어주기
@@ -119,38 +120,38 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         tx = rootView.findViewById(R.id.tx);
         back = rootView.findViewById(R.id.back);
 
-        listView = rootView.findViewById(R.id.listView);
+//        listView = rootView.findViewById(R.id.listView);
 
 
-        list = new ArrayList<String>();
-        settingList();
+//        list = new ArrayList<String>();
+//        settingList();
+//
+//        arrayList = new ArrayList<String>();
+//        arrayList.addAll(list);
 
-        arrayList = new ArrayList<String>();
-        arrayList.addAll(list);
 
+//        adapter = new SearchAdapter(list, context);
+//        listView.setAdapter(adapter);
 
-        adapter = new SearchAdapter(list, context);
-        listView.setAdapter(adapter);
-
-        search_edit_frame.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable edit) {
-
-                String text = search_edit_frame.getText().toString();
-                listitem(text);
-
-            }
-        });
+//        search_edit_frame.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable edit) {
+//
+//                String text = search_edit_frame.getText().toString();
+////                listitem(text);
+//
+//            }
+//        });
 
 
         // 키보드내리기
@@ -167,31 +168,31 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        list.clear();
+//        list.clear();
         return rootView;
     }
 
-    private void listitem(String charText) {
-        list.clear();
-
-        if (charText.length() == 0) {
-            for (int i =0; i<arrayList.size(); i++) {
-                if (arrayList.get(i).toLowerCase().contains(charText)) {
-                    list.add(arrayList.get(i));
-                }
-            }
-
-        } else {
-            for (int i =0; i<arrayList.size(); i++) {
-                if (arrayList.get(i).toLowerCase().contains(charText)) {
-                    list.add(arrayList.get(i));
-                }
-            }
-
-        }
-
-        adapter.notifyDataSetChanged();
-    }
+//    private void listitem(String charText) {
+//        list.clear();
+//
+//        if (charText.length() == 0) {
+//            for (int i =0; i<arrayList.size(); i++) {
+//                if (arrayList.get(i).toLowerCase().contains(charText)) {
+//                    list.add(arrayList.get(i));
+//                }
+//            }
+//
+//        } else {
+//            for (int i =0; i<arrayList.size(); i++) {
+//                if (arrayList.get(i).toLowerCase().contains(charText)) {
+//                    list.add(arrayList.get(i));
+//                }
+//            }
+//
+//        }
+//
+//        adapter.notifyDataSetChanged();
+//    }
 
     //최근 검색 기록
     private void settingList() {
@@ -261,7 +262,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private void showProgressBar() {
         progress_bar.setVisibility(View.VISIBLE);
     }
-
 
     @Override
     public void onClick(View view) {
