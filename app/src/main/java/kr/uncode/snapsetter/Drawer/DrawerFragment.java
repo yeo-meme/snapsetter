@@ -90,6 +90,7 @@ public class DrawerFragment  extends Fragment {
         //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
         if (pictureDataList.size() == 0 ) {
             drawer_word.setVisibility(View.VISIBLE);
+            toolbar.getMenu().clear();
             Log.d("gg","kk");
         } else if (pictureDataList.size() != 0) {
             drawer_word.setVisibility(View.GONE);
@@ -102,7 +103,6 @@ public class DrawerFragment  extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         drawerListAdapter = new DrawerListAdapter(pictureDataList);
     }
 
@@ -113,6 +113,7 @@ public class DrawerFragment  extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+
         inflater.inflate(R.menu.alldelete, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -121,9 +122,12 @@ public class DrawerFragment  extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.all_delete :
-                myDrawerAllDelete();
-                String message = "보관함에 내용이 전체 삭제 되었습니다";
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                if (pictureDataList.size() == 0) {
+                    Toast.makeText(getContext(),"보관함에 삭제할 사진이 없어요",Toast.LENGTH_LONG).show();
+                } else {
+                    myDrawerAllDelete();
+                }
+
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -135,17 +139,19 @@ public class DrawerFragment  extends Fragment {
         RealmResults<PictureData> results = realm.where(PictureData.class).findAll();
 
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                results.deleteAllFromRealm();
-                drawerListAdapter.notifyDataSetChanged();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    results.deleteAllFromRealm();
+                    drawerListAdapter.notifyDataSetChanged();
+                    String message = "보관함에 내용이 전체 삭제 되었습니다";
+                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                    refresh();
 
-                refresh();
+                }
+            });
+        }
 
-            }
-        });
-    }
 
 
     private void refresh() {
