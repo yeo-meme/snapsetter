@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,11 +19,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -64,6 +69,8 @@ public class DrawerFragment  extends Fragment {
 
     private Toolbar toolbar;
 
+    private DrawerListAdapter drawerListAdapter;
+
     //리섬이 시작할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //다시 리얼엠 인스턴스를 불러오고
     //드로어 어댑터에 리얼엠 데이터를 모두 받아서 넘긴다
@@ -89,12 +96,14 @@ public class DrawerFragment  extends Fragment {
             Log.d("gg","ll");
         }
         getActivity().invalidateOptionsMenu();
+        drawerListAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        drawerListAdapter = new DrawerListAdapter(pictureDataList);
     }
 
     //    툴바 셋팅 메서드
@@ -112,13 +121,38 @@ public class DrawerFragment  extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.all_delete :
-                String message = "menu is selected";
+                myDrawerAllDelete();
+                String message = "보관함에 내용이 전체 삭제 되었습니다";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
+    //내보관함에 메뉴를 툴바 오른쪽 버튼을 통해 전체 삭제하는 메서드
+    private void myDrawerAllDelete() {
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<PictureData> results = realm.where(PictureData.class).findAll();
+
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                results.deleteAllFromRealm();
+                drawerListAdapter.notifyDataSetChanged();
+
+                refresh();
+
+            }
+        });
+    }
+
+
+    private void refresh() {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.detach(this).attach(this).commit();
+
+    }
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
@@ -154,25 +188,15 @@ public class DrawerFragment  extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-//        Activity activity = getActivity();
-//        if (activity != null && activity instanceof MainActivity) {
-//            Log.d("gg","들어오니");
-//            MainActivity mainActivity = (MainActivity) activity;
-//            mainActivity.removeToolbar(true);
-//        }
-
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
         drawer_word = rootView.findViewById(R.id.drawer_word);
         toolbar = rootView.findViewById(R.id.drawer_toolbar);
 
         //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
-
         fragmentToolbarSet();
 
-
         setAdapter();
-
 
         return rootView;
     }

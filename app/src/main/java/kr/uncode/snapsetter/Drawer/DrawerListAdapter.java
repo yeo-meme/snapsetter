@@ -88,15 +88,16 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                 public void onClick(View view) {
                     int position = getAdapterPosition();
                     image_position = position;
-                    String xx = getImageList.get(position).getImage_url();
+                    if (getImageList.get(position).getImage_url() != null) {
+                        String xx = getImageList.get(position).getImage_url();
+                        if (xx != null) {
+                            //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
 
-                    if (xx != null) {
-                        //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
-
-                        Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
-                        intent.putExtra(KEY_IMAGE_URL,xx);
-                        intent.putExtra(KEY_IMAGE_POSITION,image_position);
-                        context.startActivity(intent);
+                            Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
+                            intent.putExtra(KEY_IMAGE_URL,xx);
+                            intent.putExtra(KEY_IMAGE_POSITION,image_position);
+                            context.startActivity(intent);
+                        }
                     }
                 }
             });
