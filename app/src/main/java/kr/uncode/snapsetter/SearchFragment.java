@@ -3,20 +3,16 @@ package kr.uncode.snapsetter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,7 +28,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -168,45 +163,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-//        list.clear();
         return rootView;
     }
 
-//    private void listitem(String charText) {
-//        list.clear();
-//
-//        if (charText.length() == 0) {
-//            for (int i =0; i<arrayList.size(); i++) {
-//                if (arrayList.get(i).toLowerCase().contains(charText)) {
-//                    list.add(arrayList.get(i));
-//                }
-//            }
-//
-//        } else {
-//            for (int i =0; i<arrayList.size(); i++) {
-//                if (arrayList.get(i).toLowerCase().contains(charText)) {
-//                    list.add(arrayList.get(i));
-//                }
-//            }
-//
-//        }
-//
-//        adapter.notifyDataSetChanged();
-//    }
-
-    //최근 검색 기록
-    private void settingList() {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<PictureData> keyword = realm.where(PictureData.class).findAll();
-
-        for (PictureData pd : keyword) {
-            pd.getKeyword();
-            Log.d("dd","get keyword :" + pd.getKeyword());
-            String aa = pd.getKeyword();
-            list.add(aa);
-        }
-
-    }
 
 
     public static void downKeyboard(Context context, EditText editText)
@@ -216,15 +175,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {
         String query = search_edit_frame.getText().toString();
-        downKeyboard(context,search_edit_frame);
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                PictureData pictureData = realm.createObject(PictureData.class);
-                pictureData.setKeyword(query);
-            }
-        });
+//        downKeyboard(context,search_edit_frame);
+//        Realm realm = Realm.getDefaultInstance();
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                PictureData pictureData = realm.createObject(PictureData.class);
+////                pictureData.setKeyword(query);
+//            }
+//        });
         tx.setVisibility(View.GONE);
         font.setVisibility(View.GONE);
         if (TextUtils.isEmpty(query)) {

@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         replaceFragment(SearchFragment.newInstance());
                     } else {
                         Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
-                        replaceFragment(MainFragment.newInstance());
+                        replaceFragment(MainContainer.newInstance());
                     }
                 }
             };
@@ -228,12 +228,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
 
-    public void replaceFragmentNoStack(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.commit();
-    }
+//    public void replaceFragmentNoStack(Fragment fragment) {
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.replace(R.id.frameLayout, fragment);
+//        fragmentTransaction.commit();
+//    }
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -275,12 +275,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == toolbarTitle) {
             Log.d("tt", "toolbattitttle");
             if (memberId != null) {
-                replaceFragmentNoStack(SearchFragment.newInstance());
+                replaceFragment(Search_Fragment.newInstance());
                 Log.d("kk","로그인 상태에서  툴바제목 선택하기 : " + memberId);
 
             } else if (memberId == null) {
                 Log.d("kk","로그아웃 후 메인에서 툴바제목 선택하기 : " + memberId);
-                replaceFragmentNoStack(MainFragment.newInstance());
+                replaceFragment(MainContainer.newInstance());
             }
         }
 

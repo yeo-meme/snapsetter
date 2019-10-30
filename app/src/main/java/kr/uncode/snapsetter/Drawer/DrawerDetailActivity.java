@@ -1,13 +1,10 @@
 package kr.uncode.snapsetter.Drawer;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -17,18 +14,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.uncode.snapsetter.MainActivity;
-import kr.uncode.snapsetter.MainFragment;
 import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.R;
 
