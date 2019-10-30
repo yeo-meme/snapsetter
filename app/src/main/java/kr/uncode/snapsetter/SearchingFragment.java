@@ -32,7 +32,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Search_Fragment extends Fragment implements View.OnClickListener {
+public class SearchingFragment extends Fragment implements View.OnClickListener {
+
+
+
     private SearchListAdapter searchListAdapter;
     private EditText search_edit_frame;
     private Button searchBtn;
@@ -66,19 +69,21 @@ public class Search_Fragment extends Fragment implements View.OnClickListener {
 
 
 
-    public static SearchFragment newInstance() {
-        return new SearchFragment();
+    public static SearchingFragment newInstance() {
+        return new SearchingFragment();
     }
 
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        Log.d("11","55");
         mRealm = Realm.getDefaultInstance();
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
+        Log.d("11","44");
         if (mRealm != null && !mRealm.isClosed()) mRealm.close();
     }
 
@@ -91,14 +96,18 @@ public class Search_Fragment extends Fragment implements View.OnClickListener {
         if (activity != null && activity instanceof MainActivity) {
             Log.d("dd","서치에 들어와서 툴바를 넣으러");
             MainActivity mainActivity = (MainActivity) activity;
+            Log.d("11","33");
+
             mainActivity.removeToolbar(true);
         }
+
+        Log.d("11","11");
         super.onStart();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        context = getContext();
+//        context = getContext();
         super.onCreate(savedInstanceState);
     }
 
@@ -114,6 +123,7 @@ public class Search_Fragment extends Fragment implements View.OnClickListener {
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
         back = rootView.findViewById(R.id.back);
+        Log.d("11","22");
 
 //        listView = rootView.findViewById(R.id.listView);
 

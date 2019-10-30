@@ -1,6 +1,5 @@
 package kr.uncode.snapsetter;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,7 +7,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,14 +24,10 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.List;
-import java.util.Stack;
 
 import kr.uncode.snapsetter.Drawer.DrawerFragment;
 
@@ -149,10 +143,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // User is signed in
                         String userEmail = listnerCurrentUser.getEmail();
                         Log.d("ff", "자동로그인 들어왔따");
-                        replaceFragment(Search_Fragment.newInstance());
+                        replaceFragmentNoStack(SearchingFragment.newInstance());
                     } else {
                         Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
-                        replaceFragment(MainContainer.newInstance());
+                        replaceFragmentNoStack(MainContainer.newInstance());
                     }
                 }
             };
@@ -228,13 +222,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     // Fragment로 사용할 MainActivity내의 layout공간을 선택합니다.
 
-//    public void replaceFragmentNoStack(Fragment fragment) {
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        fragmentTransaction.replace(R.id.frameLayout, fragment);
-//        fragmentTransaction.commit();
-//    }
     public void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.addToBackStack(null).commit();
+    }
+    public void replaceFragmentNoStack(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
@@ -276,7 +270,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (view == toolbarTitle) {
             Log.d("tt", "toolbattitttle");
             if (memberId != null) {
-                replaceFragment(Search_Fragment.newInstance());
+                replaceFragment(SearchingFragment.newInstance());
                 Log.d("kk","로그인 상태에서  툴바제목 선택하기 : " + memberId);
 
             } else if (memberId == null) {
@@ -308,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("hi", email);
             Log.d("hi", passwd);
 
-            createUser(email, passwd);
+//            createUser(email, passwd);
         }
     }
 
@@ -352,8 +346,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void logout() {
         mAuth.getInstance().signOut();
         Toast.makeText(MainActivity.this, "logout!! bye~", Toast.LENGTH_LONG).show();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        startActivity(intent);
+        finish();
     }
 
     //회원 가입 메서드

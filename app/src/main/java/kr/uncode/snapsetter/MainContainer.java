@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -29,8 +30,6 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 
-import org.w3c.dom.Text;
-
 public class MainContainer extends Fragment {
 
     private CheckBox checkBox;
@@ -57,10 +56,10 @@ public class MainContainer extends Fragment {
 
     private TextInputLayout passwdedit;
     private TextInputLayout emailedit;
-
-
     private TextInputEditText putEmailEdit;
     private TextInputEditText putPassEdit;
+
+
     private Button loginBtn;
     private Button createIdBtn;
     private Context context;
@@ -78,6 +77,12 @@ public class MainContainer extends Fragment {
 
     @Override
     public void onStart() {
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.removeToolbar(false);
+            Log.d("dd", "난 툴바를 지우러 갈꺼음");
+        }
         mAuth = FirebaseAuth.getInstance();
         super.onStart();
     }
@@ -87,6 +92,7 @@ public class MainContainer extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.main_fragment,container,false);
+
         putEmailEdit = view.findViewById(R.id.putEmailEdit);
         putPassEdit = view.findViewById(R.id.putPassEdit);
         loginBtn = view.findViewById(R.id.loginBtn);
@@ -95,6 +101,7 @@ public class MainContainer extends Fragment {
         emailedit = view.findViewById(R.id.emailedit);
         passwdedit = view.findViewById(R.id.passwdedit);
         checkBox = view.findViewById(R.id.checkbox);
+        checkBoxOnClick();
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,7 +125,6 @@ public class MainContainer extends Fragment {
             }
             });
 
-        checkBoxOnClick();
 
         createIdBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -203,7 +209,7 @@ public class MainContainer extends Fragment {
                         } else {
                             Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요", Toast.LENGTH_SHORT).show();
                             //에러후 새로 옮긴 프래그먼트로 이동
-                            replaceFragment(Search_Fragment.newInstance());
+                            replaceFragment(SearchingFragment.newInstance());
                             Log.d("cc", "코드수정후 변화확인");
                         }
                     }
@@ -236,10 +242,12 @@ public class MainContainer extends Fragment {
 
     //리플레이스 프래그먼트를 연속적으로 페이지 리플레이스 할떄 프래그먼트 스택을 쌓고 재배치하는 메서드
     public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null).commit();
+        if(isAdded()) {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.frameLayout, fragment);
+            fragmentTransaction.commitAllowingStateLoss();
+        }
     }
 
 
