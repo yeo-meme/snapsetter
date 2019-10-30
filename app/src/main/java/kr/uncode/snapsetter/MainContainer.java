@@ -1,6 +1,7 @@
 package kr.uncode.snapsetter;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -42,6 +43,18 @@ public class MainContainer extends Fragment {
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
+    /**
+     * 그 프리페어런스 저장 삭제를 위해 에디터 선언
+     */
+    private SharedPreferences.Editor editor;
+
+    /**
+     * 사용자가 저장한 이메일과 비밀번호를 저장하기
+     * 위해 프리페어런스 선언
+     */
+    private SharedPreferences sharedPreferences;
+
+
     private TextInputLayout passwdedit;
     private TextInputLayout emailedit;
 
@@ -75,11 +88,13 @@ public class MainContainer extends Fragment {
 
         View view = inflater.inflate(R.layout.main_fragment,container,false);
         putEmailEdit = view.findViewById(R.id.putEmailEdit);
+        putPassEdit = view.findViewById(R.id.putPassEdit);
         loginBtn = view.findViewById(R.id.loginBtn);
         createIdBtn = view.findViewById(R.id.createIdBtn);
 
         emailedit = view.findViewById(R.id.emailedit);
         passwdedit = view.findViewById(R.id.passwdedit);
+        checkBox = view.findViewById(R.id.checkbox);
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,9 +117,72 @@ public class MainContainer extends Fragment {
                 Log.d("hi", passwd);
             }
             });
+
+        checkBoxOnClick();
+
+        createIdBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (email != null && passwd != null)
+                    createUser(email, passwd);
+            }
+        });
+
         return view;
     }
 
+
+    private void checkBoxOnClick() {
+        sharedPreferences = context.getSharedPreferences("idpw", android.content.Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (checkBox.isChecked()) {
+                    editTextgetToString();
+                    if (email != null && passwd != null) {
+                        editor.putString("email_id", email);
+                        Log.d("ee", "email put check : " + email);
+                        editor.putString("pass", passwd);
+                        editor.putBoolean("check", checkBox.isChecked());
+                        editor.apply();
+
+                        //체크값이 잘들어갔나 확인차 값을 빼봄
+                        boolean value = sharedPreferences.getBoolean("check", false);
+                        Log.d("hhh", "check box boolean 저장 후 : " + value);
+                    } else {
+                        Toast.makeText(context.getApplicationContext(), "Email 과 패스워드를 입력해주세요", Toast.LENGTH_LONG);
+                    }
+
+                    //사용자가 체크를 풀었을때 프리페어런스를 삭제하고 에딧텍스트를 지우기
+                } else if (!checkBox.isChecked()) {
+                    editor.remove("email_id");
+                    editor.remove("paa");
+                    editor.remove("check");
+                    putEmailEdit.setText("");
+                    putPassEdit.setText("");
+                }
+            }
+        });
+    }
+
+    //체크박스 체크하면 아이디,비밀번호 값을 프리페얼런스로 값을 저장해서 에딧창에 담고 있는 메서드
+    private void getPf() {
+        Log.d("tt", "저장후 로그인 시도 들어옴");
+        SharedPreferences SharedPreferences = context.getSharedPreferences("idpw", android.content.Context.MODE_PRIVATE);
+        String valueId = SharedPreferences.getString("email_id", "");
+        String valuePw = SharedPreferences.getString("pass", "");
+        if (!valueId.isEmpty() && !valuePw.isEmpty()) {
+            putEmailEdit.setText(valueId);
+            putPassEdit.setText(valuePw);
+            checkBox.setChecked(SharedPreferences.getBoolean("check", false));
+        }
+    }
+
+
+    //로그인이 처음에 안된 사용자가 로그인을 시도를 성공했을때 서치_프래그먼트를 리플레이스
     private void loginUser() {
         mAuth.signInWithEmailAndPassword(email, passwd)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -124,6 +202,7 @@ public class MainContainer extends Fragment {
                             }
                         } else {
                             Toast.makeText(context, "환영합니다! 원하시는 이미지를 검색하고 나만의이미지를 수집해보세요", Toast.LENGTH_SHORT).show();
+                            //에러후 새로 옮긴 프래그먼트로 이동
                             replaceFragment(Search_Fragment.newInstance());
                             Log.d("cc", "코드수정후 변화확인");
                         }
@@ -131,6 +210,31 @@ public class MainContainer extends Fragment {
                 });
     }
 
+//회원가입 버튼을 누르면 파이어베이스 인증을 걸쳐 회원가입 하는 메서드
+    private void createUser(String email, String passwd) {
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
+            Toast.makeText(context, "이메일과 비밀번호를 확인해주세요", Toast.LENGTH_LONG).show();
+        } else {
+
+            mAuth.createUserWithEmailAndPassword(email, passwd)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if (task.isSuccessful()) {
+
+                                Toast.makeText(context, "회원가입성공", Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(context, "회원가입 실패", Toast.LENGTH_LONG).show();
+                            }
+
+
+                        }
+                    });
+        }
+    }
+
+    //리플레이스 프래그먼트를 연속적으로 페이지 리플레이스 할떄 프래그먼트 스택을 쌓고 재배치하는 메서드
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -139,6 +243,7 @@ public class MainContainer extends Fragment {
     }
 
 
+    //머티리얼 디자인 에딧텍스트의 값을 가져오져 오는 메서드
     private void editTextgetToString() {
         email = emailedit.getEditText().getText().toString();
         passwd = passwdedit.getEditText().getText().toString();

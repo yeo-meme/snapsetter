@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         // User is signed in
                         String userEmail = listnerCurrentUser.getEmail();
                         Log.d("ff", "자동로그인 들어왔따");
-                        replaceFragment(SearchFragment.newInstance());
+                        replaceFragment(Search_Fragment.newInstance());
                     } else {
                         Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
                         replaceFragment(MainContainer.newInstance());
@@ -238,7 +238,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frameLayout, fragment);
-        fragmentTransaction.addToBackStack(null).commit();
+        fragmentTransaction.commit();
+        //addToBackStack(null).
     }
 
     //메인프래그먼트가 이메서드를 호출하여 메인화면에 툴바를 삭제한다
