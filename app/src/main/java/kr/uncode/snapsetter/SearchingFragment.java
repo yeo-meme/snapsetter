@@ -43,29 +43,12 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private ProgressBar progress_bar;
     private ImageView font;
     private TextView tx;
-    private InputMethodManager manager;
-    private LinearLayout back;
-
-    private FirebaseAuth mAuth;
-    private ImageView eHeart;
-    private ImageView heart;
-    private static final int RC_SIGN_IN = 900;
-
-    private static final String EMPTY_H = "EMPTY";
-    private static final String FULL_H = "FULL";
-    private String heart_state = EMPTY_H;
-
 
     private Realm mRealm;
     private Context context;
 
 
     //리스트뷰 아이템 시작
-
-    private List<String> list;
-    //    private ListView listView;
-    private SearchAdapter adapter;
-    private ArrayList<String> arrayList;
 
 
 
@@ -122,7 +105,6 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         progress_bar = rootView.findViewById(R.id.progress_bar);
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
-        back = rootView.findViewById(R.id.back);
         Log.d("11","22");
 
 //        listView = rootView.findViewById(R.id.listView);

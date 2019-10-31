@@ -102,7 +102,7 @@ public class MainContainer extends Fragment {
         passwdedit = view.findViewById(R.id.passwdedit);
         checkBox = view.findViewById(R.id.checkbox);
         checkBoxOnClick();
-
+        getPf();
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

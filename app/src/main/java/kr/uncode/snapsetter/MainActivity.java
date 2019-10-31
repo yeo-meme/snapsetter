@@ -40,10 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private FirebaseAuth mAuth;
 
-    /**
-     * 파이어베이스 인증을 통해 얻은 사용자이메일을 스트링타입 저장
-     */
-    private String recentUser = "";
 
     /**
      * 로그인 버튼
@@ -280,17 +276,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //TODO 로그인 버튼을 눌를떄 프래그먼트에서 작동하는데 여기서 코드를 사용하는지 확인할것
-        if (view == loginBtn) {
-            email = emailedit.getEditText().getText().toString();
-            passwd = passwdedit.getEditText().getText().toString();
-
-            Log.d("hi", email);
-            Log.d("hi", passwd);
-
-            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-                Toast.makeText(getApplicationContext(), "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
-            }
-        }
+//        if (view == loginBtn) {
+//            email = emailedit.getEditText().getText().toString();
+//            passwd = passwdedit.getEditText().getText().toString();
+//
+//            Log.d("hi", email);
+//            Log.d("hi", passwd);
+//
+//            if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
+//                Toast.makeText(getApplicationContext(), "이메일 OR 비밀번호를 입력해주세요", Toast.LENGTH_LONG).show();
+//            }
+//        }
 
 
         //TODO 크리에이트 아디 버튼을 눌렀을때 회원가입로직 : 프래그 먼트에서 하는데
