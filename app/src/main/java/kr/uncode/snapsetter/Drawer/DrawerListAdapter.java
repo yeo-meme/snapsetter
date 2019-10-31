@@ -1,9 +1,7 @@
 package kr.uncode.snapsetter.Drawer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import io.realm.RealmChangeListener;
 import io.realm.RealmResults;
 import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.databinding.DrawerItemImageBinding;
-import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
 
 public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.DrawerListViewHolder> {
@@ -62,6 +59,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
         try {
             Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url())
+                    .override(150 ,150)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(holder.binding.ivImage);
 
@@ -97,7 +95,6 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
 
                             Intent intent = new Intent(context.getApplicationContext(), DrawerDetailActivity.class);
                             intent.putExtra(KEY_IMAGE_URL, xx);
-                            intent.putExtra(KEY_IMAGE_POSITION, image_position);
                             context.startActivity(intent);
                         }
                     }

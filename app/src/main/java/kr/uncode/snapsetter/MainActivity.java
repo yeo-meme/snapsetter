@@ -315,9 +315,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("nav", "사용자가 네비게이션드로어 메뉴를 선택");
             replaceFragment(DrawerFragment.newInstance());
         }
-
         drawer.closeDrawer(GravityCompat.START);
-        return false;
+        return true;
     }
 
     @Override

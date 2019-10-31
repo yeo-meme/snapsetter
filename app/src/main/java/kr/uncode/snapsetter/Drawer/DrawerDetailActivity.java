@@ -46,7 +46,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
     /**리스트 삭제를 위한 포지션 값을 리스트 어댑터에서 getIntent로 받아오기 위한 상수
      *
      */
-    private static String KEY_IMAGE_POSITION = "PIE";
+//    private static String KEY_IMAGE_POSITION = "PIE";
 
     /**드로어어댑터 홀더에서 저장한 클릭할 당시의 이미지 URL을 인텐트에 키와 함께
      * 담아서 보냈을때 그걸 getIntent 로 키를 이용해 해당 URL을 꺼내 String타입으로 저장한 변수
@@ -83,7 +83,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
     private void getImageUrlKey() {
         Intent intent = getIntent();
         image_url = intent.getStringExtra(KEY_IMAGE_URL);
-        positon = intent.getStringExtra(KEY_IMAGE_POSITION);
+//        positon = intent.getStringExtra(KEY_IMAGE_POSITION);
 
         //불러온 키로 글라이드로 이미지 셋팅을 위해 메서드 호출
         setDetail_img(image_url);
@@ -167,12 +167,14 @@ public class DrawerDetailActivity extends AppCompatActivity {
     public void setDetail_img(String url) {
         if (url != null) {
             Glide.with(getApplicationContext()).load(url)
+                    .override(200  ,200)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(detailsDrawer);
 
-//            detailsDrawer
         } else {
             Log.d("image error","error");
         }
     }
+
+
 }
