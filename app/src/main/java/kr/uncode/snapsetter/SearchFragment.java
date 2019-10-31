@@ -57,6 +57,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private Context context;
 
 
+    private InputMethodManager imm;
     //리스트뷰 아이템 시작
 
     private List<String> list;
@@ -115,6 +116,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         tx = rootView.findViewById(R.id.tx);
         back = rootView.findViewById(R.id.back);
 
+
+
 //        listView = rootView.findViewById(R.id.listView);
 
 
@@ -159,6 +162,8 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(view);
+                Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 btnSearch(container.getRootView());
             }
         });
@@ -168,14 +173,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
 
 
-    public static void downKeyboard(Context context, EditText editText)
-    { InputMethodManager mInputMethodManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-    mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0); }
+
 
     //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {
         String query = search_edit_frame.getText().toString();
-//        downKeyboard(context,search_edit_frame);
 //        Realm realm = Realm.getDefaultInstance();
 //        realm.executeTransaction(new Realm.Transaction() {
 //            @Override
@@ -228,6 +230,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+    }
 
+    private void hideKeyboard(View view) {
+        Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+              imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
