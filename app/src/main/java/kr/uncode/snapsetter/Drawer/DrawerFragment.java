@@ -1,6 +1,5 @@
 package kr.uncode.snapsetter.Drawer;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,7 +9,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -59,9 +54,6 @@ public class DrawerFragment  extends Fragment {
      */
     private RecyclerView.Adapter mAdater;
 
-    public static DrawerFragment newInstance() {
-        return new DrawerFragment();
-    }
 
     /**데이터 == 0 일때 리사이클러뷰대신 안내 텍스트 보이게하는 텍스트
      */
@@ -75,6 +67,62 @@ public class DrawerFragment  extends Fragment {
     //다시 리얼엠 인스턴스를 불러오고
     //드로어 어댑터에 리얼엠 데이터를 모두 받아서 넘긴다
     //리사이클뷰에 어답터를 작용해서 셋
+
+
+    public static DrawerFragment newInstance() {
+        return new DrawerFragment();
+    }
+
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        drawerListAdapter = new DrawerListAdapter(pictureDataList);
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
+        recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
+        drawer_word = rootView.findViewById(R.id.drawer_word);
+        toolbar = rootView.findViewById(R.id.drawer_toolbar);
+
+        //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
+        fragmentToolbarSet();
+
+        setAdapter();
+
+        return rootView;
+    }
+
+
+
+
+    // 온스타트 할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    // 다시 부모 액티비티를 얻어서 툴바를 셋하는 작업을 한다
+    @Override
+    public void onStart() {
+
+
+        super.onStart();
+        //사용자가 아이디가 없으면 로그인후 네비게이션 드로어 사용가능 메세지 알림
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
+        recentUser = currentUser.getEmail();
+        Log.d("uu",recentUser);
+        if (recentUser == null) {
+            Toast.makeText(getActivity().getApplicationContext(),"로그인후 이용이 가능합니다.",Toast.LENGTH_LONG).show();
+        }
+    }
+
 
     @Override
     public void onResume() {
@@ -100,11 +148,7 @@ public class DrawerFragment  extends Fragment {
         drawerListAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        drawerListAdapter = new DrawerListAdapter(pictureDataList);
-    }
+
 
     //    툴바 셋팅 메서드
     private void setToolbar() {
@@ -159,53 +203,14 @@ public class DrawerFragment  extends Fragment {
         transaction.detach(this).attach(this).commit();
 
     }
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
 
 
 
-    // 온스타트 할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // 다시 부모 액티비티를 얻어서 툴바를 셋하는 작업을 한다
-    @Override
-    public void onStart() {
 
 
-        super.onStart();
-        //사용자가 아이디가 없으면 로그인후 네비게이션 드로어 사용가능 메세지 알림
-        mAuth = FirebaseAuth.getInstance();
-        currentUser = mAuth.getCurrentUser();
-        recentUser = currentUser.getEmail();
-        Log.d("uu",recentUser);
-        if (recentUser == null) {
-            Toast.makeText(getActivity().getApplicationContext(),"로그인후 이용이 가능합니다.",Toast.LENGTH_LONG).show();
-        }
-    }
 
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
-        recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
-        drawer_word = rootView.findViewById(R.id.drawer_word);
-        toolbar = rootView.findViewById(R.id.drawer_toolbar);
-
-        //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
-        fragmentToolbarSet();
-
-        setAdapter();
-
-        return rootView;
-    }
 
     //온크레이트 메뉴를 적용시키기 위해 필요한 메서드
     private void fragmentToolbarSet() {
@@ -225,11 +230,19 @@ public class DrawerFragment  extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
     }
 
-
     @Override
     public void onDestroy() {
         super.onDestroy();
         Realm realm = Realm.getDefaultInstance();
         realm.close();
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+    }
+
+
 }
+
+

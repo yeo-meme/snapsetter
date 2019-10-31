@@ -342,7 +342,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void logout() {
         mAuth.getInstance().signOut();
         Toast.makeText(MainActivity.this, "logout!! bye~", Toast.LENGTH_LONG).show();
-        finish();
+        replaceFragmentNoStack(MainContainer.newInstance());
     }
 
     //회원 가입 메서드

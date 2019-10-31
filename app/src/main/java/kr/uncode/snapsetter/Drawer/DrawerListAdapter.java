@@ -31,9 +31,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
     private Context context;
     private String userEmail = "";
     private String image_url = "";
-    private int image_position ;
-
-
+    private int image_position;
 
 
     //생성자
@@ -62,10 +60,14 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
 
     @Override
     public void onBindViewHolder(@NonNull DrawerListViewHolder holder, int position) {
+        try {
+            Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url())
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                    .into(holder.binding.ivImage);
 
-        Glide.with(context.getApplicationContext()).load(getImageList.get(position).getImage_url())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .into(holder.binding.ivImage);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
@@ -93,9 +95,9 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
                         if (xx != null) {
                             //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
 
-                            Intent intent = new Intent(context.getApplicationContext(),DrawerDetailActivity.class);
-                            intent.putExtra(KEY_IMAGE_URL,xx);
-                            intent.putExtra(KEY_IMAGE_POSITION,image_position);
+                            Intent intent = new Intent(context.getApplicationContext(), DrawerDetailActivity.class);
+                            intent.putExtra(KEY_IMAGE_URL, xx);
+                            intent.putExtra(KEY_IMAGE_POSITION, image_position);
                             context.startActivity(intent);
                         }
                     }

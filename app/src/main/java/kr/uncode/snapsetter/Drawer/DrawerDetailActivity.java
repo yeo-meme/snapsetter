@@ -117,9 +117,6 @@ public class DrawerDetailActivity extends AppCompatActivity {
                 break;
         }
         Log.d("ww","케이스 트루전");
-
-        finish();
-
         return super.onOptionsItemSelected(item);
     }
 
