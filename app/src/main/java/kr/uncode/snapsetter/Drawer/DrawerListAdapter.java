@@ -2,6 +2,7 @@ package kr.uncode.snapsetter.Drawer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,23 +84,35 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
             super(itemView.getRoot());
             binding = itemView;
 
+
             binding.ivImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    int position = getAdapterPosition();
-                    image_position = position;
-                    if (getImageList.get(position).getImage_url() != null) {
-                        String xx = getImageList.get(position).getImage_url();
-                        if (xx != null) {
-                            //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
-
-                            Intent intent = new Intent(context.getApplicationContext(), DrawerDetailActivity.class);
-                            intent.putExtra(KEY_IMAGE_URL, xx);
-                            context.startActivity(intent);
-                        }
-                    }
+                    Log.d("xx","사용자 클릭이벤트 시도");
                 }
             });
+            //디테일 뷰로 넘어가는 온클릭 이벤트 액태비티 태스크 혹은 쓰레드 시점문제로 해결되지 않아
+            // 다음 업데이트때에 업뎃 예정
+            // EGL_BAD_ATTRIBUTE
+            //https://gogorchg.tistory.com/entry/Android-activity-has-been-destroyed
+            //https://blog.sangyoung.me/2016/12/28/BadTokenException/
+//            binding.ivImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    int position = getAdapterPosition();
+//                    image_position = position;
+//                    if (getImageList.get(position).getImage_url() != null) {
+//                        String xx = getImageList.get(position).getImage_url();
+//                        if (xx != null) {
+//                            //드로어디테일액티비티가 리스트를 구성하는 리스트 보관함
+//
+//                            Intent intent = new Intent(context.getApplicationContext(), DrawerDetailActivity.class);
+//                            intent.putExtra(KEY_IMAGE_URL, xx);
+//                            context.startActivity(intent);
+//                        }
+//                    }
+//                }
+//            });
         }
     }
 

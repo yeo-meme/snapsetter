@@ -1,6 +1,8 @@
 package kr.uncode.snapsetter.Drawer;
 
+import android.app.Activity;
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,45 +77,60 @@ public class DrawerFragment  extends Fragment {
     }
 
 
+//    public static boolean isActivityAvailable(Activity activity) {
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+//            return !activity.isFinishing() && !activity.isDestroyed();
+//        } else {
+//            return !activity.isFinishing();
+//        }
+//    }
+
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Activity activity= getActivity();
 
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
-        recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
-        drawer_word = rootView.findViewById(R.id.drawer_word);
-        toolbar = rootView.findViewById(R.id.drawer_toolbar);
 
 
 
-        Realm realm = Realm.getDefaultInstance();
-        //데이터 주석 확인
-        pictureDataList  = realm.where(PictureData.class).findAll();
+            recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
+            drawer_word = rootView.findViewById(R.id.drawer_word);
+            toolbar = rootView.findViewById(R.id.drawer_toolbar);
 
-        //실제 어댑터 담아서 사용
-        drawerListAdapter= new DrawerListAdapter(realm.where(PictureData.class).findAll());
-        recyclerView.setAdapter(drawerListAdapter);
 
-        //보관함에 저장된 데이터 로그 확인
-        Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
+
+
+            Realm realm = Realm.getDefaultInstance();
+            //데이터 주석 확인
+            pictureDataList  = realm.where(PictureData.class).findAll();
+
+            //실제 어댑터 담아서 사용
+            drawerListAdapter= new DrawerListAdapter(realm.where(PictureData.class).findAll());
+            recyclerView.setAdapter(drawerListAdapter);
+
+            //보관함에 저장된 데이터 로그 확인
+            Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
 //        drawerListAdapter = new DrawerListAdapter(pictureDataList);
 
-        //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
-        if (pictureDataList.size() == 0 ) {
-            drawer_word.setVisibility(View.VISIBLE);
-            toolbar.getMenu().clear();
-            Log.d("gg","kk");
-        } else if (pictureDataList.size() != 0) {
-            drawer_word.setVisibility(View.GONE);
-            Log.d("gg","ll");
-        }
+            //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
+            if (pictureDataList.size() == 0 ) {
+                drawer_word.setVisibility(View.VISIBLE);
+                toolbar.getMenu().clear();
+                Log.d("gg","kk");
+            } else if (pictureDataList.size() != 0) {
+                drawer_word.setVisibility(View.GONE);
+                Log.d("gg","ll");
+            }
 //        getActivity().invalidateOptionsMenu();
-        Log.d("zzz","88");
+            Log.d("zzz","88");
 
-        //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
-        fragmentToolbarSet();
-        setAdapter();
-        Log.d("zzz","99");
+            //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
+            fragmentToolbarSet();
+            setAdapter();
+            Log.d("zzz","99");
 
 
         return rootView;
@@ -190,7 +207,7 @@ public class DrawerFragment  extends Fragment {
                     results.deleteAllFromRealm();
                     drawerListAdapter.notifyDataSetChanged();
                     String message = "보관함에 내용이 전체 삭제 되었습니다";
-                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                     refresh();
                     Log.d("zzz","55");
 
@@ -229,7 +246,8 @@ public class DrawerFragment  extends Fragment {
     //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
     private void setAdapter() {
         int numberOfColumns = 2;
-        gridLayoutManager = new GridLayoutManager(getActivity(), numberOfColumns);
+        Context context = getContext();
+        gridLayoutManager = new GridLayoutManager(context, numberOfColumns);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
         Log.d("zzz","xx22xx");

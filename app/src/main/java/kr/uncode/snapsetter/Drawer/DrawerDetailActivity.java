@@ -1,6 +1,8 @@
 package kr.uncode.snapsetter.Drawer;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -157,9 +159,23 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
     }
 
+    public static boolean isActivityAvailable(Activity activity) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            return !activity.isFinishing() && !activity.isDestroyed();
+        } else {
+            Log.d("xx", String.valueOf(!activity.isFinishing()));
+            return !activity.isFinishing();
+        }
+    }
+    private void finshing() {
+        if (DrawerDetailActivity.this.isFinishing()) {
+            Toast.makeText(getApplicationContext(),"종료",Toast.LENGTH_LONG).show();
+        }
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
+        isActivityAvailable(this);
         Realm realm = Realm.getDefaultInstance();
         realm.close();
     }
