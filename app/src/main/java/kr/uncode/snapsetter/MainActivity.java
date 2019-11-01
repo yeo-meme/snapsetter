@@ -1,5 +1,6 @@
 package kr.uncode.snapsetter;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -313,7 +314,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.d("nav", "사용자가 로그아웃버튼을 선택 이벤트 ");
         } else if (id == R.id.nav_drawer) {
             Log.d("nav", "사용자가 네비게이션드로어 메뉴를 선택");
-            replaceFragment(DrawerFragment.newInstance());
+//            replaceFragment(DrawerFragment.newInstance());
+            Intent intent = new Intent(getApplicationContext(),TabViewDrawer.class);
+            startActivity(intent);
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

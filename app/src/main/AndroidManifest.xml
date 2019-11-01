@@ -28,6 +28,7 @@
         <activity android:name="kr.uncode.snapsetter.Drawer.DrawerFragment" />
         <activity android:name="kr.uncode.snapsetter.Drawer.DrawerDetailActivity" />
         <activity android:name="kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity" />
+        <activity android:name="kr.uncode.snapsetter.TabViewDrawer" />
     </application>
 
 </manifest>
