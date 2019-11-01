@@ -57,7 +57,7 @@ public class DrawerFragment  extends Fragment {
      */
     private TextView drawer_word;
 
-    private Toolbar toolbar;
+//    private Toolbar toolbar;
 
 
     //리섬이 시작할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -94,7 +94,7 @@ public class DrawerFragment  extends Fragment {
 
             recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
             drawer_word = rootView.findViewById(R.id.drawer_word);
-            toolbar = rootView.findViewById(R.id.drawer_toolbar);
+//            toolbar = rootView.findViewById(R.id.drawer_toolbar);
 
 
 
@@ -114,7 +114,7 @@ public class DrawerFragment  extends Fragment {
             //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
             if (pictureDataList.size() == 0 ) {
                 drawer_word.setVisibility(View.VISIBLE);
-                toolbar.getMenu().clear();
+//                toolbar.getMenu().clear();
                 Log.d("gg","kk");
             } else if (pictureDataList.size() != 0) {
                 drawer_word.setVisibility(View.GONE);
@@ -232,7 +232,7 @@ public class DrawerFragment  extends Fragment {
     private void fragmentToolbarSet() {
         setHasOptionsMenu(true); //onCreateOptionMenu에서 바뀔 menu 를 승인
         MainActivity activity = (MainActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
+//        activity.setSupportActionBar(toolbar);
         ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setDisplayShowTitleEnabled(false);

@@ -1,6 +1,7 @@
 package kr.uncode.snapsetter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -69,6 +70,13 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
         public CurrentListViewHolder(CurrentItemImageBinding itemView) {
             super(itemView.getRoot());
             binding = itemView;
+            binding.ivImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("xx","사용자 클릭이벤트 시도");
+                }
+            });
+            
         }
     }
 
