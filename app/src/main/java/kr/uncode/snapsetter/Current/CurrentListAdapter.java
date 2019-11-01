@@ -1,4 +1,4 @@
-package kr.uncode.snapsetter;
+package kr.uncode.snapsetter.Current;
 
 import android.content.Context;
 import android.util.Log;
@@ -76,7 +76,7 @@ public class CurrentListAdapter extends RecyclerView.Adapter<CurrentListAdapter.
                     Log.d("xx","사용자 클릭이벤트 시도");
                 }
             });
-            
+
         }
     }
 

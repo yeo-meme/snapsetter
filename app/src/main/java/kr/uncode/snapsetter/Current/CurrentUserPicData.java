@@ -1,4 +1,4 @@
-package kr.uncode.snapsetter;
+package kr.uncode.snapsetter.Current;
 
 import io.realm.RealmObject;
 

@@ -21,6 +21,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.Current.CurrentUserPicData;
 import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
 import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 

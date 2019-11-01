@@ -1,4 +1,4 @@
-package kr.uncode.snapsetter;
+package kr.uncode.snapsetter.Current;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
+
+import kr.uncode.snapsetter.PagerAdapter;
+import kr.uncode.snapsetter.R;
 
 public class TabViewDrawer extends AppCompatActivity {
 

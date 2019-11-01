@@ -30,7 +30,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-import kr.uncode.snapsetter.Drawer.DrawerFragment;
+import kr.uncode.snapsetter.Current.TabViewDrawer;
 
 import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (id == R.id.nav_drawer) {
             Log.d("nav", "사용자가 네비게이션드로어 메뉴를 선택");
 //            replaceFragment(DrawerFragment.newInstance());
-            Intent intent = new Intent(getApplicationContext(),TabViewDrawer.class);
+            Intent intent = new Intent(getApplicationContext(), TabViewDrawer.class);
             startActivity(intent);
         }
         drawer.closeDrawer(GravityCompat.START);

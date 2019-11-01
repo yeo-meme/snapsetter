@@ -24,6 +24,7 @@
                 android:layout_weight="9"
                 android:layout_height="wrap_content"
                 android:hint="here"
+                android:imeOptions="actionDone"
                 android:layout_gravity="center"/>
 
             <Button

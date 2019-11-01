@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import kr.uncode.snapsetter.Current.CurrentDrawerFragment;
 import kr.uncode.snapsetter.Drawer.DrawerFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {

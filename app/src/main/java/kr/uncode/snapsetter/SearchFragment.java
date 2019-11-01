@@ -57,7 +57,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private Context context;
 
 
-    private InputMethodManager imm;
     //리스트뷰 아이템 시작
 
     private List<String> list;
@@ -162,7 +161,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                hideKeyboard(view);
+                hideKeyboard(container.getRootView());
                 Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
                 btnSearch(container.getRootView());
             }
@@ -234,7 +233,7 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
     private void hideKeyboard(View view) {
         Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-              imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+              InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(search_edit_frame.getWindowToken(), 0);
     }
 }

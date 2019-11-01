@@ -1,4 +1,4 @@
-package kr.uncode.snapsetter;
+package kr.uncode.snapsetter.Current;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.R;
 
 public class CurrentDrawerFragment extends Fragment {
 
