@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import kr.uncode.snapsetter.Drawer.DrawerFragment;
+
 public class PagerAdapter extends FragmentStatePagerAdapter {
 
     private int mPageCount;
@@ -22,8 +24,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
         switch (position) {
             case 0 :
-                HomeFragment homeFragment = new HomeFragment();
-                return homeFragment;
+                DrawerFragment drawerFragment = new DrawerFragment();
+                return drawerFragment;
 
             case 1 :
                 NewHomeFragment newHomeFragment = new NewHomeFragment();

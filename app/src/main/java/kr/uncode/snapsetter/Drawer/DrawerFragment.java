@@ -128,7 +128,7 @@ public class DrawerFragment  extends Fragment {
             Log.d("zzz","88");
 
             //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
-            fragmentToolbarSet();
+//            fragmentToolbarSet();
             setAdapter();
             Log.d("zzz","99");
 

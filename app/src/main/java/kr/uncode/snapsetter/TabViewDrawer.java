@@ -28,8 +28,8 @@ public class TabViewDrawer extends AppCompatActivity {
         mContext = getApplicationContext();
         mTabLayout = findViewById(R.id.tab_layout);
 
-        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("홈")));
-        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("뉴홈")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("내보관함")));
+        mTabLayout.addTab(mTabLayout.newTab().setCustomView(createTabView("최근본목록")));
 
         mViewPager = findViewById(R.id.pager_content);
 
