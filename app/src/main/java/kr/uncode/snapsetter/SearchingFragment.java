@@ -151,6 +151,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                hideKeyboard(container.getRootView());
                 btnSearch(container.getRootView());
             }
         });
@@ -158,11 +159,12 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         return rootView;
     }
 
+    private void hideKeyboard(View view) {
+        Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(search_edit_frame.getWindowToken(), 0);
+    }
 
-
-    public static void downKeyboard(Context context, EditText editText)
-    { InputMethodManager mInputMethodManager = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        mInputMethodManager.hideSoftInputFromWindow(editText.getWindowToken(), 0); }
 
     //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {

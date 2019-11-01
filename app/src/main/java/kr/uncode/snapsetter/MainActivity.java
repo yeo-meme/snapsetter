@@ -343,28 +343,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //로그아웃
     private void logout() {
         mAuth.getInstance().signOut();
-        Toast.makeText(MainActivity.this, "logout!! bye~", Toast.LENGTH_LONG).show();
+        Toast.makeText(MainActivity.this, "로그아웃되었습니다:)!! bye~", Toast.LENGTH_LONG).show();
         replaceFragmentNoStack(MainContainer.newInstance());
     }
 
-    //회원 가입 메서드
-    private void createUser(String email, String passwd) {
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(passwd)) {
-            Toast.makeText(getApplicationContext(), "이메일과 비밀번호를 확인해주세요", Toast.LENGTH_LONG).show();
-        } else {
 
-            mAuth.createUserWithEmailAndPassword(email, passwd)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
-
-                                Toast.makeText(getApplicationContext(), "회원가입성공", Toast.LENGTH_LONG).show();
-                            } else {
-                                Toast.makeText(getApplicationContext(), "회원가입 실패", Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
-        }
-    }
 }
