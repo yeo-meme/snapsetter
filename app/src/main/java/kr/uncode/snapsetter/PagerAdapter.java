@@ -28,8 +28,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
                 return drawerFragment;
 
             case 1 :
-                NewHomeFragment newHomeFragment = new NewHomeFragment();
-                return newHomeFragment;
+                CurrentDrawerFragment currentDrawerFragment = new CurrentDrawerFragment();
+                return currentDrawerFragment;
 
                 default:
                     return null;

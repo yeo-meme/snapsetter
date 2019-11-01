@@ -139,6 +139,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             RetrofitResponse.Documents documents = mRestApiImageData.get(position);
             final String url = documents.image_url;
 
+            //최근 본목록에 사진을 저장할 메서드 호출
+            currentUerPicSave(url);
+
             Log.d("image", url);
 
             //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
@@ -146,6 +149,20 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             Intent intent = new Intent(context, ViewTwoStepActivity.class);
             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
             context.startActivity(intent);
+        }
+
+        private void currentUerPicSave(String currentUrl) {
+
+            Log.d("currentUserPic_Ulr","currentUserPic_Ulr :" + currentUrl);
+
+            Realm realm = Realm.getDefaultInstance();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                     CurrentUserPicData currentUserPicData = realm.createObject(CurrentUserPicData.class);
+                     currentUserPicData.setCurrent_url(currentUrl);
+                }
+            });
         }
 
         /**
