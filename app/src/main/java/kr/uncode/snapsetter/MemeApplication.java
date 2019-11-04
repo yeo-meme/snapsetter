@@ -18,8 +18,6 @@ public class MemeApplication extends Application {
                 .deleteRealmIfMigrationNeeded()
                 .build();
 
-
-        Realm.setDefaultConfiguration(config
-        );
+        Realm.setDefaultConfiguration(config);
     }
 }

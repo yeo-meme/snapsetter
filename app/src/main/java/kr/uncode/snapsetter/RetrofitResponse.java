@@ -5,7 +5,7 @@ import java.util.List;
 
 public class RetrofitResponse {
 
-    List<Documents> documents;
+    public List<Documents> documents;
 
     class Documents {
         String collection;

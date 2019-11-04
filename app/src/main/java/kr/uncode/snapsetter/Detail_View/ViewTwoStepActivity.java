@@ -11,11 +11,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
+import io.realm.Realm;
 import kr.uncode.snapsetter.R;
+import kr.uncode.snapsetter.RetrofitConfig;
+import kr.uncode.snapsetter.RetrofitResponse;
 import kr.uncode.snapsetter.SearchListAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ViewTwoStepActivity extends AppCompatActivity {
     private ImageView detail_img;
+    private String keywordQuery;
+    private String query;
 
     private String img = "img";
 
@@ -29,6 +37,8 @@ public class ViewTwoStepActivity extends AppCompatActivity {
         //데이터수신
         Intent intent = getIntent();
         String image_url = intent.getStringExtra(SearchListAdapter.EXTRA_KEY_IMAGE_URL);
+        String value  = intent.getStringExtra(SearchListAdapter.keywordQuery);
+        Log.d("chec","Two Step keyword check : " + value);
         Log.d("check_image",image_url);
         setDetail_img(image_url);
 //        Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();

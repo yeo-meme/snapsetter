@@ -12,7 +12,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,15 +21,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
@@ -47,7 +42,9 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private Realm mRealm;
     private Context context;
 
+    private String query;
 
+    private String searchingWord;
     //리스트뷰 아이템 시작
 
 
@@ -60,7 +57,10 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Log.d("11","55");
-        mRealm = Realm.getDefaultInstance();
+
+            mRealm = Realm.getDefaultInstance();
+
+
     }
 
     @Override
@@ -71,10 +71,25 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     }
 
 
+    @Override
+    public void onResume() {
+//        if (query != null) {
+//            search(query);
+//            Log.d("restart",query);
+//            searchListAdapter.notifyDataSetChanged();
+//        }
+
+
+
+        Log.d("restart","onresume");
+        super.onResume();
+    }
 
     //온스타트에서 툴바를 넣어주기
     @Override
     public void onStart() {
+        Log.d("restart","onStart");
+
         Activity activity = getActivity();
         if (activity != null && activity instanceof MainActivity) {
             Log.d("dd","서치에 들어와서 툴바를 넣으러");
@@ -91,12 +106,15 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 //        context = getContext();
+        Log.d("restart","onCreate");
+
         super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Log.d("restart","onCreateView");
 
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         search_edit_frame = rootView.findViewById(R.id.search_edit_frame);
@@ -166,9 +184,16 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     }
 
 
+//    public String getQueryTx() {
+//        searchingWord = search_edit_frame.getText().toString();
+//        return searchingWord;
+//    }
     //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {
-        String query = search_edit_frame.getText().toString();
+//        getQueryTx();
+                String searchingWord = search_edit_frame.getText().toString();
+
+        query = searchingWord;
 //        downKeyboard(context,search_edit_frame);
 //        Realm realm = Realm.getDefaultInstance();
 //        realm.executeTransaction(new Realm.Transaction() {
@@ -195,6 +220,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
                     public void onResponse(Call<RetrofitResponse> call, Response<RetrofitResponse> response) {
                         if (response != null && response.body() != null) {
                             searchListAdapter.addDataAll(response.body().documents);
+//                            searchListAdapter.getQuery(query);
+                            Log.d("ccccc","check query" + query);
                         }
                         hideProgressBar();
                     }

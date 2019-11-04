@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void getAuth() {
         mAuth = FirebaseAuth.getInstance();
+        Log.d("log","first getAuth");
     }
 
     @Override
