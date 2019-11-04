@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -230,6 +231,11 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     }
 
     private void settingList() {
+        Realm realm = Realm.getDefaultInstance();
+
+        RealmResults<CurrentKeywordData> keywordData = realm.where(CurrentKeywordData.class).findAll();
+
+        
         keywordList.add("채수빈");
         keywordList.add("박지현");
         keywordList.add("수지");
@@ -248,6 +254,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
                             searchListAdapter.addDataAll(response.body().documents);
 //                            searchListAdapter.getQuery(query);
                             Log.d("ccccc","check query" + query);
+                            currentKeywordSaver(query);
                         }
                         hideProgressBar();
                     }
@@ -258,6 +265,18 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
                         showToast("카카오 api 호출 실패 !!!");
                     }
                 });
+    }
+
+    private void currentKeywordSaver(String query) {
+        Realm realm = Realm.getDefaultInstance();
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+                CurrentKeywordData keywordData = realm.createObject(CurrentKeywordData.class);
+                keywordData.setQuery(query);
+            }
+        });
     }
 
     private void showToast(String msg) {
