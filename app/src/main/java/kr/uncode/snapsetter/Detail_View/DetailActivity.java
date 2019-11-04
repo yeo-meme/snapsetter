@@ -1,10 +1,8 @@
 package kr.uncode.snapsetter.Detail_View;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,12 +14,7 @@ import com.github.chrisbanes.photoview.PhotoViewAttacher;
 
 import io.realm.Realm;
 import kr.uncode.snapsetter.R;
-import kr.uncode.snapsetter.RetrofitConfig;
-import kr.uncode.snapsetter.RetrofitResponse;
 import kr.uncode.snapsetter.SearchListAdapter;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class DetailActivity extends AppCompatActivity {
 

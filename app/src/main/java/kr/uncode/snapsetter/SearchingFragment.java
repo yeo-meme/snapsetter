@@ -3,7 +3,9 @@ package kr.uncode.snapsetter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,11 +24,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
@@ -46,6 +51,11 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private String searchingWord;
     //리스트뷰 아이템 시작
+
+    private List<String> keywordList;
+    private ListView listView;
+    private KeywordAdapter keywordAdapter;
+    private ArrayList<String> keywordArrayList;
 
 
 
@@ -116,6 +126,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Log.d("restart","onCreateView");
 
+        context = getContext();
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
         search_edit_frame = rootView.findViewById(R.id.search_edit_frame);
         searchBtn = rootView.findViewById(R.id.searchBtn);
@@ -125,42 +136,42 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         tx = rootView.findViewById(R.id.tx);
         Log.d("11","22");
 
-//        listView = rootView.findViewById(R.id.listView);
+        listView = rootView.findViewById(R.id.listView);
 
 
-//        list = new ArrayList<String>();
-//        settingList();
-//
-//        arrayList = new ArrayList<String>();
-//        arrayList.addAll(list);
+        //더미 데이터 메서드
+        keywordList = new ArrayList<String>();
 
+        settingList();
+        keywordArrayList = new ArrayList<>();
+        keywordArrayList.addAll(keywordList);
+        if (keywordArrayList != null) {
+            keywordArrayList.addAll(keywordList);
+            keywordAdapter = new KeywordAdapter(keywordList,context);
+            listView.setAdapter(keywordAdapter);
+        }
 
-//        adapter = new SearchAdapter(list, context);
-//        listView.setAdapter(adapter);
+        search_edit_frame.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-//        search_edit_frame.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable edit) {
-//
-//                String text = search_edit_frame.getText().toString();
-////                listitem(text);
-//
-//            }
-//        });
+            }
 
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-        // 키보드내리기
-//        manager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            }
+
+            @Override
+            public void afterTextChanged(Editable edit) {
+
+                String text = search_edit_frame.getText().toString();
+                listitem(text);
+
+            }
+        });
+
+        keywordList.clear();
 
         searchListAdapter = new SearchListAdapter(mRealm);
         rvImageList.setAdapter(searchListAdapter);
@@ -177,6 +188,23 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         return rootView;
     }
 
+    private void listitem(String text) {
+
+        keywordList.clear();
+        if (text.length() == 0) {
+        } else {
+            if (keywordArrayList.size() != 0) {
+                for (int i =0; i<keywordArrayList.size(); i++) {
+                    if (keywordArrayList.get(i).toLowerCase().contains(text)) {
+                        keywordList.add(keywordArrayList.get(i));
+                    }
+                }
+
+            }
+        }
+        keywordAdapter.notifyDataSetChanged();
+    }
+
     private void hideKeyboard(View view) {
         Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -190,19 +218,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 //    }
     //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트를 만드는 메서드
     private void btnSearch(View view) {
-//        getQueryTx();
-                String searchingWord = search_edit_frame.getText().toString();
-
+        String searchingWord = search_edit_frame.getText().toString();
         query = searchingWord;
-//        downKeyboard(context,search_edit_frame);
-//        Realm realm = Realm.getDefaultInstance();
-//        realm.executeTransaction(new Realm.Transaction() {
-//            @Override
-//            public void execute(Realm realm) {
-//                PictureData pictureData = realm.createObject(PictureData.class);
-////                pictureData.setKeyword(query);
-//            }
-//        });
         tx.setVisibility(View.GONE);
         font.setVisibility(View.GONE);
         if (TextUtils.isEmpty(query)) {
@@ -211,6 +228,15 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         }
         search(query);
     }
+
+    private void settingList() {
+        keywordList.add("채수빈");
+        keywordList.add("박지현");
+        keywordList.add("수지");
+        keywordList.add("남태현");
+
+    }
+
 
     private void search(String query) {
         showProgressBar();
