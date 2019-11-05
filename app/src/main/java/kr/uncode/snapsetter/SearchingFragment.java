@@ -8,6 +8,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ import retrofit2.Response;
 
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
+    private LinearLayout linearLayout;
 
     /**
      * 카카오 APi 이미지 목록을 보여주는 어댑터
@@ -133,11 +135,26 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
 
+        linearLayout = rootView.findViewById(R.id.linearlayout);
+
+        linearLayout.setOnClickListener(this::hideKeyboard);
         Log.d("11", "22");
 
         editArea = rootView.findViewById(R.id.editArea);
         searchBtn.setOnClickListener(this::onClick);
         search_edit_frame.setOnClickListener(this::onClick);
+
+        search_edit_frame.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+              switch (i) {
+                  case KeyEvent.KEYCODE_ENTER:
+                      btnSearch(view);
+                      hideKeyboard(view);
+              }
+                return true;
+            }
+        });
 
         search_edit_frame.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -172,6 +189,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
         return rootView;
     }
+
 
     private void keyWordAllDelete(View view) {
         Realm realm = Realm.getDefaultInstance();
@@ -256,6 +274,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private void hideKeyboard(View view) {
         Log.d("ddd", "왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        listView.setVisibility(View.GONE);
+        deleteBtn.setVisibility(View.GONE);
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search_edit_frame.getWindowToken(), 0);
     }
