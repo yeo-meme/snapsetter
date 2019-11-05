@@ -19,14 +19,17 @@ import kr.uncode.snapsetter.SearchListAdapter;
 public class DetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
-
-
     private SearchListAdapter searchListAdapter;
     private PhotoView detail_img;
 
+
     private String img = "img";
 
+    /**
+     * 핀치줌 라이브러리 객체
+     */
     private PhotoViewAttacher mAttacher;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,7 +40,8 @@ public class DetailActivity extends AppCompatActivity {
         //데이터수신
         Intent intent = getIntent();
         String image_url = intent.getStringExtra(EXTRA_KEY_IMAGE_URL);
-        Log.d("check_image",image_url);
+
+        Log.d("check_image", image_url);
         setDetail_img(image_url);
 //        Toast.makeText(getApplicationContext(),"hi",Toast.LENGTH_LONG).show();
 
@@ -68,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
 //
 //                });
     }
+
     public void setDetail_img(String url) {
         if (url != null) {
             Glide.with(getApplicationContext()).load(url)
@@ -76,7 +81,7 @@ public class DetailActivity extends AppCompatActivity {
             mAttacher = new PhotoViewAttacher(detail_img);
             mAttacher.update();
         } else {
-            Log.d("image error","error");
+            Log.d("image error", "error");
         }
     }
 }

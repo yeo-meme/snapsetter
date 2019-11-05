@@ -3,7 +3,6 @@ package kr.uncode.snapsetter;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +21,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.textfield.TextInputLayout;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -92,9 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         // 파이어베이스 인증 얻기 --
-        // 리스너가 자동로그인을 하기위해 auth정보를 가장먼저 받는다
-        getAuth();
 
+        getAuth();
         //디폴트 툴바셋팅
         toolbarset();
 
@@ -106,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    private void getAuth() {
+        mAuth = FirebaseAuth.getInstance();
 
-
+    }
 
 
     //디폴트 툴바셋팅
@@ -135,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                     FirebaseUser listnerCurrentUser = mAuth.getCurrentUser();
                     Log.d("ooooo", "outoLogin USer :" + listnerCurrentUser);
-
                     if (listnerCurrentUser != null) {
                         // User is signed in
                         String userEmail = listnerCurrentUser.getEmail();
@@ -153,10 +149,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void getAuth() {
-        mAuth = FirebaseAuth.getInstance();
-        Log.d("log","first getAuth");
-    }
 
     @Override
     protected void onStop() {
@@ -168,14 +160,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onStart() {
-        mAuth.addAuthStateListener(mAuthListener);
         super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     //네비게이션 드로우를 열고 닫는 토글버튼 장착
     public void navigationToggle() {
@@ -255,25 +243,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private void serch(String charText) {
-
-
-    }
     @Override
     public void onClick(View view) {
 
         //툴바 메뉴를 선택했을때 메인화면 이동하는 메서드
-        getAuth();
         FirebaseUser memberId = mAuth.getCurrentUser();
         if (view == toolbarTitle) {
             Log.d("tt", "toolbattitttle");
             if (memberId != null) {
-                replaceFragment(SearchingFragment.newInstance());
+//                replaceFragment(SearchingFragment.newInstance());
                 Log.d("kk","로그인 상태에서  툴바제목 선택하기 : " + memberId);
 
             } else if (memberId == null) {
                 Log.d("kk","로그아웃 후 메인에서 툴바제목 선택하기 : " + memberId);
-                replaceFragment(MainContainer.newInstance());
+//                replaceFragment(MainContainer.newInstance());
             }
         }
 

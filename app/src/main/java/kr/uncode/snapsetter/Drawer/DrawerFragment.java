@@ -205,7 +205,7 @@ public class DrawerFragment  extends Fragment {
                     String message = "보관함에 내용이 전체 삭제 되었습니다";
 //                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                     refresh();
-                    Log.d("zzz","55");
+                    Log.d("zzz","mydrawer delete");
 
                 }
             });

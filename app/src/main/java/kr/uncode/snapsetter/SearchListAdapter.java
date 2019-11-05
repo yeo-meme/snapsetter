@@ -26,6 +26,8 @@ import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
 import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.SearchListViewHolder> {
+
+
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
     public static String keywordQuery = "";
     private static final String TAG = SearchListAdapter.class.getSimpleName();
@@ -40,13 +42,17 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
             Log.d("restart","SearchListAdapter");
-
             mUserEmail = currentUser.getEmail();
         }
     }
 
     public void addDataAll(List<RetrofitResponse.Documents> dataList) {
         mRestApiImageData.clear();
+        mRestApiImageData.addAll(dataList);
+        notifyDataSetChanged();
+    }
+
+    public void addDataPrevious(List<RetrofitResponse.Documents> dataList) {
         mRestApiImageData.addAll(dataList);
         notifyDataSetChanged();
     }
@@ -116,7 +122,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         SearchListViewHolder(ListItemImageBinding itemView) {
             super(itemView.getRoot());
             Log.d("restart","SearchListAdapter + SearchListViewHolder");
-
             binding = itemView;
             initClickListener();
         }
@@ -153,7 +158,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             RetrofitResponse.Documents documents = mRestApiImageData.get(position);
             final String url = documents.image_url;
 
-//            Log.d("xxxx","detail click method : " + value);
 
             //최근 본목록에 사진을 탭뷰로 나오기 위해 realm저장및 표현메서드
             currentUerPicSave(url);
@@ -173,15 +177,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
             Log.d("currentUserPic_Ulr","currentUserPic_Ulr :" + currentUrl);
 
-            Realm realm = Realm.getDefaultInstance();
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                     CurrentUserPicData currentUserPicData = realm.createObject(CurrentUserPicData.class);
-                     //최근목록 리얼엠 새로운 데이터 베이스로 저장
-                     currentUserPicData.setCurrent_url(currentUrl);
-                }
-            });
+//            Realm realm = Realm.getDefaultInstance();
+//            realm.executeTransaction(new Realm.Transaction() {
+//                @Override
+//                public void execute(Realm realm) {
+//                     CurrentUserPicData currentUserPicData = realm.createObject(CurrentUserPicData.class);
+//                     //최근목록 리얼엠 새로운 데이터 베이스로 저장
+//                     currentUserPicData.setCurrent_url(currentUrl);
+//                }
+//            });
         }
 
         /**

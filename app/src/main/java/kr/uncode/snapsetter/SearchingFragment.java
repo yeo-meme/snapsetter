@@ -36,7 +36,6 @@ import retrofit2.Response;
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
 
-
     private SearchListAdapter searchListAdapter;
     private EditText search_edit_frame;
     private Button searchBtn;
@@ -47,85 +46,71 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private Realm mRealm;
     private Context context;
-
     private String query;
 
-    private String searchingWord;
-    //리스트뷰 아이템 시작
 
+    private OnClickListener<String> onClickListener;
+    private List<RetrofitResponse.Documents> dataList;
+    //최근 검색어 리스트뷰 아이템 변수 시작
     private List<String> keywordList;
     private ListView listView;
     private KeywordAdapter keywordAdapter;
     private ArrayList<String> keywordArrayList;
 
 
-
     public static SearchingFragment newInstance() {
         return new SearchingFragment();
     }
 
+
+
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
-        Log.d("11","55");
-
-            mRealm = Realm.getDefaultInstance();
-
-
+        Log.d("11", "55");
+        mRealm = Realm.getDefaultInstance();
     }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        Log.d("11","44");
-        if (mRealm != null && !mRealm.isClosed()) mRealm.close();
-    }
 
 
     @Override
     public void onResume() {
-//        if (query != null) {
-//            search(query);
-//            Log.d("restart",query);
-//            searchListAdapter.notifyDataSetChanged();
+        super.onResume();
+//        if (dataList != null) {
+//            searchListAdapter.addDataAll(dataList);
+//            Log.d("restart", "onResume");
+//            Log.d("restart", "onResume + dataList" + dataList);
 //        }
 
-
-
-        Log.d("restart","onresume");
-        super.onResume();
     }
 
     //온스타트에서 툴바를 넣어주기
     @Override
     public void onStart() {
-        Log.d("restart","onStart");
+        Log.d("restart", "onStart");
 
         Activity activity = getActivity();
         if (activity != null && activity instanceof MainActivity) {
-            Log.d("dd","서치에 들어와서 툴바를 넣으러");
+            Log.d("dd", "서치에 들어와서 툴바를 넣으러");
             MainActivity mainActivity = (MainActivity) activity;
-            Log.d("11","33");
-
+            Log.d("11", "33");
             mainActivity.removeToolbar(true);
         }
-
-        Log.d("11","11");
+        Log.d("11", "11");
         super.onStart();
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
 //        context = getContext();
-        Log.d("restart","onCreate");
-
+        Log.d("restart", "onCreate");
         super.onCreate(savedInstanceState);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Log.d("restart","onCreateView");
+        Log.d("restart", "onCreateView");
 
         context = getContext();
         View rootView = inflater.inflate(R.layout.search_fragment, container, false);
@@ -135,11 +120,10 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         progress_bar = rootView.findViewById(R.id.progress_bar);
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
-        Log.d("11","22");
+        Log.d("11", "22");
 
+        searchBtn.setOnClickListener(this::onClick);
         listView = rootView.findViewById(R.id.listView);
-
-
         //더미 데이터 메서드
         keywordList = new ArrayList<String>();
 
@@ -148,7 +132,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         keywordArrayList.addAll(keywordList);
         if (keywordArrayList != null) {
             keywordArrayList.addAll(keywordList);
-            keywordAdapter = new KeywordAdapter(keywordList,context);
+            keywordAdapter = new KeywordAdapter(keywordList, context);
             listView.setAdapter(keywordAdapter);
         }
 
@@ -167,7 +151,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
             public void afterTextChanged(Editable edit) {
 
                 String text = search_edit_frame.getText().toString();
-                listitem(text);
+                keywordListItem(text);
 
             }
         });
@@ -178,24 +162,17 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         rvImageList.setAdapter(searchListAdapter);
 
         //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트 메서드를 호출하는 버튼
-        searchBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideKeyboard(container.getRootView());
-                btnSearch(container.getRootView());
-            }
-        });
 
         return rootView;
     }
 
-    private void listitem(String text) {
+    private void keywordListItem(String text) {
 
         keywordList.clear();
         if (text.length() == 0) {
         } else {
             if (keywordArrayList.size() != 0) {
-                for (int i =0; i<keywordArrayList.size(); i++) {
+                for (int i = 0; i < keywordArrayList.size(); i++) {
                     if (keywordArrayList.get(i).toLowerCase().contains(text)) {
                         keywordList.add(keywordArrayList.get(i));
                     }
@@ -207,13 +184,12 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     }
 
     private void hideKeyboard(View view) {
-        Log.d("ddd","왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        Log.d("ddd", "왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search_edit_frame.getWindowToken(), 0);
     }
 
-
-//    public String getQueryTx() {
+    //    public String getQueryTx() {
 //        searchingWord = search_edit_frame.getText().toString();
 //        return searchingWord;
 //    }
@@ -235,14 +211,13 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
         RealmResults<CurrentKeywordData> keywordData = realm.where(CurrentKeywordData.class).findAll();
 
-        
+
         keywordList.add("채수빈");
         keywordList.add("박지현");
         keywordList.add("수지");
         keywordList.add("남태현");
 
     }
-
 
     private void search(String query) {
         showProgressBar();
@@ -253,7 +228,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
                         if (response != null && response.body() != null) {
                             searchListAdapter.addDataAll(response.body().documents);
 //                            searchListAdapter.getQuery(query);
-                            Log.d("ccccc","check query" + query);
+                            Log.d("ccccc", "check query" + query);
                             currentKeywordSaver(query);
                         }
                         hideProgressBar();
@@ -291,9 +266,12 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private void showProgressBar() {
         progress_bar.setVisibility(View.VISIBLE);
     }
-
     @Override
     public void onClick(View view) {
-
+        if (R.id.searchBtn == view.getId()) {
+            Log.d("xx","xx");
+            hideKeyboard(view);
+            btnSearch(view);
+        }
     }
 }
