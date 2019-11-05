@@ -24,7 +24,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import io.realm.Realm;
@@ -36,9 +40,14 @@ import retrofit2.Response;
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
 
+    /**카카오 APi 이미지 목록을 보여주는 어댑터
+     */
     private SearchListAdapter searchListAdapter;
     private EditText search_edit_frame;
     private Button searchBtn;
+    /** 카카오 APi 검색 이미지를 보여주는
+     서칭프래그먼트의 리사이클러뷰
+     */
     private RecyclerView rvImageList;
     private ProgressBar progress_bar;
     private ImageView font;
@@ -125,17 +134,32 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         searchBtn.setOnClickListener(this::onClick);
         listView = rootView.findViewById(R.id.listView);
         //더미 데이터 메서드
-        keywordList = new ArrayList<String>();
 
+        keywordShow();
+
+        // 리사이클러뷰에 어댑터 붙이기
+        kakaoApiImageListSet();
+//        searchListAdapter = new SearchListAdapter(mRealm);
+//        rvImageList.setAdapter(searchListAdapter);
+
+        //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트 메서드를 호출하는 버튼
+
+        return rootView;
+    }
+
+    private void keywordShow() {
+        keywordList = new ArrayList<String>();
         settingList();
+
+        HashSet<String> tem = new HashSet<String>(keywordList);
+
         keywordArrayList = new ArrayList<>();
-        keywordArrayList.addAll(keywordList);
-        if (keywordArrayList != null) {
-            keywordArrayList.addAll(keywordList);
-            keywordAdapter = new KeywordAdapter(keywordList, context);
+//        keywordArrayList.addAll(keywordList);
+        if (tem != null) {
+            keywordArrayList.addAll(tem);
+            keywordAdapter = new KeywordAdapter(keywordArrayList, context);
             listView.setAdapter(keywordAdapter);
         }
-
         search_edit_frame.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -149,21 +173,17 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
             @Override
             public void afterTextChanged(Editable edit) {
-
                 String text = search_edit_frame.getText().toString();
                 keywordListItem(text);
-
             }
         });
-
         keywordList.clear();
 
+    }
+
+    private void kakaoApiImageListSet() {
         searchListAdapter = new SearchListAdapter(mRealm);
         rvImageList.setAdapter(searchListAdapter);
-
-        //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트 메서드를 호출하는 버튼
-
-        return rootView;
     }
 
     private void keywordListItem(String text) {
@@ -208,15 +228,16 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private void settingList() {
         Realm realm = Realm.getDefaultInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser memberId = mAuth.getCurrentUser();
+        String userName = memberId.getEmail();
+        RealmResults<CurrentKeywordData> keywordData = realm.where(CurrentKeywordData.class).equalTo("userName",userName).findAll();
 
-        RealmResults<CurrentKeywordData> keywordData = realm.where(CurrentKeywordData.class).findAll();
+        Log.d("find keyword", "find keyword data : " +keywordData);
 
-
-        keywordList.add("채수빈");
-        keywordList.add("박지현");
-        keywordList.add("수지");
-        keywordList.add("남태현");
-
+        for (CurrentKeywordData cd:keywordData) {
+            keywordList.add(cd.getQuery());
+        }
     }
 
     private void search(String query) {
@@ -244,12 +265,16 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private void currentKeywordSaver(String query) {
         Realm realm = Realm.getDefaultInstance();
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser memberId = mAuth.getCurrentUser();
+        String userName = memberId.getEmail();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-
                 CurrentKeywordData keywordData = realm.createObject(CurrentKeywordData.class);
+                keywordData.setUserName(userName);
                 keywordData.setQuery(query);
+
             }
         });
     }
