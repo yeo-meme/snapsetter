@@ -14,6 +14,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -52,6 +53,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private ProgressBar progress_bar;
     private ImageView font;
     private TextView tx;
+    private LinearLayout editArea;
 
     private Realm mRealm;
     private Context context;
@@ -129,9 +131,24 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         progress_bar = rootView.findViewById(R.id.progress_bar);
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
+
         Log.d("11", "22");
 
+        editArea = rootView.findViewById(R.id.editArea);
         searchBtn.setOnClickListener(this::onClick);
+        search_edit_frame.setOnClickListener(this::onClick);
+
+        search_edit_frame.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if (b) {
+                    listView.setVisibility(View.VISIBLE);
+                } else {
+                    listView.setVisibility(View.GONE);
+
+                }
+            }
+        });
         listView = rootView.findViewById(R.id.listView);
         //더미 데이터 메서드
 
@@ -152,7 +169,6 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         settingList();
 
         HashSet<String> tem = new HashSet<String>(keywordList);
-
         keywordArrayList = new ArrayList<>();
 //        keywordArrayList.addAll(keywordList);
         if (tem != null) {
@@ -296,7 +312,13 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         if (R.id.searchBtn == view.getId()) {
             Log.d("xx","xx");
             hideKeyboard(view);
+            listView.setVisibility(View.GONE);
             btnSearch(view);
+        }
+
+        if(R.id.search_edit_frame ==view.getId()) {
+            Log.d("ccccccccc","touch edit");
+            listView.setVisibility(View.VISIBLE);
         }
     }
 }
