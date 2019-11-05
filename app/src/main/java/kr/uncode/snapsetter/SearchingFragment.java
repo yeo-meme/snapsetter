@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -65,14 +66,13 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private String query;
 
     private Button deleteBtn;
-    private OnClickListener<String> onClickListener;
+    private OnItemClickListener<String> onItemClickListener;
     private List<RetrofitResponse.Documents> dataList;
     //최근 검색어 리스트뷰 아이템 변수 시작
     private List<String> keywordList;
     private ListView listView;
     private KeywordAdapter keywordAdapter;
     private ArrayList<String> keywordArrayList;
-
 
     public static SearchingFragment newInstance() {
         return new SearchingFragment();
@@ -135,23 +135,21 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
 
-        linearLayout = rootView.findViewById(R.id.linearlayout);
-
-        linearLayout.setOnClickListener(this::hideKeyboard);
+        editArea = rootView.findViewById(R.id.linearlayout);
+        editArea.setOnClickListener(this::hideKeyboard);
         Log.d("11", "22");
 
-        editArea = rootView.findViewById(R.id.editArea);
         searchBtn.setOnClickListener(this::onClick);
         search_edit_frame.setOnClickListener(this::onClick);
 
         search_edit_frame.setOnKeyListener(new View.OnKeyListener() {
             @Override
             public boolean onKey(View view, int i, KeyEvent keyEvent) {
-              switch (i) {
-                  case KeyEvent.KEYCODE_ENTER:
-                      btnSearch(view);
-                      hideKeyboard(view);
-              }
+                switch (i) {
+                    case KeyEvent.KEYCODE_ENTER:
+                        btnSearch(view);
+                        hideKeyboard(view);
+                }
                 return true;
             }
         });
@@ -178,6 +176,16 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         deleteBtn = footer.findViewById(R.id.all_delete);
         deleteBtn.setOnClickListener(this::keyWordAllDelete);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Log.d("xxx", "list click");
+                Log.d("xxx", keywordArrayList.get(position));
+                search_edit_frame.setText(keywordArrayList.get(position));
+                hideKeyboard(view);
+            }
+        });
+        //키워드 저장 이닛
         keyword_init();
 
         // 리사이클러뷰에 어댑터 붙이기
@@ -250,6 +258,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     }
 
+
     private void kakaoApiImageListSet() {
         searchListAdapter = new SearchListAdapter(mRealm);
         rvImageList.setAdapter(searchListAdapter);
@@ -274,8 +283,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private void hideKeyboard(View view) {
         Log.d("ddd", "왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        listView.setVisibility(View.GONE);
-        deleteBtn.setVisibility(View.GONE);
+        listView.setVisibility(View.INVISIBLE);
+        deleteBtn.setVisibility(View.INVISIBLE);
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search_edit_frame.getWindowToken(), 0);
     }
@@ -332,6 +341,10 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
                         showToast("카카오 api 호출 실패 !!!");
                     }
                 });
+    }
+
+    public void setOnItemClickListener(OnItemClickListener<String> listener) {
+        this.onItemClickListener = listener;
     }
 
     private void currentKeywordSaver(String query) {

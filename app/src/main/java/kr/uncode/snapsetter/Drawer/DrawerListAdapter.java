@@ -95,7 +95,7 @@ public class DrawerListAdapter extends RecyclerView.Adapter<DrawerListAdapter.Dr
             // EGL_BAD_ATTRIBUTE
             //https://gogorchg.tistory.com/entry/Android-activity-has-been-destroyed
             //https://blog.sangyoung.me/2016/12/28/BadTokenException/
-//            binding.ivImage.setOnClickListener(new View.OnClickListener() {
+//            binding.ivImage.setOnClickListener(new View.OnItemClickListener() {
 //                @Override
 //                public void onClick(View view) {
 //                    int position = getAdapterPosition();

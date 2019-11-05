@@ -29,7 +29,7 @@ public class ListItemImage extends AppCompatActivity  {
         heartArea = findViewById(R.id.clickheart);
 
 
-//        area.setOnClickListener(new View.OnClickListener() {
+//        area.setOnClickListener(new View.OnItemClickListener() {
 //            @Override
 //            public void onClick(View view) {
 //                if (area != null) {

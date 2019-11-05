@@ -16,12 +16,16 @@ public class KeywordAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private KeywordViewHolder keywordViewHolder;
 
+    private OnItemClickListener<String> onItemClickListener;
 
     public KeywordAdapter(List<String> list, Context context) {
         this.list = list;
         this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
+
+
+
     @Override
     public int getCount() {
         return list.size();
@@ -51,8 +55,10 @@ public class KeywordAdapter extends BaseAdapter {
             keywordViewHolder =(KeywordViewHolder) convertView.getTag();
         }
         keywordViewHolder.label.setText(list.get(position));
+
         return convertView;
     }
+
 
     class KeywordViewHolder {
         public TextView label;
