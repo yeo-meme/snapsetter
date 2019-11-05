@@ -3,6 +3,7 @@ package kr.uncode.snapsetter;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -41,13 +42,15 @@ import retrofit2.Response;
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
 
-    /**카카오 APi 이미지 목록을 보여주는 어댑터
+    /**
+     * 카카오 APi 이미지 목록을 보여주는 어댑터
      */
     private SearchListAdapter searchListAdapter;
     private EditText search_edit_frame;
     private Button searchBtn;
-    /** 카카오 APi 검색 이미지를 보여주는
-     서칭프래그먼트의 리사이클러뷰
+    /**
+     * 카카오 APi 검색 이미지를 보여주는
+     * 서칭프래그먼트의 리사이클러뷰
      */
     private RecyclerView rvImageList;
     private ProgressBar progress_bar;
@@ -59,7 +62,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private Context context;
     private String query;
 
-
+    private Button deleteBtn;
     private OnClickListener<String> onClickListener;
     private List<RetrofitResponse.Documents> dataList;
     //최근 검색어 리스트뷰 아이템 변수 시작
@@ -74,14 +77,12 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     }
 
 
-
     @Override
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         Log.d("11", "55");
         mRealm = Realm.getDefaultInstance();
     }
-
 
 
     @Override
@@ -143,16 +144,24 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
             public void onFocusChange(View view, boolean b) {
                 if (b) {
                     listView.setVisibility(View.VISIBLE);
+                    if (keywordArrayList.size() != 0) {
+                        deleteBtn.setVisibility(View.VISIBLE);
+                    }
                 } else {
                     listView.setVisibility(View.GONE);
-
+                    deleteBtn.setVisibility(View.GONE);
                 }
             }
         });
         listView = rootView.findViewById(R.id.listView);
-        //더미 데이터 메서드
+        View footer = getLayoutInflater().inflate(R.layout.listview_footer, null, false);
 
-        keywordShow();
+        listView.addFooterView(footer);
+        //더미 데이터 메서드
+        deleteBtn = footer.findViewById(R.id.all_delete);
+        deleteBtn.setOnClickListener(this::keyWordAllDelete);
+
+        keyword_init();
 
         // 리사이클러뷰에 어댑터 붙이기
         kakaoApiImageListSet();
@@ -164,7 +173,33 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         return rootView;
     }
 
-    private void keywordShow() {
+    private void keyWordAllDelete(View view) {
+        Realm realm = Realm.getDefaultInstance();
+        final RealmResults<CurrentKeywordData> keyresult = realm.where(CurrentKeywordData.class).findAll();
+
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                keyresult.deleteAllFromRealm();
+            }
+        });
+        keywordRefresh();
+    }
+
+    private void keywordRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                keywordAdapter.notifyDataSetChanged();
+                keyword_init();
+                deleteBtn.setVisibility(View.GONE);
+
+            }
+        }, 1000);
+
+    }
+
+    private void keyword_init() {
         keywordList = new ArrayList<String>();
         settingList();
 
@@ -193,7 +228,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
                 keywordListItem(text);
             }
         });
-        keywordList.clear();
+//        keywordList.clear();
 
     }
 
@@ -247,11 +282,11 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser memberId = mAuth.getCurrentUser();
         String userName = memberId.getEmail();
-        RealmResults<CurrentKeywordData> keywordData = realm.where(CurrentKeywordData.class).equalTo("userName",userName).findAll();
+        RealmResults<CurrentKeywordData> keywordData = realm.where(CurrentKeywordData.class).equalTo("userName", userName).findAll();
 
-        Log.d("find keyword", "find keyword data : " +keywordData);
+        Log.d("find keyword", "find keyword data : " + keywordData);
 
-        for (CurrentKeywordData cd:keywordData) {
+        for (CurrentKeywordData cd : keywordData) {
             keywordList.add(cd.getQuery());
         }
     }
@@ -307,18 +342,26 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     private void showProgressBar() {
         progress_bar.setVisibility(View.VISIBLE);
     }
+
     @Override
     public void onClick(View view) {
         if (R.id.searchBtn == view.getId()) {
-            Log.d("xx","xx");
+            Log.d("xx", "xx");
             hideKeyboard(view);
             listView.setVisibility(View.GONE);
+            deleteBtn.setVisibility(View.GONE);
             btnSearch(view);
         }
 
-        if(R.id.search_edit_frame ==view.getId()) {
-            Log.d("ccccccccc","touch edit");
+        if (R.id.search_edit_frame == view.getId()) {
+            Log.d("ccccccccc", "touch edit");
             listView.setVisibility(View.VISIBLE);
+            keyword_init();
+            if (keywordArrayList.size() != 0) {
+                deleteBtn.setVisibility(View.VISIBLE);
+            }
+
+
         }
     }
 }
