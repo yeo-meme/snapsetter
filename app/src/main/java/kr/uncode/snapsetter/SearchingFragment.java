@@ -283,8 +283,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     private void hideKeyboard(View view) {
         Log.d("ddd", "왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        listView.setVisibility(View.INVISIBLE);
-        deleteBtn.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.GONE);
+        deleteBtn.setVisibility(View.GONE);
         InputMethodManager imm = (InputMethodManager) getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(search_edit_frame.getWindowToken(), 0);
     }
