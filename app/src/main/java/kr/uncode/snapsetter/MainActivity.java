@@ -70,8 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView toolbarTitle;
     private Toolbar toolbar;
 
-
-
     private long pressedTime = 0;
 
     @Override
