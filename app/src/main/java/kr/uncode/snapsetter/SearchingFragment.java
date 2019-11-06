@@ -43,7 +43,6 @@ import retrofit2.Response;
 
 public class SearchingFragment extends Fragment implements View.OnClickListener {
 
-    private LinearLayout linearLayout;
 
     /**
      * 카카오 APi 이미지 목록을 보여주는 어댑터
@@ -135,8 +134,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
 
-        editArea = rootView.findViewById(R.id.linearlayout);
-        editArea.setOnClickListener(this::hideKeyboard);
+//        editArea = rootView.findViewById(R.id.linearlayout);
+//        editArea.setOnClickListener(this::hideKeyboard);
         Log.d("11", "22");
 
         searchBtn.setOnClickListener(this::onClick);
