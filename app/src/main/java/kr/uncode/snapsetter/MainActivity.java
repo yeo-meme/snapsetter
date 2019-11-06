@@ -33,9 +33,6 @@ import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener  {
 
-
-
-
     /**
      * 로그인 버튼
      */
