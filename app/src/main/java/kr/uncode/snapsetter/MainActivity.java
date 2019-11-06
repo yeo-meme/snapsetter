@@ -37,8 +37,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     /**
      * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
+     * 이걸 가져가보래우~~~~~~
      */
     private FirebaseAuth mAuth;
+    
     /**
      * 로그인 버튼
      */
