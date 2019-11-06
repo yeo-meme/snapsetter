@@ -37,6 +37,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.Utils.JLog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -100,7 +101,8 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     //온스타트에서 툴바를 넣어주기
     @Override
     public void onStart() {
-        Log.d("restart", "onStart");
+        super.onStart();
+        JLog.show("SearchingFragment onStart");
 
         Activity activity = getActivity();
         if (activity != null && activity instanceof MainActivity) {
@@ -110,14 +112,6 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
             mainActivity.removeToolbar(true);
         }
         Log.d("11", "11");
-        super.onStart();
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        context = getContext();
-        Log.d("restart", "onCreate");
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable

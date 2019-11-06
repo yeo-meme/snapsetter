@@ -27,15 +27,13 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import kr.uncode.snapsetter.Current.TabViewDrawer;
+import kr.uncode.snapsetter.Utils.JLog;
 
 import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener  {
 
-    /**
-     * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
-     */
-    private FirebaseAuth mAuth;
+
 
 
     /**
@@ -75,10 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView toolbarTitle;
     private Toolbar toolbar;
 
-    /**
-     * 파이어베이스 어스 리스너 객체
-     */
-    public FirebaseAuth.AuthStateListener mAuthListener;
+
 
     private long pressedTime = 0;
 
@@ -88,22 +83,53 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         // 파이어베이스 인증 얻기 --
+        initFirebase();
 
-        getAuth();
         //디폴트 툴바셋팅
         toolbarset();
 
         //파인드바이 뷰 및 툴바 설정
         initView();
-
-        //자동로그인 리스너
-        authListener();
-
     }
 
-    private void getAuth() {
+    /**
+     * 네비게이션드로어에서 로그아웃 기능을 위해 파이어베이스 인증 변수를 사용함 (메인액티비티)
+     */
+    private FirebaseAuth mAuth;
+    /**
+     * 파이어베이스 어스 리스너 객체
+     */
+    public FirebaseAuth.AuthStateListener mAuthListener;
+
+    /**
+     * 파이어베이스 초기화
+     */
+    private void initFirebase() {
         mAuth = FirebaseAuth.getInstance();
 
+        try {
+            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    FirebaseUser listnerCurrentUser = mAuth.getCurrentUser();
+                    Log.d("ooooo", "outoLogin USer :" + listnerCurrentUser);
+                    if (listnerCurrentUser != null) {
+                        // User is signed in
+                        String userEmail = listnerCurrentUser.getEmail();
+                        Log.d("ff", "자동로그인 들어왔따");
+                        replaceFragmentNoStack(SearchingFragment.newInstance());
+                    } else {
+                        Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
+                        replaceFragmentNoStack(MainContainer.newInstance());
+                    }
+                }
+            };
+        } catch (Exception e) {
+            Toast.makeText(getApplicationContext()," firebase 오류! 띄우고 잠시후에 다시 시도하세요",Toast.LENGTH_LONG);
+            e.printStackTrace();
+        }
+
+        mAuth.addAuthStateListener(mAuthListener);
     }
 
 
@@ -126,42 +152,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //어더 리스너 처음에 사용자가 기억에 있으면 = 서치프래그먼트로 (검색창)
     //처음에 사용자가 없으면 = 메인프래그먼트로 (회원가이브,로그인)
     private void authListener() {
-        try {
-            mAuthListener = new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    FirebaseUser listnerCurrentUser = mAuth.getCurrentUser();
-                    Log.d("ooooo", "outoLogin USer :" + listnerCurrentUser);
-                    if (listnerCurrentUser != null) {
-                        // User is signed in
-                        String userEmail = listnerCurrentUser.getEmail();
-                        Log.d("ff", "자동로그인 들어왔따");
-                        replaceFragmentNoStack(SearchingFragment.newInstance());
-                    } else {
-                        Log.d("ff", "자동로그인 안들어왔따 랑 사용자가 로그아웃상태");
-                        replaceFragmentNoStack(MainContainer.newInstance());
-                    }
-                }
-            };
-        } catch (Exception e) {
-            Toast.makeText(getApplicationContext()," firebase 오류! 띄우고 잠시후에 다시 시도하세요",Toast.LENGTH_LONG);
-            e.printStackTrace();
-        }
+
     }
 
 
     @Override
     protected void onStop() {
+        super.onStop();
+        JLog.show("MainActivity onStop");
+
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
-        super.onStop();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        mAuth.addAuthStateListener(mAuthListener);
+        JLog.show("MainActivity onSTART");
     }
 
 
