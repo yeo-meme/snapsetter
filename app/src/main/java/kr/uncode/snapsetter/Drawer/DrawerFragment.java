@@ -27,6 +27,7 @@ import io.realm.RealmResults;
 import kr.uncode.snapsetter.MainActivity;
 import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.R;
+import kr.uncode.snapsetter.SearchingFragment;
 
 public class DrawerFragment  extends Fragment {
 
@@ -183,6 +184,7 @@ public class DrawerFragment  extends Fragment {
                     Toast.makeText(getContext(),"보관함에 삭제할 사진이 없어요",Toast.LENGTH_LONG).show();
                 } else {
                     myDrawerAllDelete();
+
                 }
 
                 break;
@@ -197,6 +199,8 @@ public class DrawerFragment  extends Fragment {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<PictureData> results = realm.where(PictureData.class).findAll();
 
+
+
             realm.executeTransaction(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
@@ -205,6 +209,9 @@ public class DrawerFragment  extends Fragment {
                     String message = "보관함에 내용이 전체 삭제 되었습니다";
 //                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                     refresh();
+                    SearchingFragment searchingFragment = new SearchingFragment();
+                    searchingFragment.hideKeyboard(searchingFragment.getView());
+                    searchingFragment.hideProgressBar();
                     Log.d("zzz","mydrawer delete");
 
                 }

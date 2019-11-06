@@ -55,6 +55,18 @@
             android:layout_width="match_parent"
             >
 
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                style="?android:attr/progressBarStyleLarge"
+                android:layout_height="fill_parent"
+                android:layout_width="wrap_content"
+                android:layout_centerInParent="true"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:visibility="gone"
+                />
+
+
             <ImageView
                 android:id="@+id/font"
                 android:layout_width="150dp"
@@ -83,15 +95,6 @@
         </RelativeLayout>
 
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:indeterminate="false"
-            android:visibility="gone"
-            />
     </LinearLayout>
 
 

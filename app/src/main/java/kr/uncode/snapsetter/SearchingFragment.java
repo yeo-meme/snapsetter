@@ -134,6 +134,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         font = rootView.findViewById(R.id.font);
         tx = rootView.findViewById(R.id.tx);
 
+        progress_bar.bringToFront();
 //        editArea = rootView.findViewById(R.id.linearlayout);
 //        editArea.setOnClickListener(this::hideKeyboard);
         Log.d("11", "22");
@@ -280,7 +281,7 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         keywordAdapter.notifyDataSetChanged();
     }
 
-    private void hideKeyboard(View view) {
+    public void hideKeyboard(View view) {
         Log.d("ddd", "왜!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         listView.setVisibility(View.GONE);
         deleteBtn.setVisibility(View.GONE);
@@ -367,11 +368,11 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
     }
 
-    private void hideProgressBar() {
+    public void hideProgressBar() {
         progress_bar.setVisibility(View.GONE);
     }
 
-    private void showProgressBar() {
+    public void showProgressBar() {
         progress_bar.setVisibility(View.VISIBLE);
     }
 
