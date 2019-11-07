@@ -27,7 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import kr.uncode.snapsetter.Current.TabViewDrawer;
-import kr.uncode.snapsetter.Utils.MLog;
+import kr.uncode.snapsetter.Utils.JLog;
 
 import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
@@ -100,8 +100,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * 파이어베이스 초기화
      */
     private void initFirebase() {
-        MLog.i();
-
         mAuth = FirebaseAuth.getInstance();
 
         try {
@@ -142,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ActionBar actionBar = getSupportActionBar();
         //자동 네비게이션 토글 버튼 연결
         actionBar.setDisplayHomeAsUpEnabled(true);
-        MLog.d("여기는 오니?");
+        Log.d("gg","여기는 오니?");
     }
 
 
@@ -156,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        MLog.i();
+        JLog.show("MainActivity onStop");
 
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
@@ -166,7 +164,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        MLog.i();
+        JLog.show("MainActivity onSTART");
     }
 
 
