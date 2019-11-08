@@ -13,7 +13,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import kr.uncode.snapsetter.R;
 import kr.uncode.snapsetter.SearchListAdapter;
-import kr.uncode.snapsetter.Utils.JLog;
 
 
 public class ViewTwoStepActivity extends AppCompatActivity {
@@ -53,7 +52,6 @@ public class ViewTwoStepActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        JLog.show("detail activity onBackPressed");
     }
 }
 

@@ -37,7 +37,6 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.uncode.snapsetter.Utils.JLog;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -102,7 +101,6 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     @Override
     public void onStart() {
         super.onStart();
-        JLog.show("SearchingFragment onStart");
 
         Activity activity = getActivity();
         if (activity != null && activity instanceof MainActivity) {

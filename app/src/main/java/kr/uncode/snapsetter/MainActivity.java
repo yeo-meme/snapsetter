@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import kr.uncode.snapsetter.Current.TabViewDrawer;
-import kr.uncode.snapsetter.Utils.JLog;
 
 import static kr.uncode.snapsetter.R.string.navigation_drawer_open;
 
@@ -154,7 +153,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        JLog.show("MainActivity onStop");
 
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
@@ -164,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStart() {
         super.onStart();
-        JLog.show("MainActivity onSTART");
     }
 
 
