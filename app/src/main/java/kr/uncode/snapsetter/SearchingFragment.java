@@ -202,18 +202,20 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
             }
         });
         keywordRefresh();
+        search_edit_frame.setText(null);
+        hideKeyboard(view);
     }
 
     private void keywordRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
+//        new Handler().postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
                 keywordAdapter.notifyDataSetChanged();
                 keyword_init();
                 deleteBtn.setVisibility(View.GONE);
 
-            }
-        }, 1000);
+//            }
+//        }, 1000);
 
     }
 
