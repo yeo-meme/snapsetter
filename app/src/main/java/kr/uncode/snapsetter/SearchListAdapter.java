@@ -21,6 +21,9 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.Detail_View.FragmentLeft;
+import kr.uncode.snapsetter.Detail_View.FragmentRight;
+import kr.uncode.snapsetter.Detail_View.TwoStepFragment;
 import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
 import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
@@ -28,6 +31,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
 
     public static final String EXTRA_KEY_IMAGE_URL = "EXTRA_KEY_IMAGE_URL";
+    public static final String RIGHT_KEY_IMAGE_URL = "RIGHT_KEY_IMAGE_URL";
+    public static final String LEFT_KEY_IMAGE_URL = "LEFT_KEY_IMAGE_URL";
     public static String keywordQuery = "";
     private static final String TAG = SearchListAdapter.class.getSimpleName();
 
@@ -40,7 +45,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         this.mRealm = realm;
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser != null) {
-            Log.d("restart","SearchListAdapter");
+            Log.d("restart", "SearchListAdapter");
             mUserEmail = currentUser.getEmail();
         }
     }
@@ -64,7 +69,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     @NonNull
     @Override
     public SearchListViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
-        Log.d("restart","SearchListAdapter + onCreateViewHolder");
+        Log.d("restart", "SearchListAdapter + onCreateViewHolder");
 
         ListItemImageBinding binding = ListItemImageBinding.inflate(LayoutInflater.from(viewGroup.getContext()), viewGroup, false);
         return new SearchListViewHolder(binding);
@@ -73,7 +78,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
     @Override
     public void onBindViewHolder(@NonNull SearchListAdapter.SearchListViewHolder holder, int position) {
         RetrofitResponse.Documents documents = mRestApiImageData.get(position);
-        Log.d("restart","SearchListAdapter + onBindViewHolder");
+        Log.d("restart", "SearchListAdapter + onBindViewHolder");
 
         if (checkBookmarkUrl(documents.image_url)) {
             holder.binding.eheart.setImageResource(R.drawable.heart);
@@ -111,16 +116,16 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         return false;
     }
 
-//    public void getQuery(String query) {
+    //    public void getQuery(String query) {
 //        value = query;
 //        Log.d("value","getQuery ListAdapter : " + value);
 //    }
-    class SearchListViewHolder extends RecyclerView.ViewHolder {
+    public class SearchListViewHolder extends RecyclerView.ViewHolder {
         ListItemImageBinding binding;
 
         SearchListViewHolder(ListItemImageBinding itemView) {
             super(itemView.getRoot());
-            Log.d("restart","SearchListAdapter + SearchListViewHolder");
+            Log.d("restart", "SearchListAdapter + SearchListViewHolder");
             binding = itemView;
             initClickListener();
         }
@@ -164,6 +169,15 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             Log.d("image", url);
 
             //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
+            sendingDetailsIntent(view, url);
+//            Context context = view.getContext();
+//            Intent intent = new Intent(context, ViewTwoStepActivity.class);
+//            intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
+////            intent.putExtra(keywordQuery,value);
+//            context.startActivity(intent);
+        }
+
+        private void sendingDetailsIntent(View view, String url) {
             Context context = view.getContext();
             Intent intent = new Intent(context, ViewTwoStepActivity.class);
             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
@@ -171,11 +185,37 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
             context.startActivity(intent);
         }
 
+
+        public void leftPlusImage(View view) {
+            int postion = getAdapterPosition();
+            RetrofitResponse.Documents documents = mRestApiImageData.get(postion - 1);
+            Log.d("num",documents.image_url);
+            final String url = documents.image_url;
+            Context context = view.getContext();
+            Intent intent = new Intent(context, FragmentLeft.class);
+            intent.putExtra(LEFT_KEY_IMAGE_URL, url);
+//            intent.putExtra(keywordQuery,value);
+            context.startActivity(intent);
+
+
+        }
+
+
+        public void rightPlusImage(View view) {
+            int postion = getAdapterPosition();
+            Log.d("right","rightPlust");
+            RetrofitResponse.Documents documents = mRestApiImageData.get(postion + 1);
+            final String url = documents.image_url;
+            Context context = view.getContext();
+            Intent intent = new Intent(context, FragmentRight.class);
+            intent.putExtra(RIGHT_KEY_IMAGE_URL, url);
+//            intent.putExtra(keywordQuery,value);
+            context.startActivity(intent);
+        }
+
         //리얼엠 새로운 데이터베이스로 저장 최근목록을 위한 사진저장
         private void currentUerPicSave(String currentUrl) {
-
-            Log.d("currentUserPic_Ulr","currentUserPic_Ulr :" + currentUrl);
-
+            Log.d("currentUserPic_Ulr", "currentUserPic_Ulr :" + currentUrl);
 //            Realm realm = Realm.getDefaultInstance();
 //            realm.executeTransaction(new Realm.Transaction() {
 //                @Override

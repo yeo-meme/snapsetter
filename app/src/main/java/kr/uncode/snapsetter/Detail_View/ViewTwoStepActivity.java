@@ -1,6 +1,7 @@
 package kr.uncode.snapsetter.Detail_View;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
@@ -33,7 +34,7 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twostep);
         gestureScanner = new GestureDetector(this);
-        detail_img = findViewById(R.id.detail_img);
+//        detail_img = findViewById(R.id.detail_img);
         replaceFragment(TwoStepFragment.newInstance());
         //데이터수신
 //        Intent intent = getIntent();
@@ -48,6 +49,7 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
     }
     @Override
     public boolean onTouchEvent(MotionEvent me) {
+        Log.d("hi","hiiiiiiii");
         return gestureScanner.onTouchEvent(me);
     }
 
@@ -56,6 +58,15 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.anim1, R.anim.anim2, R.anim.anim3, R.anim.anim4);
         fragmentTransaction.replace(R.id.container, fragment);
+        fragmentTransaction.commit();
+    }
+
+
+    public void addFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.setCustomAnimations(R.anim.anim1, R.anim.anim2, R.anim.anim3, R.anim.anim4);
+        fragmentTransaction.add(R.id.container, fragment);
         fragmentTransaction.commit();
     }
 
@@ -76,7 +87,7 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
 
     @Override
     public boolean onDown(MotionEvent motionEvent) {
-        return false;
+        return true;
     }
 
     @Override
@@ -108,12 +119,12 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
             // right to left swipe
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
-                replaceFragment(FragmentLeft.newInstance());
+//                replaceFragment(FragmentRight.newInstance());
             }
             // left to right swipe
             else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                 Toast.makeText(getApplicationContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
-                replaceFragment(FragmentRight.newInstance());
+//                replaceFragment(FragmentLeft.newInstance());
 
             }
             // down to up swipe
@@ -129,5 +140,8 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
         }
         return true;
     }
+
+
+
 }
 
