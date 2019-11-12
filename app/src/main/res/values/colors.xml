@@ -7,4 +7,6 @@
     <color name="cardViewBg">#FFFFFF</color>
     <color name="black">#000000</color>
     <color name="createbtn_bg">#FFB2F5</color>
+    <color name="unselected_color">#FFFFFF</color>
+    <color name="selected_color">#FFD9FA</color>
 </resources>

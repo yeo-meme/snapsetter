@@ -12,11 +12,23 @@
         android:layout_height="?attr/actionBarSize"
         android:id="@+id/toolbar"/>
 
+
+<!--    <include-->
+<!--        android:id="@+id/top"-->
+<!--        android:layout_width="fill_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        layout="@layout/custom_tab_layout"-->
+<!--        />-->
+
+
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/tab_layout"
         app:tabGravity="center"
+        app:tabIndicatorColor="@color/unselected_color"
+        app:tabTextColor="@color/unselected_color"
+        app:tabSelectedTextColor="@color/selected_color"
         app:tabMode="fixed"
         />
 
