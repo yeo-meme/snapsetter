@@ -21,6 +21,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.uncode.snapsetter.Current.CurrentUserPicData;
 import kr.uncode.snapsetter.Detail_View.FragmentRight;
 import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
 import kr.uncode.snapsetter.databinding.ListItemImageBinding;
@@ -180,8 +181,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         }
 
         private void sendingDetailsIntent(View view, String url) {
-
-
             Context context = view.getContext();
             Intent intent = new Intent(context, ViewTwoStepActivity.class);
             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
@@ -190,30 +189,19 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         }
 
 
-        public void rightPlusImage(View view) {
-            int postion = getAdapterPosition();
-            Log.d("right", "rightPlust");
-            RetrofitResponse.Documents documents = mRestApiImageData.get(postion + 1);
-            final String url = documents.image_url;
-            Context context = view.getContext();
-            Intent intent = new Intent(context, FragmentRight.class);
-            intent.putExtra(RIGHT_KEY_IMAGE_URL, url);
-//            intent.putExtra(keywordQuery,value);
-            context.startActivity(intent);
-        }
 
         //리얼엠 새로운 데이터베이스로 저장 최근목록을 위한 사진저장
         private void currentUerPicSave(String currentUrl) {
             Log.d("currentUserPic_Ulr", "currentUserPic_Ulr :" + currentUrl);
-//            Realm realm = Realm.getDefaultInstance();
-//            realm.executeTransaction(new Realm.Transaction() {
-//                @Override
-//                public void execute(Realm realm) {
-//                     CurrentUserPicData currentUserPicData = realm.createObject(CurrentUserPicData.class);
-//                     //최근목록 리얼엠 새로운 데이터 베이스로 저장
-//                     currentUserPicData.setCurrent_url(currentUrl);
-//                }
-//            });
+            Realm realm = Realm.getDefaultInstance();
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                     CurrentUserPicData currentUserPicData = realm.createObject(CurrentUserPicData.class);
+                     //최근목록 리얼엠 새로운 데이터 베이스로 저장
+                     currentUserPicData.setCurrent_url(currentUrl);
+                }
+            });
         }
 
         /**

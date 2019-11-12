@@ -2,6 +2,7 @@ package kr.uncode.snapsetter.Drawer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,7 +54,6 @@ public class DrawerFragment extends Fragment {
      */
     private RecyclerView.Adapter mAdater;
 
-    private DrawerListAdapter drawerListAdapter;
 
     /**
      * 데이터 == 0 일때 리사이클러뷰대신 안내 텍스트 보이게하는 텍스트
@@ -61,6 +62,7 @@ public class DrawerFragment extends Fragment {
 
     private Toolbar toolbar;
 
+    private Button all_delete_btn;
 
     //리섬이 시작할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     //다시 리얼엠 인스턴스를 불러오고
@@ -92,6 +94,7 @@ public class DrawerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
         recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
         drawer_word = rootView.findViewById(R.id.drawer_word);
+        all_delete_btn = rootView.findViewById(R.id.all_delete_btn);
 
         dataSet();
 //        Realm realm = Realm.getDefaultInstance();
@@ -124,7 +127,13 @@ public class DrawerFragment extends Fragment {
         setAdapter();
         Log.d("zzz", "99");
 
+        initClickListener(rootView);
         return rootView;
+    }
+
+    private void initClickListener(View view) {
+        all_delete_btn.setOnClickListener(this::myDrawerAllDelete);
+
     }
 
     private void checkDrawerEmpty() {
@@ -144,7 +153,7 @@ public class DrawerFragment extends Fragment {
         pictureDataList = realm.where(PictureData.class).findAll();
 
         //실제 어댑터 담아서 사용
-        drawerListAdapter = new DrawerListAdapter(realm.where(PictureData.class).findAll());
+        DrawerListAdapter drawerListAdapter = new DrawerListAdapter(realm.where(PictureData.class).findAll());
         recyclerView.setAdapter(drawerListAdapter);
         checkDrawerEmpty();
         //보관함에 저장된 데이터 로그 확인
@@ -208,7 +217,10 @@ public class DrawerFragment extends Fragment {
 //    }
 
     //내보관함에 메뉴를 툴바 오른쪽 버튼을 통해 전체 삭제하는 메서드
-    private void myDrawerAllDelete() {
+    private void myDrawerAllDelete(View view) {
+
+        Log.d("zzz", "mydrawer delete");
+
         Realm realm = Realm.getDefaultInstance();
         RealmResults<PictureData> results = realm.where(PictureData.class).findAll();
 
@@ -216,13 +228,14 @@ public class DrawerFragment extends Fragment {
             @Override
             public void execute(Realm realm) {
                 results.deleteAllFromRealm();
-                drawerListAdapter.notifyDataSetChanged();
+
+                DrawerListAdapter drawerListAdapter = new DrawerListAdapter(results);
                 String message = "보관함에 내용이 전체 삭제 되었습니다";
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
                 refresh();
-                SearchingFragment searchingFragment = new SearchingFragment();
-                searchingFragment.hideKeyboard(searchingFragment.getView());
-                searchingFragment.hideProgressBar();
+//                SearchingFragment searchingFragment = new SearchingFragment();
+//                searchingFragment.hideKeyboard(searchingFragment.getView());
+//                searchingFragment.hideProgressBar();
                 Log.d("zzz", "mydrawer delete");
 
             }

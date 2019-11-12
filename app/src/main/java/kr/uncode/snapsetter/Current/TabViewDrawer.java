@@ -2,12 +2,15 @@ package kr.uncode.snapsetter.Current;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -133,11 +136,7 @@ public class TabViewDrawer extends AppCompatActivity  {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.alldelete, menu);
-        return true;
-    }
+
 
     private View createTabView(String tabName) {
 //        if (tabName == null) {

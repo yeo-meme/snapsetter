@@ -2,8 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:background="@color/cardViewBg"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:backgroundTint="@color/black"
+    android:orientation="vertical">
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="All Delete"
+        android:backgroundTint="@color/black"
+        android:textColor="@color/cardViewBg"
+        android:id="@+id/all_delete_btn"
+        ></com.google.android.material.button.MaterialButton>
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
