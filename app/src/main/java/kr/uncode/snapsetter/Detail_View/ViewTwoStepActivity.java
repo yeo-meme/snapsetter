@@ -1,25 +1,23 @@
 package kr.uncode.snapsetter.Detail_View;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import kr.uncode.snapsetter.R;
-import kr.uncode.snapsetter.SearchListAdapter;
 
 
 public class ViewTwoStepActivity extends AppCompatActivity implements GestureDetector.OnGestureListener {
@@ -27,6 +25,7 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
     private ImageView detail_img;
     private FrameLayout container;
 
+    private Toolbar toolbar;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -40,6 +39,7 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
         setContentView(R.layout.activity_twostep);
         gestureScanner = new GestureDetector(this);
 //        detail_img = findViewById(R.id.detail_img);
+        setToolbar();
         replaceFragment(TwoStepFragment.newInstance());
         //데이터수신
 //        Intent intent = getIntent();
@@ -57,6 +57,24 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
         Log.d("hi","hiiiiiiii");
         return gestureScanner.onTouchEvent(me);
     }
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        //딜리트 메뉴 클릭시
+        switch (item.getItemId()) {
+            /**사진삭제 툴바메뉴
+             *
+             */
+            case R.id.home:
+                finish();
+                return true;
+        }
+        Log.d("ww","케이스 트루전");
+        return super.onOptionsItemSelected(item);
+    }
+
 
     public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -85,10 +103,7 @@ public class ViewTwoStepActivity extends AppCompatActivity implements GestureDet
 //        }
 //    }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
+
 
     @Override
     public boolean onDown(MotionEvent motionEvent) {

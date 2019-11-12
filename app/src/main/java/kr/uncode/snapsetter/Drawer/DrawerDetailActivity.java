@@ -98,6 +98,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -117,6 +118,9 @@ public class DrawerDetailActivity extends AppCompatActivity {
                 deleteImg();
                 Log.d("ww","케이스 끝내고");
                 break;
+            case R.id.home:
+                finish();
+                return true;
         }
         Log.d("ww","케이스 트루전");
         return super.onOptionsItemSelected(item);
@@ -158,6 +162,8 @@ public class DrawerDetailActivity extends AppCompatActivity {
         Log.d("ww","딜리트끝나고");
 
     }
+
+
 
     public static boolean isActivityAvailable(Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
