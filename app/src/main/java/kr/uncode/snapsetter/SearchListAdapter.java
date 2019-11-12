@@ -116,11 +116,13 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         return false;
     }
 
+
+
     //    public void getQuery(String query) {
 //        value = query;
 //        Log.d("value","getQuery ListAdapter : " + value);
 //    }
-    public class SearchListViewHolder extends RecyclerView.ViewHolder {
+    class SearchListViewHolder extends RecyclerView.ViewHolder {
         ListItemImageBinding binding;
 
         SearchListViewHolder(ListItemImageBinding itemView) {
@@ -186,19 +188,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         }
 
 
-        public void leftPlusImage(View view) {
-            int postion = getAdapterPosition();
-            RetrofitResponse.Documents documents = mRestApiImageData.get(postion - 1);
-            Log.d("num",documents.image_url);
-            final String url = documents.image_url;
-            Context context = view.getContext();
-            Intent intent = new Intent(context, FragmentLeft.class);
-            intent.putExtra(LEFT_KEY_IMAGE_URL, url);
-//            intent.putExtra(keywordQuery,value);
-            context.startActivity(intent);
 
-
-        }
 
 
         public void rightPlusImage(View view) {

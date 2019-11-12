@@ -207,25 +207,18 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
     }
 
     private void keywordRefresh() {
-//        new Handler().postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
                 keywordAdapter.notifyDataSetChanged();
                 keyword_init();
                 deleteBtn.setVisibility(View.GONE);
-
-//            }
-//        }, 1000);
-
     }
 
+    //최근검색한 목록붙이기
     private void keyword_init() {
         keywordList = new ArrayList<String>();
         settingList();
 
         HashSet<String> tem = new HashSet<String>(keywordList);
         keywordArrayList = new ArrayList<>();
-//        keywordArrayList.addAll(keywordList);
         if (tem != null) {
             keywordArrayList.addAll(tem);
             keywordAdapter = new KeywordAdapter(keywordArrayList, context);
@@ -234,22 +227,16 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
         search_edit_frame.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
             }
-
             @Override
             public void afterTextChanged(Editable edit) {
                 String text = search_edit_frame.getText().toString();
                 keywordListItem(text);
             }
         });
-//        keywordList.clear();
-
     }
 
 

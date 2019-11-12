@@ -13,11 +13,14 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import io.realm.Realm;
+import kr.uncode.snapsetter.Drawer.DrawerListAdapter;
+import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.R;
 import kr.uncode.snapsetter.SearchListAdapter;
 
@@ -26,8 +29,9 @@ public class FragmentRight extends Fragment {
     public static final String RIGHT_KEY_IMAGE_URL = "RIGHT_KEY_IMAGE_URL";
 
     private String image_url;
+    private RecyclerView recyclerView;
     private ImageView right_img;
-    private SearchListAdapter.SearchListViewHolder searchListViewHolder;
+    private SearchListAdapter searchListAdapter;
    public static FragmentRight newInstance() {
        return new FragmentRight();
    }
@@ -35,9 +39,11 @@ public class FragmentRight extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
        View view = inflater.inflate(R.layout.fragment_right,container,false);
-       right_img = view.findViewById(R.id.right_img);
+//       right_img = view.findViewById(R.id.right_img);
+        recyclerView = view.findViewById(R.id.recyclerView);
 
 
+       Realm realm = Realm.getDefaultInstance();
 //
 //        Intent intent = getActivity().getIntent();
 //        String image_url = intent.getStringExtra(SearchListAdapter.RIGHT_KEY_IMAGE_URL);

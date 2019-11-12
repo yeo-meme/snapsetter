@@ -7,7 +7,7 @@ public class RetrofitResponse {
 
     public List<Documents> documents;
 
-    class Documents {
+    public class Documents {
         String collection;
         Date datetime;
         String display_sitename;

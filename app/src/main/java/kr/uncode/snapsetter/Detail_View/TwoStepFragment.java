@@ -25,13 +25,17 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import kr.uncode.snapsetter.MainActivity;
 import kr.uncode.snapsetter.R;
+import kr.uncode.snapsetter.RetrofitConfig;
+import kr.uncode.snapsetter.RetrofitResponse;
 import kr.uncode.snapsetter.SearchListAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TwoStepFragment extends Fragment {
 
     private GestureDetector gestureDetector;
 
-    private SearchListAdapter.SearchListViewHolder searchListViewHolder;
     private ImageView detail_img;
     private Context context;
 
@@ -90,7 +94,6 @@ public class TwoStepFragment extends Fragment {
                             } else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE
                                     && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
                                 Log.i("hi", "Left to Right");
-                                searchListViewHolder.leftPlusImage(view);
 
                                 replaceFragment(FragmentLeft.newInstance());
 
@@ -122,7 +125,11 @@ public class TwoStepFragment extends Fragment {
     }
 
 
-    public void replaceFragment(Fragment fragment) {
+
+
+
+
+        public void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.anim1, R.anim.anim2, R.anim.anim3, R.anim.anim4);
@@ -144,6 +151,26 @@ public class TwoStepFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+        RetrofitConfig.getService().search(query, "", "", "")
+                .enqueue(new Callback<RetrofitResponse>() {
+                    @Override
+                    public void onResponse(Call<RetrofitResponse> call, Response<RetrofitResponse> response) {
+                        if (response != null && response.body() != null) {
+                            searchListAdapter.addDataAll(response.body().documents);
+//                            searchListAdapter.getQuery(query);
+                            Log.d("ccccc", "check query" + query);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<RetrofitResponse> call, Throwable t) {
+                    }
+                });
+
+
+
 
 
     }
