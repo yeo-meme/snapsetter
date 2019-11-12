@@ -1,26 +1,37 @@
 package kr.uncode.snapsetter.Current;
 
+import android.app.Activity;
 import android.content.Context;
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.zip.Inflater;
+
+import kr.uncode.snapsetter.MainActivity;
 import kr.uncode.snapsetter.PagerAdapter;
 import kr.uncode.snapsetter.R;
+import kr.uncode.snapsetter.databinding.DrawerTabviewBinding;
 
 public class TabViewDrawer extends AppCompatActivity {
 
+    DrawerTabviewBinding binding;
     private Context mContext;
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
+    private Toolbar toolbar;
 
     private PagerAdapter pagerAdapter;
     @Override
@@ -28,6 +39,8 @@ public class TabViewDrawer extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.drawer_tabview);
 
+
+        fragmentToolbarSet();
         mContext = getApplicationContext();
         mTabLayout = findViewById(R.id.tab_layout);
 
@@ -58,6 +71,21 @@ public class TabViewDrawer extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void fragmentToolbarSet() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        //자동 네비게이션 토글 버튼 연결
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.alldelete, menu);
+        return true;
     }
 
     private View createTabView(String tabName) {

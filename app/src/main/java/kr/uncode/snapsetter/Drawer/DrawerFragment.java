@@ -29,36 +29,37 @@ import kr.uncode.snapsetter.PictureData;
 import kr.uncode.snapsetter.R;
 import kr.uncode.snapsetter.SearchingFragment;
 
-public class DrawerFragment  extends Fragment {
+public class DrawerFragment extends Fragment {
 
 
-    /**내보관함 리사이클러뷰 변수
+    /**
+     * 내보관함 리사이클러뷰 변수
      */
     private RecyclerView recyclerView;
-    /**파이어베이스 최신사용자 를 스트링에 담는 변수
-     */
-    private String recentUser = "";
 
-    /** 리얼엠 리절트 를 픽쳐데이타 타입 리스트로 보관하는 변수
+    /**
+     * 리얼엠 리절트 를 픽쳐데이타 타입 리스트로 보관하는 변수
      */
     private RealmResults<PictureData> pictureDataList;
 
-    /**보관함에 리사이클러뷰 정렬을 위해 매니저 변수 사용
+    /**
+     * 보관함에 리사이클러뷰 정렬을 위해 매니저 변수 사용
      */
     private GridLayoutManager gridLayoutManager;
 
-    /**보관함에 리스트를 가져오기 위해 어댑터 셋하기 위한 변수
+    /**
+     * 보관함에 리스트를 가져오기 위해 어댑터 셋하기 위한 변수
      */
     private RecyclerView.Adapter mAdater;
 
     private DrawerListAdapter drawerListAdapter;
 
-
-    /**데이터 == 0 일때 리사이클러뷰대신 안내 텍스트 보이게하는 텍스트
+    /**
+     * 데이터 == 0 일때 리사이클러뷰대신 안내 텍스트 보이게하는 텍스트
      */
     private TextView drawer_word;
 
-//    private Toolbar toolbar;
+    private Toolbar toolbar;
 
 
     //리섬이 시작할때 !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -68,7 +69,7 @@ public class DrawerFragment  extends Fragment {
 
 
     public static DrawerFragment newInstance() {
-        Log.d("zzz","100");
+        Log.d("zzz", "100");
 
         return new DrawerFragment();
     }
@@ -83,56 +84,73 @@ public class DrawerFragment  extends Fragment {
 //    }
 
 
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        Activity activity= getActivity();
+        Activity activity = getActivity();
 
         View rootView = inflater.inflate(R.layout.fragment_drawer, container, false);
+        recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
+        drawer_word = rootView.findViewById(R.id.drawer_word);
 
-
-
-            recyclerView = rootView.findViewById(R.id.recyclerView_drawer);
-            drawer_word = rootView.findViewById(R.id.drawer_word);
-//            toolbar = rootView.findViewById(R.id.drawer_toolbar);
-
-
-
-
-            Realm realm = Realm.getDefaultInstance();
-            //데이터 주석 확인
-            pictureDataList  = realm.where(PictureData.class).findAll();
-
-            //실제 어댑터 담아서 사용
-            drawerListAdapter= new DrawerListAdapter(realm.where(PictureData.class).findAll());
-            recyclerView.setAdapter(drawerListAdapter);
-
-            //보관함에 저장된 데이터 로그 확인
-            Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
+        dataSet();
+//        Realm realm = Realm.getDefaultInstance();
+//        //데이터 주석 확인
+//        pictureDataList = realm.where(PictureData.class).findAll();
+//
+//        //실제 어댑터 담아서 사용
+//        drawerListAdapter = new DrawerListAdapter(realm.where(PictureData.class).findAll());
+//        recyclerView.setAdapter(drawerListAdapter);
+//
+//        //보관함에 저장된 데이터 로그 확인
+//        Log.d("dd", "내보관함 사진뿌리기 " + pictureDataList.toString());
 //        drawerListAdapter = new DrawerListAdapter(pictureDataList);
 
-            //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
-            if (pictureDataList.size() == 0 ) {
-                drawer_word.setVisibility(View.VISIBLE);
-//                toolbar.getMenu().clear();
-                Log.d("gg","kk");
-            } else if (pictureDataList.size() != 0) {
-                drawer_word.setVisibility(View.GONE);
-                Log.d("gg","ll");
-            }
+//        checkDrawerEmpty();
+        //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
+//        if (pictureDataList.size() == 0) {
+//            drawer_word.setVisibility(View.VISIBLE);
+////                toolbar.getMenu().clear();
+//            Log.d("gg", "kk");
+//        } else if (pictureDataList.size() != 0) {
+//            drawer_word.setVisibility(View.GONE);
+//            Log.d("gg", "ll");
+//        }
 //        getActivity().invalidateOptionsMenu();
-            Log.d("zzz","88");
+        Log.d("zzz", "88");
 
-            //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
-//            fragmentToolbarSet();
-            setAdapter();
-            Log.d("zzz","99");
-
+        //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
+//        fragmentToolbarSet();
+        setAdapter();
+        Log.d("zzz", "99");
 
         return rootView;
     }
 
+    private void checkDrawerEmpty() {
+        if (pictureDataList.size() == 0) {
+            drawer_word.setVisibility(View.VISIBLE);
+//                toolbar.getMenu().clear();
+            Log.d("gg", "kk");
+        } else if (pictureDataList.size() != 0) {
+            drawer_word.setVisibility(View.GONE);
+            Log.d("gg", "ll");
+        }
+    }
+
+    private void dataSet() {
+        Realm realm = Realm.getDefaultInstance();
+        //데이터 주석 확인
+        pictureDataList = realm.where(PictureData.class).findAll();
+
+        //실제 어댑터 담아서 사용
+        drawerListAdapter = new DrawerListAdapter(realm.where(PictureData.class).findAll());
+        recyclerView.setAdapter(drawerListAdapter);
+        checkDrawerEmpty();
+        //보관함에 저장된 데이터 로그 확인
+        Log.d("dd", "내보관함 사진뿌리기 " + pictureDataList.toString());
+//        drawerListAdapter = new DrawerListAdapter(pictureDataList);
+    }
 
     @Override
     public void onResume() {
@@ -164,86 +182,74 @@ public class DrawerFragment  extends Fragment {
 //        drawerListAdapter.notifyDataSetChanged();
     }
 
-
-
-
-
-    @Override
-    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        Log.d("zzz","77");
-
-        inflater.inflate(R.menu.alldelete, menu);
+//    @Override
+//    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
 //        super.onCreateOptionsMenu(menu, inflater);
-    }
+//        Log.d("zzz", "77");
+//        inflater.inflate(R.menu.alldelete, menu);
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.all_delete :
-                if (pictureDataList.size() == 0) {
-                    Toast.makeText(getContext(),"보관함에 삭제할 사진이 없어요",Toast.LENGTH_LONG).show();
-                } else {
-                    myDrawerAllDelete();
-
-                }
-
-                break;
-        }
-        Log.d("zzz","66");
-
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.all_delete:
+//                if (pictureDataList.size() == 0) {
+//                    Toast.makeText(getContext(), "보관함에 삭제할 사진이 없어요", Toast.LENGTH_LONG).show();
+//                } else {
+//                    myDrawerAllDelete();
+//
+//                }
+//
+//                break;
+//        }
+//        Log.d("zzz", "66");
+//
+//        return super.onOptionsItemSelected(item);
+//    }
 
     //내보관함에 메뉴를 툴바 오른쪽 버튼을 통해 전체 삭제하는 메서드
     private void myDrawerAllDelete() {
         Realm realm = Realm.getDefaultInstance();
         RealmResults<PictureData> results = realm.where(PictureData.class).findAll();
 
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                results.deleteAllFromRealm();
+                drawerListAdapter.notifyDataSetChanged();
+                String message = "보관함에 내용이 전체 삭제 되었습니다";
+                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                refresh();
+                SearchingFragment searchingFragment = new SearchingFragment();
+                searchingFragment.hideKeyboard(searchingFragment.getView());
+                searchingFragment.hideProgressBar();
+                Log.d("zzz", "mydrawer delete");
 
-
-            realm.executeTransaction(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    results.deleteAllFromRealm();
-                    drawerListAdapter.notifyDataSetChanged();
-                    String message = "보관함에 내용이 전체 삭제 되었습니다";
-//                    Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
-                    refresh();
-                    SearchingFragment searchingFragment = new SearchingFragment();
-                    searchingFragment.hideKeyboard(searchingFragment.getView());
-                    searchingFragment.hideProgressBar();
-                    Log.d("zzz","mydrawer delete");
-
-                }
-            });
-        }
-
+            }
+        });
+    }
 
 
     private void refresh() {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.detach(this).attach(this).commit();
-        Log.d("zzz","44");
+        Log.d("zzz", "44");
 
     }
-
-
-
-
-
-
-
 
 
     //온크레이트 메뉴를 적용시키기 위해 필요한 메서드
     private void fragmentToolbarSet() {
         setHasOptionsMenu(true); //onCreateOptionMenu에서 바뀔 menu 를 승인
-        MainActivity activity = (MainActivity) getActivity();
-//        activity.setSupportActionBar(toolbar);
-        ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayShowCustomEnabled(true);
-        actionBar.setDisplayShowTitleEnabled(false);
-        Log.d("zzz","come");
+        Activity activity = getActivity();
+        if (activity != null && activity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) activity;
+            mainActivity.setSupportActionBar(toolbar);
+            ActionBar actionBar = ((MainActivity) getActivity()).getSupportActionBar();
+            actionBar.setDisplayShowCustomEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        Log.d("zzz", "come");
     }
 
     //어댑터 리사이클뷰 뷰를 적용 시키는 메서드
@@ -253,7 +259,7 @@ public class DrawerFragment  extends Fragment {
         gridLayoutManager = new GridLayoutManager(context, numberOfColumns);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(gridLayoutManager);
-        Log.d("zzz","xx22xx");
+        Log.d("zzz", "xx22xx");
     }
 
     @Override
@@ -261,7 +267,7 @@ public class DrawerFragment  extends Fragment {
         super.onDestroy();
         Realm realm = Realm.getDefaultInstance();
         realm.close();
-        Log.d("zzz","11");
+        Log.d("zzz", "11");
 
     }
 

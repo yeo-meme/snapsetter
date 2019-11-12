@@ -21,9 +21,7 @@ import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.uncode.snapsetter.Detail_View.FragmentLeft;
 import kr.uncode.snapsetter.Detail_View.FragmentRight;
-import kr.uncode.snapsetter.Detail_View.TwoStepFragment;
 import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
 import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
@@ -54,6 +52,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         mRestApiImageData.clear();
         mRestApiImageData.addAll(dataList);
         notifyDataSetChanged();
+
+        // 어플리케이션 데이터에 현재 리스트 전체 임시저장
+//        MemeApplication.tempList = dataList;
     }
 
     public void addDataPrevious(List<RetrofitResponse.Documents> dataList) {
@@ -115,7 +116,6 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         Log.d(TAG, "checkBookmarkUrl : FALSE");
         return false;
     }
-
 
 
     //    public void getQuery(String query) {
@@ -180,6 +180,8 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         }
 
         private void sendingDetailsIntent(View view, String url) {
+
+
             Context context = view.getContext();
             Intent intent = new Intent(context, ViewTwoStepActivity.class);
             intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
@@ -188,12 +190,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
         }
 
 
-
-
-
         public void rightPlusImage(View view) {
             int postion = getAdapterPosition();
-            Log.d("right","rightPlust");
+            Log.d("right", "rightPlust");
             RetrofitResponse.Documents documents = mRestApiImageData.get(postion + 1);
             final String url = documents.image_url;
             Context context = view.getContext();

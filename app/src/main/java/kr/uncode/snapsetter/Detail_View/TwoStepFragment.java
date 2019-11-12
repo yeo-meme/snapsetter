@@ -24,6 +24,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import kr.uncode.snapsetter.MainActivity;
+import kr.uncode.snapsetter.MemeApplication;
 import kr.uncode.snapsetter.R;
 import kr.uncode.snapsetter.RetrofitConfig;
 import kr.uncode.snapsetter.RetrofitResponse;
@@ -60,8 +61,11 @@ public class TwoStepFragment extends Fragment {
         Log.d("chec", "Two Step keyword check : " + value);
         Log.d("check_image", image_url);
 
-
-        setDetail_img(image_url);
+        // 포지션을 받앗다치면
+//        int position = 5;
+//        RetrofitResponse.Documents data = MemeApplication.tempList.get(position);
+//
+//        setDetail_img(image_url);
 
         if (detail_img != null){
 
@@ -151,26 +155,6 @@ public class TwoStepFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        RetrofitConfig.getService().search(query, "", "", "")
-                .enqueue(new Callback<RetrofitResponse>() {
-                    @Override
-                    public void onResponse(Call<RetrofitResponse> call, Response<RetrofitResponse> response) {
-                        if (response != null && response.body() != null) {
-                            searchListAdapter.addDataAll(response.body().documents);
-//                            searchListAdapter.getQuery(query);
-                            Log.d("ccccc", "check query" + query);
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<RetrofitResponse> call, Throwable t) {
-                    }
-                });
-
-
-
 
 
     }
