@@ -3,14 +3,10 @@ package kr.uncode.snapsetter.Detail_View;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.GestureDetector;
-import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.Toolbar;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;

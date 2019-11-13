@@ -33,14 +33,15 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
     private static final String TAG = DrawerDetailActivity.class.getSimpleName();
 
-    /**리얼엠에서 리스트객체로 데이터를 꺼내기위 리얼엠리절트 PictureData 타입의 리스ㅡㅌ
-     *
+    /**
+     * 리얼엠에서 리스트객체로 데이터를 꺼내기위 리얼엠리절트 PictureData 타입의 리스ㅡㅌ
      */
     private RealmResults<PictureData> imageList;
 
 
     public DrawerListAdapter drawerListAdapter;
-    /**클릭했을때 이미지확대로 이미지를 보낼때
+    /**
+     * 클릭했을때 이미지확대로 이미지를 보낼때
      * 인텐트를 사용하기 때문에 인텐트 키로사용하는 변수
      * 보내진 변수를 받기위해서 변수 선언
      */
@@ -50,7 +51,8 @@ public class DrawerDetailActivity extends AppCompatActivity {
      */
 //    private static String KEY_IMAGE_POSITION = "PIE";
 
-    /**드로어어댑터 홀더에서 저장한 클릭할 당시의 이미지 URL을 인텐트에 키와 함께
+    /**
+     * 드로어어댑터 홀더에서 저장한 클릭할 당시의 이미지 URL을 인텐트에 키와 함께
      * 담아서 보냈을때 그걸 getIntent 로 키를 이용해 해당 URL을 꺼내 String타입으로 저장한 변수
      */
     private String image_url;
@@ -63,7 +65,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
      * 디테일 이미지를 표현하는 이미지뷰
      */
     private ImageView detailsDrawer;
-    private RealmResults<PictureData> bb ;
+    private RealmResults<PictureData> bb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -93,8 +95,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
     }
 
 
-
-//    툴바 셋팅 메서드
+    //    툴바 셋팅 메서드
     private void setToolbar() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -104,9 +105,10 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.ddmenu,menu);
+        getMenuInflater().inflate(R.menu.ddmenu, menu);
         return true;
     }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -117,13 +119,17 @@ public class DrawerDetailActivity extends AppCompatActivity {
              */
             case R.id.menu_delete:
                 deleteImg();
-                Log.d("ww","케이스 끝내고");
+                Log.d("ww", "케이스 끝내고");
                 break;
-            case R.id.home:
+            case android.R.id.home: {
                 finish();
+                Log.d("home", "click");
+
                 return true;
+            }
+
         }
-        Log.d("ww","케이스 트루전");
+        Log.d("ww", "케이스 트루전");
         return super.onOptionsItemSelected(item);
     }
 
@@ -146,7 +152,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
         //바보같은 생각이었음 : 왜냐 이미지 주소를 알고 있으니까 걍 삭제하면 되는 거였음
 
         //리얼엠에서 URL 삭제
-         PictureData aa = realm.where(PictureData.class).equalTo("image_url",image_url)
+        PictureData aa = realm.where(PictureData.class).equalTo("image_url", image_url)
                 .findFirst();
         realm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -157,14 +163,14 @@ public class DrawerDetailActivity extends AppCompatActivity {
                     DrawerListAdapter drawerListAdapter = new DrawerListAdapter(results);
                     drawerListAdapter.notifyDataSetChanged();
                     finish();
-                    Log.d("aa","삭제되었습니다");
+                    Log.d("aa", "삭제되었습니다");
 
                 }
             }
         });
 
-        Toast.makeText(getApplicationContext(),"삭제되었습니다.",Toast.LENGTH_LONG).show();
-        Log.d("ww","딜리트끝나고");
+        Toast.makeText(getApplicationContext(), "삭제되었습니다.", Toast.LENGTH_LONG).show();
+        Log.d("ww", "딜리트끝나고");
 
     }
 
@@ -183,11 +189,13 @@ public class DrawerDetailActivity extends AppCompatActivity {
             return !activity.isFinishing();
         }
     }
+
     private void finshing() {
         if (DrawerDetailActivity.this.isFinishing()) {
-            Toast.makeText(getApplicationContext(),"종료",Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "종료", Toast.LENGTH_LONG).show();
         }
     }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -199,12 +207,12 @@ public class DrawerDetailActivity extends AppCompatActivity {
     public void setDetail_img(String url) {
         if (url != null) {
             Glide.with(getApplicationContext()).load(url)
-                    .override(200  ,200)
+                    .override(200, 200)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                     .into(detailsDrawer);
 
         } else {
-            Log.d("image error","error");
+            Log.d("image error", "error");
         }
     }
 
