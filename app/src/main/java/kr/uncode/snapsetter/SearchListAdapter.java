@@ -22,7 +22,6 @@ import java.util.List;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import kr.uncode.snapsetter.Current.CurrentUserPicData;
-import kr.uncode.snapsetter.Detail_View.FragmentRight;
 import kr.uncode.snapsetter.Detail_View.ViewTwoStepActivity;
 import kr.uncode.snapsetter.databinding.ListItemImageBinding;
 
@@ -173,11 +172,11 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Se
 
             //그 URL을 Intent 에 담아서 디테일 액티비티로 보낸다
             sendingDetailsIntent(view, url);
-            Context context = view.getContext();
-            Intent intent = new Intent(context, ViewTwoStepActivity.class);
-            intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
-//            intent.putExtra(keywordQuery,value);
-            context.startActivity(intent);
+//            Context context = view.getContext();
+//            Intent intent = new Intent(context, ViewTwoStepActivity.class);
+//            intent.putExtra(EXTRA_KEY_IMAGE_URL, url);
+////            intent.putExtra(keywordQuery,value);
+//            context.startActivity(intent);
         }
 
         private void sendingDetailsIntent(View view, String url) {

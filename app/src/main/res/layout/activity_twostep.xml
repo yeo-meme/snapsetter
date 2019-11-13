@@ -12,11 +12,8 @@
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/container">
-            <com.github.chrisbanes.photoview.PhotoView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/detail_img"/>
-            </FrameLayout>
+                android:id="@+id/container"/>
+
+
         </LinearLayout>
     </layout>

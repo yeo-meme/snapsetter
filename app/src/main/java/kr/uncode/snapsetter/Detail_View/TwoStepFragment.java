@@ -34,16 +34,14 @@ public class TwoStepFragment extends Fragment {
         return new TwoStepFragment();
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.activity_twostep, container, false);
+        View view = inflater.inflate(R.layout.twostep_fragment, container, false);
         detail_img = view.findViewById(R.id.detail_img);
 
 
-        context = container.getContext();
 
         Intent intent = getActivity().getIntent();
         String image_url = intent.getStringExtra(SearchListAdapter.EXTRA_KEY_IMAGE_URL);
@@ -54,7 +52,7 @@ public class TwoStepFragment extends Fragment {
         // 포지션을 받앗다치면
 //        int position = 5;
 //        RetrofitResponse.Documents data = MemeApplication.tempList.get(position);
-//
+        Log.d("details", "TwoStepFragment + onCreateView");
         setDetail_img(image_url);
 
         if (detail_img != null){
@@ -123,13 +121,13 @@ public class TwoStepFragment extends Fragment {
 
 
 
-        public void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.anim1, R.anim.anim2, R.anim.anim3, R.anim.anim4);
-        fragmentTransaction.replace(R.id.container, fragment);
-        fragmentTransaction.commit();
-    }
+//        public void replaceFragment(Fragment fragment) {
+//        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        fragmentTransaction.setCustomAnimations(R.anim.anim1, R.anim.anim2, R.anim.anim3, R.anim.anim4);
+//        fragmentTransaction.replace(R.id.container, fragment);
+//        fragmentTransaction.commit();
+//    }
 
 //    public void call(MotionEvent motionEvent) {
 //        Activity activity = getActivity();
@@ -142,18 +140,9 @@ public class TwoStepFragment extends Fragment {
 //    }
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-    }
 
     public void setDetail_img(String url) {
-
-//        Activity activity = getActivity();
-//        if (activity != null && activity instanceof MainActivity) {
-//            MainActivity mainActivity = (MainActivity) activity;
+        Log.d("details", "TwoStepFragment + setDetail_img");
         if (url != null) {
             Glide.with(getActivity()).load(url)
                     .diskCacheStrategy(DiskCacheStrategy.ALL)
@@ -161,7 +150,5 @@ public class TwoStepFragment extends Fragment {
         } else {
             Log.d("image error", "error");
         }
-//        }
     }
-
 }
