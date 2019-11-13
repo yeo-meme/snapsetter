@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -91,11 +92,22 @@ public class TabViewDrawer extends AppCompatActivity  {
         View tabView1 = getLayoutInflater().inflate(R.layout.custom_tab_layout, null);
         View tabView2 = getLayoutInflater().inflate(R.layout.custom_tab_layout, null);
 
-        TextView tabText1 = (TextView) tabView1.findViewById(R.id.tabText);
-        TextView tabText2 = (TextView) tabView2.findViewById(R.id.tabText);
+        TextView tabText1 = tabView1.findViewById(R.id.tabText);
+        TextView tabText2 = tabView2.findViewById(R.id.tabText);
+
 
         tabText1.setText("내보관함");
         tabText2.setText("최근본목록");
+
+        RelativeLayout area =tabView1.findViewById(R.id.area);
+
+//        ImageView tabImage1 = tabView1.findViewById(R.id.tabIcon);
+//        ImageView tabImage2 = tabView2.findViewById(R.id.tabIcon);
+//
+//
+//        tabImage1.setImageDrawable(getResources().getDrawable(R.drawable.eheart));
+//        tabImage2.setImageDrawable(getResources().getDrawable(R.drawable.eheart));
+
 
         mTabLayout = findViewById(R.id.tab_layout);
         mTabLayout.addTab(mTabLayout.newTab().setCustomView(tabView1));
@@ -103,8 +115,8 @@ public class TabViewDrawer extends AppCompatActivity  {
 
         pagerAdapter = new PagerAdapter(
                 getSupportFragmentManager(),mTabLayout.getTabCount());
-        mViewPager.setAdapter(pagerAdapter);
 
+        mViewPager.setAdapter(pagerAdapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

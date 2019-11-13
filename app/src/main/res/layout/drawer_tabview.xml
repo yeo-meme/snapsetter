@@ -16,9 +16,8 @@
 
     <com.google.android.material.tabs.TabLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:id="@+id/tab_layout"
-        app:tabGravity="center"
         app:tabIndicatorColor="@color/unselected_color"
         app:tabTextColor="@color/unselected_color"
         app:tabSelectedTextColor="@color/selected_color"
