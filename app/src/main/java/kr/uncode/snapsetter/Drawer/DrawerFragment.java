@@ -182,7 +182,7 @@ public class DrawerFragment extends Fragment {
         //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
         if (pictureDataList.size() == 0 ) {
             drawer_word.setVisibility(View.VISIBLE);
-            toolbar.getMenu().clear();
+//            toolbar.getMenu().clear();
             Log.d("gg","kk");
         } else if (pictureDataList.size() != 0) {
             drawer_word.setVisibility(View.GONE);
