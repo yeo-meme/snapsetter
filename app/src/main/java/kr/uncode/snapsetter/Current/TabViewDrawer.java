@@ -138,6 +138,17 @@ public class TabViewDrawer extends AppCompatActivity  {
     }
 
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+      switch (item.getItemId()) {
+          case android.R.id.home: {
+              finish();
+              Log.d("home","click");
+              return true;
+          }
+      }
+        return super.onOptionsItemSelected(item);
+    }
 
     private void fragmentToolbarSet() {
         toolbar = findViewById(R.id.toolbar);

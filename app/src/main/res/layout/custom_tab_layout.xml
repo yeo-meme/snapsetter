@@ -4,28 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/tabIcon"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_gravity="center_horizontal"-->
-<!--            android:layout_weight="0.04"-->
-<!--            android:paddingTop="2dp" />-->
 
-        <RelativeLayout
-            android:id="@+id/area"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/area"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <TextView
-            android:paddingTop="2dp"
             android:id="@+id/tabText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="0.04"
+            android:paddingTop="2dp"
             android:textColor="@color/unselected_color"
             android:textIsSelectable="true"
-            android:layout_weight="0.04"
-            android:textSize="15sp"
+            android:textSize="13sp"
             tools:text="Sample text" />
-        </RelativeLayout>
+    </RelativeLayout>
 </LinearLayout>
