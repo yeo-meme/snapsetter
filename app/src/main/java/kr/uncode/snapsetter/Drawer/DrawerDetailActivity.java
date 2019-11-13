@@ -55,6 +55,7 @@ public class DrawerDetailActivity extends AppCompatActivity {
      */
     private String image_url;
 
+    private RealmResults<PictureData> results;
     private String positon;
     private ViewDataBinding binding;
     private Toolbar toolbar;
@@ -152,6 +153,10 @@ public class DrawerDetailActivity extends AppCompatActivity {
             public void execute(Realm realm) {
                 if (aa.isValid()) {
                     aa.deleteFromRealm();
+                    results = realm.where(PictureData.class).findAll();
+                    DrawerListAdapter drawerListAdapter = new DrawerListAdapter(results);
+                    drawerListAdapter.notifyDataSetChanged();
+                    finish();
                     Log.d("aa","삭제되었습니다");
 
                 }
@@ -163,7 +168,12 @@ public class DrawerDetailActivity extends AppCompatActivity {
 
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        DrawerListAdapter drawerListAdapter = new DrawerListAdapter(results);
+        drawerListAdapter.notifyDataSetChanged();
+    }
 
     public static boolean isActivityAvailable(Activity activity) {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {

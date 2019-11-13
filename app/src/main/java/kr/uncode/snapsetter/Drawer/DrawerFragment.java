@@ -55,6 +55,7 @@ public class DrawerFragment extends Fragment {
     private RecyclerView.Adapter mAdater;
 
 
+    private RealmResults<PictureData> results;
     /**
      * 데이터 == 0 일때 리사이클러뷰대신 안내 텍스트 보이게하는 텍스트
      */
@@ -164,31 +165,33 @@ public class DrawerFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-//        Realm realm = Realm.getDefaultInstance();
-//        //데이터 주석 확인
-//        pictureDataList  = realm.where(PictureData.class).findAll();
-//
-//        //실제 어댑터 담아서 사용
-//        drawerListAdapter= new DrawerListAdapter(realm.where(PictureData.class).findAll());
-//        recyclerView.setAdapter(drawerListAdapter);
-//
-//        //보관함에 저장된 데이터 로그 확인
-//        Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
-////        drawerListAdapter = new DrawerListAdapter(pictureDataList);
-//
-//        //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
-//        if (pictureDataList.size() == 0 ) {
-//            drawer_word.setVisibility(View.VISIBLE);
-//            toolbar.getMenu().clear();
-//            Log.d("gg","kk");
-//        } else if (pictureDataList.size() != 0) {
-//            drawer_word.setVisibility(View.GONE);
-//            Log.d("gg","ll");
-//        }
-////        getActivity().invalidateOptionsMenu();
-//        Log.d("zzz","88");
+//            DrawerListAdapter drawerListAdapter = new DrawerListAdapter(results);
+//            drawerListAdapter.notifyDataSetChanged();
+        Realm realm = Realm.getDefaultInstance();
+        //데이터 주석 확인
+        pictureDataList  = realm.where(PictureData.class).findAll();
 
-//        drawerListAdapter.notifyDataSetChanged();
+        //실제 어댑터 담아서 사용
+        DrawerListAdapter drawerListAdapter= new DrawerListAdapter(realm.where(PictureData.class).findAll());
+        recyclerView.setAdapter(drawerListAdapter);
+
+        //보관함에 저장된 데이터 로그 확인
+        Log.d("dd","내보관함 사진뿌리기 "+pictureDataList.toString());
+//        drawerListAdapter = new DrawerListAdapter(pictureDataList);
+
+        //보관함이 비워졌을때 안내멘트 비져블, 곤 해주기
+        if (pictureDataList.size() == 0 ) {
+            drawer_word.setVisibility(View.VISIBLE);
+            toolbar.getMenu().clear();
+            Log.d("gg","kk");
+        } else if (pictureDataList.size() != 0) {
+            drawer_word.setVisibility(View.GONE);
+            Log.d("gg","ll");
+        }
+//        getActivity().invalidateOptionsMenu();
+        Log.d("zzz","88");
+
+        drawerListAdapter.notifyDataSetChanged();
     }
 
 //    @Override
