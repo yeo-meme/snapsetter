@@ -182,10 +182,6 @@ public class SearchingFragment extends Fragment implements View.OnClickListener 
 
         // 리사이클러뷰에 어댑터 붙이기
         kakaoApiImageListSet();
-//        searchListAdapter = new SearchListAdapter(mRealm);
-//        rvImageList.setAdapter(searchListAdapter);
-
-        //서치버튼을 클릭했을때 이미지를 찾는 온클릭 이벤트 메서드를 호출하는 버튼
 
         return rootView;
     }
