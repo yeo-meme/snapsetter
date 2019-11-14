@@ -3,7 +3,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/black"
@@ -12,6 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="All Delete"
+            android:layout_alignParentBottom="true"
             android:backgroundTint="@color/black"
             android:textColor="@color/cardViewBg"
             android:id="@+id/all_delete_btn"
@@ -44,6 +45,6 @@
 
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </layout>

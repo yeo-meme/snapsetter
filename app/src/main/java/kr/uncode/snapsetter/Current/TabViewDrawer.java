@@ -98,8 +98,11 @@ public class TabViewDrawer extends AppCompatActivity  {
 
         tabText1.setText("내보관함");
         tabText2.setText("최근본목록");
+        tabText1.setEnabled(false);
+        tabText2.setEnabled(false);
 
-        RelativeLayout area =tabView1.findViewById(R.id.area);
+
+
 
 //        ImageView tabImage1 = tabView1.findViewById(R.id.tabIcon);
 //        ImageView tabImage2 = tabView2.findViewById(R.id.tabIcon);
